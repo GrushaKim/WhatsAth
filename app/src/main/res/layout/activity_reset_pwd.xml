@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ResetPwdActivity">
+
+    <!--Top Wave Background-->
+    <ImageView
+        android:id="@+id/ivTopWave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_top_wave" />
+
+    <!--Main Form-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@id/ivTopWave"
+            android:layout_above="@+id/ivBottomWave"
+            android:layout_margin="20dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="30dp"
+                android:text="Please enter your email to reset password"
+                android:textAlignment="textStart"
+                android:textColor="@color/primaryBlue"
+                android:textSize="25sp"
+                android:textStyle="bold" />
+            <!--Email-->
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:layout_marginTop="5dp">
+
+                <EditText
+                    android:id="@+id/emailEt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:drawableStart="@drawable/ic_baseline_email_24"
+                    android:drawablePadding="8dp"
+                    android:hint="email"
+                    android:inputType="textEmailAddress"
+                    android:textColor="@color/black" />
+
+            </com.google.android.material.textfield.TextInputLayout>
+            <TextView
+                android:id="@+id/invalidTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="8dp"
+                android:layout_marginHorizontal="8dp"
+                android:drawableStart="@drawable/ic_baseline_error_outline_24"
+                android:drawablePadding="5dp"
+                android:visibility="invisible"
+                android:textStyle="bold"
+                android:text="This email is not valid"
+                android:textSize="14sp"/>
+            <!--Send Pwd Button-->
+            <Button
+                android:id="@+id/sendPwdBtn"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="50dp"
+                android:background="@drawable/rounded_corner_yellow"
+                android:textSize="20sp"
+                android:textColor="@color/white"
+                android:text="Send Password"/>
+
+        </LinearLayout>
+
+
+
+
+    <!--Bottom Wave Background-->
+    <ImageView
+        android:id="@+id/ivBottomWave"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:adjustViewBounds="true"
+        android:src="@drawable/ic_bottom_wave" />
+
+</RelativeLayout>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/background_bottom.xml" value="0.1" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/button_circle_blue.xml" value="0.1" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/checker_bg.xml" value="0.12962962962962962" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.2160367722165475" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_check_circle_outline_24.xml" value="0.24375" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_error_outline_24.xml" value="0.24375" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.1" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_self_improvement_24.xml" value="0.24375" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_bottom_wave.xml" value="0.1" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_top_wave.xml" value="0.1" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_top_wave_blue.xml" value="0.24375" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/rounded_corner_blue.xml" value="0.13148148148148148" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/rounded_corner_yellow.xml" value="0.13148148148148148" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/activity_dashboard_user.xml" value="0.1" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/activity_login.xml" value="0.2" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/activity_main.xml" value="0.2" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/activity_register.xml" value="0.33140655105973027" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/activity_reset_pwd.xml" value="0.2" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/activity_splash.xml" value="0.16" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/dropdown_item.xml" value="0.264" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/list_item.xml" value="0.1" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

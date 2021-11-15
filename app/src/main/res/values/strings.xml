@@ -1,0 +1,15 @@
+<resources>
+    <string name="app_name">MyWhatsAth</string>
+    <!--Register Dropdown-->
+    <string-array name="sports">
+        <item>Pole-dancing</item>
+        <item>Pilates</item>
+        <item>Yoga</item>
+        <item>Climbing</item>
+        <item>Running</item>
+        <item>Swimming</item>
+        <item>Powerlifting</item>
+        <item>Fitness</item>
+        <item>Martial Arts</item>
+    </string-array>
+</resources>

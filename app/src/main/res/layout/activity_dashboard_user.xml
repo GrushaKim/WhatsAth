@@ -4,14 +4,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/primaryYellow"
     tools:context=".DashboardUserActivity">
 
     <TextView
+        android:id="@+id/titleTv"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:text="DASHBOARD FOR USERS"
+        android:text="Welcome, User"
         android:textSize="30sp"
         />
+    <TextView
+        android:id="@+id/logoutTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleTv"
+        android:paddingLeft="20dp"
+        android:text="Logout!"
+        android:textSize="30sp"
+        android:textColor="@color/white"/>
+
+
+
 
 </RelativeLayout>

@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">MyWhatsAth</string>
+    <!--facebook app id-->
+    <string name="facebook_app_id">571787797216822</string>
+    <string name="fb_login_protocol_scheme">fb571787797216822</string>
     <!--Register Dropdown-->
     <string-array name="sports">
         <item>Pole-dancing</item>

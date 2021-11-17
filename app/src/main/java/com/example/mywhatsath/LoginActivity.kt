@@ -6,11 +6,19 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import com.example.mywhatsath.databinding.ActivityLoginBinding
+import com.facebook.AccessToken
+import com.facebook.CallbackManager
+import com.facebook.FacebookCallback
+import com.facebook.FacebookException
+import com.facebook.login.LoginManager
+import com.facebook.login.LoginResult
+import com.facebook.login.widget.LoginButton
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.auth.api.signin.GoogleSignInClient
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
+import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
 
@@ -18,10 +26,12 @@ class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
     private lateinit var fbAuth: FirebaseAuth
     private lateinit var googleSignInClient: GoogleSignInClient
+    private var callbackManager: CallbackManager? = null
 
     private companion object{
         private const val RC_SIGN_IN = 100
         private const val GOOGLE_TAG = "GOOGLE_SIGN_IN_TAG"
+        private const val FACEBOOK_TAG = "FACEBOOK_SIGN_IN_TAG"
         private const val TAG = "LOGIN_TAG"
     }
 
@@ -37,9 +47,12 @@ class LoginActivity : AppCompatActivity() {
         // init auth
         fbAuth = FirebaseAuth.getInstance()
 
+        // init facebook callbackManager
+        callbackManager = CallbackManager.Factory.create()
+
         // configure google signin
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-            .requestIdToken(getString(R.string.server_client_id))
+            .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
             .build();
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
@@ -67,8 +80,57 @@ class LoginActivity : AppCompatActivity() {
             val intent = googleSignInClient.signInIntent
             startActivityForResult(intent, RC_SIGN_IN)
         }
+
+        // facebook signin click
+        binding.facebookSignInBtn.setOnClickListener {
+            Log.d(FACEBOOK_TAG, "onCreate: proceeding with signing in facebook")
+            facebookSignInClient()
+        }
     }
 
+    private fun facebookSignInClient() {
+        LoginManager.getInstance().logInWithReadPermissions(this, listOf("email", "public_profile"))
+        // extract access token to be handled
+        LoginManager.getInstance()
+            .registerCallback(callbackManager, object:FacebookCallback<LoginResult>{
+                override fun onSuccess(result: LoginResult) {
+                    handleFBToken(result?.accessToken)
+                }
+                override fun onCancel() {
+                }
+                override fun onError(error: FacebookException) {
+                }
+            })
+    }
+
+    private fun handleFBToken(token: AccessToken) {
+        var credential = FacebookAuthProvider.getCredential(token?.token!!)
+
+        fbAuth?.signInWithCredential(credential)
+            ?.addOnCompleteListener(this) { task ->
+                if(task.isSuccessful){
+                    Log.d(FACEBOOK_TAG, "handleFBToken: successfully logged in with fb account")
+                    //move to dashboard
+                    startActivity(Intent(this@LoginActivity, DashboardUserActivity::class.java))
+                    finish()
+                }else{
+                    Log.d(FACEBOOK_TAG, "handleFBToken: failed to log in with fb account. Error: ${task.exception}")
+                }
+            }
+
+    }
+
+    // check if the user logged in with google or facebook
+    private fun checkUser(){
+        val fbUser = fbAuth.currentUser
+        if(fbUser != null) {
+            //move to dashboard
+            startActivity(Intent(this@LoginActivity, DashboardUserActivity::class.java))
+            finish()
+        }
+    }
+
+    // login with email and pwd
     private fun login() {
         email = binding.emailEt.text.toString().trim()
         pwd = binding.pwdEt.text.toString().trim()
@@ -87,8 +149,11 @@ class LoginActivity : AppCompatActivity() {
             }
     }
 
+    // handle other method to sign in
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        // facebook, result related to intent is not needed
+        callbackManager?.onActivityResult(requestCode, resultCode, data)
         
         //result returned from intent launching from GoogleSignInApi.getSignInIntent
         if (requestCode == RC_SIGN_IN){
@@ -111,11 +176,36 @@ class LoginActivity : AppCompatActivity() {
         val credential = GoogleAuthProvider.getCredential(account!!.idToken, null)
         fbAuth.signInWithCredential(credential)
             .addOnSuccessListener { authResult ->
-                Log.d(GOOGLE_TAG, "firebaseAuthWithGoogleAccount: Logged in with fbauth based in google account")
+                Log.d(
+                    GOOGLE_TAG,
+                    "firebaseAuthWithGoogleAccount: Logged in with fbauth based in google account"
+                )
                 val fbUser = fbAuth.currentUser
                 val uid = fbUser!!.uid
                 val email = fbUser!!.email
-            }
 
+                //check if user is new or registered
+                if (authResult.additionalUserInfo!!.isNewUser) {
+                    Log.d(
+                        GOOGLE_TAG,
+                        "firebaseAuthWithGoogleAccount: New account created with $email"
+                    )
+                    Toast.makeText(this, "$email - new account created", Toast.LENGTH_SHORT).show()
+                } else {
+                    Log.d(
+                        GOOGLE_TAG,
+                        "firebaseAuthWithGoogleAccount: This $email is already being used"
+                    )
+                    Toast.makeText(this, "$email - logged in", Toast.LENGTH_SHORT).show()
+
+                    //move to dashboard
+                    startActivity(Intent(this@LoginActivity, DashboardUserActivity::class.java))
+                    finish()
+                }
+            }
+            .addOnFailureListener { e ->
+                Log.d(GOOGLE_TAG, "firebaseAuthWithGoogleAccount: Login failed. Error: ${e.message}")
+                Toast.makeText(this, "$email couldn't log in. Error: ${e.message}", Toast.LENGTH_SHORT).show()
+            }
+            }
     }
-}

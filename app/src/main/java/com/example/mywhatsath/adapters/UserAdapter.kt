@@ -1,12 +1,15 @@
 package com.example.mywhatsath.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.mywhatsath.ChatActivity
 import com.example.mywhatsath.databinding.ItemDashboardUserBinding
 import com.example.mywhatsath.models.ModelUser
 import de.hdodenhof.circleimageview.CircleImageView
@@ -39,6 +42,15 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>{
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val currentUser = userList[position]
         holder.nameTv.text = currentUser.name
+
+        // move to individual chat
+        holder.itemView.setOnClickListener {
+            val intent = Intent(context, ChatActivity::class.java)
+            intent.putExtra("name", currentUser.name)
+            intent.putExtra("uid", currentUser.uid)
+
+            context.startActivity(intent)
+        }
 
 //        Glide.with(context).load(currentUser.profileImage).into(holder.profileImageIv)
 

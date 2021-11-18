@@ -30,7 +30,7 @@ class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
     // firebase vars
     private lateinit var fbAuth: FirebaseAuth
-    private lateinit var dbRef: FirebaseDatabase
+    private lateinit var fbDbRef: FirebaseDatabase
     // register info vars
     private var name = ""
     private var email = ""
@@ -216,24 +216,24 @@ class RegisterActivity : AppCompatActivity() {
 
                     //set uid and info for each user
                     var user: FirebaseUser? = fbAuth.currentUser
-                    var userId: String = user!!.uid
+                    var uid: String = user!!.uid
                     var timestamp = System.currentTimeMillis()
 
                     var hashMap: HashMap<String, Any> = HashMap()
-                    hashMap["userId"] = userId
+                    hashMap["uid"] = uid
                     hashMap["name"] = name
                     hashMap["email"] = email
                     hashMap["sex"] = sex
                     hashMap["sport"] = sport
                     hashMap["level"] = level
-                    hashMap["registerDates"] = timestamp
+                    hashMap["regDate"] = timestamp
                     hashMap["role"] = 1
                     hashMap["profileImage"] = ""
 
 
                     // update to DB
-                    var dbRef = FirebaseDatabase.getInstance().getReference("Users")
-                    dbRef.child(userId)
+                    var fbDbRef = FirebaseDatabase.getInstance().getReference("Users")
+                    fbDbRef.child(uid)
                         .setValue(hashMap)
                         .addOnSuccessListener {
                             Log.d(TAG, "registerUser: successfully registered user")

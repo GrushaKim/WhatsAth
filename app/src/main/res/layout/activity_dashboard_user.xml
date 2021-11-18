@@ -1,31 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/primaryYellow"
+    android:orientation="vertical"
     tools:context=".DashboardUserActivity">
 
-    <TextView
-        android:id="@+id/titleTv"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/userRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:text="Welcome, User"
-        android:textSize="30sp"
+        tools:listitem="@layout/item_dashboard_user"
+        android:layout_marginTop="50dp"
+        android:layout_marginHorizontal="10dp"
         />
-    <TextView
-        android:id="@+id/logoutTv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/titleTv"
-        android:paddingLeft="20dp"
-        android:text="Logout!"
-        android:textSize="30sp"
-        android:textColor="@color/white"/>
 
 
-
-
-</RelativeLayout>
+</LinearLayout>

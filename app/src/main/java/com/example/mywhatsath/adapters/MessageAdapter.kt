@@ -1,10 +1,12 @@
 package com.example.mywhatsath.adapters
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.mywhatsath.databinding.ItemReceivedMsgBinding
 import com.example.mywhatsath.databinding.ItemSentMsgBinding
 import com.example.mywhatsath.models.ModelMessage
@@ -43,16 +45,46 @@ class MessageAdapter(
         val timestamp = messageList[position].timestamp
         val msgDate = MyApplication.formatTimeStamp(timestamp!!)
         val timeago = MyApplication.formatTimeAgo(msgDate)
+        val msgImage = messageList[position].msgImage
 
         if(holder.javaClass == SentViewHolder::class.java){
-            val viewHolder = holder as SentViewHolder
-            holder.sentMsg.text = currentMsg.message
-            holder.msgDate.text = timeago
-
+            if(msgImage.isNullOrEmpty()){
+                val viewHolder = holder as SentViewHolder
+                holder.sentMsg.text = currentMsg.message
+                holder.msgDate.text = timeago
+            }else{
+                val viewHolder = holder as SentViewHolder
+                holder.sentMsg.visibility = View.GONE
+                holder.sentIv.visibility = View.VISIBLE
+                holder.msgDate.text = timeago
+                //set image
+                try{
+                    Glide.with(context)
+                        .load(msgImage)
+                        .into(holder.sentIv)
+                } catch(e: Exception){
+                    Log.d("MessageAdapter_TAG", "onBindViewHolder: Failed to load a picture from sentViewHolder")
+                }
+            }
         }else{ // ReceivedViewHolder
-            val viewHolder = holder as ReceivedViewHolder
-            holder.receivedMsg.text = currentMsg.message
-            holder.msgDate.text = timeago
+            if(msgImage.isNullOrEmpty()){
+                val viewHolder = holder as ReceivedViewHolder
+                holder.receivedMsg.text = currentMsg.message
+                holder.msgDate.text = timeago
+            }else{
+                val viewHolder = holder as ReceivedViewHolder
+                holder.receivedMsg.visibility = View.GONE
+                holder.receivedIv.visibility = View.VISIBLE
+                holder.msgDate.text = timeago
+                //set image
+                try{
+                    Glide.with(context)
+                        .load(msgImage)
+                        .into(holder.receivedIv)
+                } catch(e: Exception){
+                    Log.d("MessageAdapter_TAG", "onBindViewHolder: Failed to load a picture from receivedViewHolder")
+                }
+            }
         }
     }
 
@@ -74,11 +106,13 @@ class MessageAdapter(
     inner class SentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val sentMsg = sentBinding.sentMsgTv
         val msgDate = sentBinding.msgDate
+        val sentIv = sentBinding.sentIv
     }
 
     inner class ReceivedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val receivedMsg = receivedBinding.receivedMsgTv
         val msgDate = receivedBinding.msgDate
+        val receivedIv = receivedBinding.receivedIv
     }
 
 

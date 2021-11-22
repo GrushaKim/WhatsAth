@@ -2,9 +2,9 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_marginHorizontal="5dp"
-    android:layout_marginTop="2dp"
-    >
+    android:layout_marginTop="2dp">
 
     <RelativeLayout
         android:id="@+id/sentMsgRl"
@@ -12,7 +12,18 @@
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:background="@drawable/rounded_corner_yellow">
-        <TextView
+
+        <com.google.android.material.imageview.ShapeableImageView
+            android:id="@+id/sentIv"
+            android:layout_width="220dp"
+            android:layout_height="200dp"
+            android:layout_centerHorizontal="true"
+            android:background="@color/primaryYellow"
+            android:visibility="gone"
+            android:scaleType="fitXY"
+            app:shapeAppearanceOverlay="@style/styleRoundedCornersImage"
+            android:src="@drawable/icon_google" />
+       <TextView
             android:id="@+id/sentMsgTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -33,9 +44,9 @@
             android:id="@+id/msgDate"
             android:layout_width="wrap_content"
             android:layout_height="15dp"
-            android:text="01/02/2022"
+            android:text="N/A"
             android:textColor="@color/primaryGray"
-            android:textSize="9sp" />
+            android:textSize="10sp" />
     </RelativeLayout>
 
 </RelativeLayout>

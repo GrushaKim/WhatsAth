@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mywhatsath.adapters.MessageAdapter
 import com.example.mywhatsath.databinding.ActivityChatBinding
 import com.example.mywhatsath.models.ModelMessage
+import com.example.mywhatsath.utils.MyApplication
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -43,7 +44,7 @@ class ChatActivity : AppCompatActivity() {
         val name = intent.getStringExtra("name")
         val receiverUid = intent.getStringExtra("uid")
 
-        // make serials for each room
+        // make serials for each chatroom
         val senderUid = fbAuth.currentUser?.uid
         senderRoom = receiverUid + senderUid
         receiverRoom = senderUid + receiverUid
@@ -79,21 +80,27 @@ class ChatActivity : AppCompatActivity() {
 
         // send message button click
         binding.sendMsgBtn.setOnClickListener {
+
             // add msg to DB
             val msg = binding.msgBoxEt.text.toString()
-            val msgObject = ModelMessage(msg, senderUid)
+            val senderId = fbAuth.currentUser!!.uid
+            val timestamp = System.currentTimeMillis()
+            val hashMap: HashMap<String, Any?> = HashMap()
+
+            hashMap["message"] = msg
+            hashMap["senderId"] = senderId
+            hashMap["timestamp"] = timestamp
+
 
             fbDbRef.getReference("Chats").child(senderRoom!!)
                 .child("messages").push()
-                .setValue(msgObject)
+                .setValue(hashMap)
                 .addOnSuccessListener {
                     fbDbRef.getReference("Chats").child(receiverRoom!!)
                         .child("messages").push()
-                        .setValue(msgObject)
+                        .setValue(hashMap)
                 }
             binding.msgBoxEt.setText("")
         }
-
-        
     }
 }

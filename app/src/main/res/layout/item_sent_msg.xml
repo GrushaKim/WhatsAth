@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="5dp"
+    android:layout_marginTop="2dp"
+    >
 
     <RelativeLayout
+        android:id="@+id/sentMsgRl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:layout_marginRight="5dp"
-        android:layout_marginTop="8dp"
         android:background="@drawable/rounded_corner_yellow">
         <TextView
             android:id="@+id/sentMsgTv"
@@ -16,9 +18,24 @@
             android:layout_height="wrap_content"
             android:text="This message was sent"
             android:paddingHorizontal="13dp"
-            android:paddingVertical="8dp"
+            android:paddingVertical="5dp"
             android:textColor="@color/white"
             android:textSize="18sp"/>
+    </RelativeLayout>
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/sentMsgRl"
+        android:layout_alignParentEnd="true"
+        android:layout_marginRight="7dp"
+        android:layout_marginTop="2dp">
+        <TextView
+            android:id="@+id/msgDate"
+            android:layout_width="wrap_content"
+            android:layout_height="15dp"
+            android:text="01/02/2022"
+            android:textColor="@color/primaryGray"
+            android:textSize="9sp" />
     </RelativeLayout>
 
 </RelativeLayout>

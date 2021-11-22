@@ -1,24 +1,44 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="5dp"
+    android:layout_marginTop="2dp"
+    >
 
     <RelativeLayout
+        android:id="@+id/receivedMsgRl"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_marginLeft="5dp"
-        android:layout_marginTop="8dp"
-        android:background="@drawable/rounded_corner_paleyellow">
+        android:background="@drawable/rounded_corner_dimblue">
         <TextView
             android:id="@+id/receivedMsgTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="This message was received"
             android:paddingHorizontal="13dp"
-            android:paddingVertical="8dp"
+            android:paddingVertical="5dp"
             android:textColor="@color/white"
             android:textSize="18sp"/>
+
     </RelativeLayout>
-    
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/receivedMsgRl"
+        android:layout_alignParentStart="true"
+        android:layout_marginLeft="7dp"
+        android:layout_marginTop="2dp">
+    <TextView
+        android:id="@+id/msgDate"
+        android:layout_width="wrap_content"
+        android:layout_height="15dp"
+        android:text="01/02/2022"
+        android:textColor="@color/primaryGray"
+        android:textSize="9sp" />
+
+    </RelativeLayout>
+
+
 </RelativeLayout>

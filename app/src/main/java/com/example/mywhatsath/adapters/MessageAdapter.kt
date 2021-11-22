@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mywhatsath.databinding.ItemReceivedMsgBinding
 import com.example.mywhatsath.databinding.ItemSentMsgBinding
 import com.example.mywhatsath.models.ModelMessage
+import com.example.mywhatsath.utils.MyApplication
 import com.google.firebase.auth.FirebaseAuth
 
 // do not implement specific viewholder.
@@ -39,14 +40,19 @@ class MessageAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         val currentMsg = messageList[position]
+        val timestamp = messageList[position].timestamp
+        val msgDate = MyApplication.formatTimeStamp(timestamp!!)
+        val timeago = MyApplication.formatTimeAgo(msgDate)
 
         if(holder.javaClass == SentViewHolder::class.java){
             val viewHolder = holder as SentViewHolder
             holder.sentMsg.text = currentMsg.message
+            holder.msgDate.text = timeago
 
         }else{ // ReceivedViewHolder
             val viewHolder = holder as ReceivedViewHolder
             holder.receivedMsg.text = currentMsg.message
+            holder.msgDate.text = timeago
         }
     }
 
@@ -54,7 +60,7 @@ class MessageAdapter(
     override fun getItemViewType(position: Int): Int {
         val currentMsg = messageList[position]
 
-        if(FirebaseAuth.getInstance().currentUser?.uid.equals(currentMsg.sender)){
+        if(FirebaseAuth.getInstance().currentUser?.uid.equals(currentMsg.senderId)){
             return ITEM_SENT
         }else{
             return ITEM_RECEIVED
@@ -67,10 +73,12 @@ class MessageAdapter(
 
     inner class SentViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val sentMsg = sentBinding.sentMsgTv
+        val msgDate = sentBinding.msgDate
     }
 
     inner class ReceivedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val receivedMsg = receivedBinding.receivedMsgTv
+        val msgDate = receivedBinding.msgDate
     }
 
 

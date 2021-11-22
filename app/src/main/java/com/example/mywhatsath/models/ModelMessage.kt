@@ -2,13 +2,14 @@ package com.example.mywhatsath.models
 
 class ModelMessage {
     var message: String? = null
-    var sender: String? = null
+    var senderId: String? = null
+    var timestamp: Long? = 0
 
     constructor(){}
-
-    constructor(message: String?, sender: String?) {
+    constructor(message: String?, senderId: String?, timestamp: Long?) {
         this.message = message
-        this.sender = sender
+        this.senderId = senderId
+        this.timestamp = timestamp
     }
 
 

@@ -87,9 +87,7 @@ class DashboardUserActivity : AppCompatActivity() {
         if(item.itemId == R.id.logout){
             fbAuth.signOut()
             checkUser()
-            return true
         }
-
         return true
     }
 

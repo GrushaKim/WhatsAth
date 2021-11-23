@@ -139,7 +139,7 @@ class LoginActivity : AppCompatActivity() {
             ?.addOnCompleteListener { task ->
                 Log.d(TAG, "login: successfully logged in with email")
                 if(task.isSuccessful){
-                    val intent = Intent(this@LoginActivity, DashboardUserActivity::class.java)
+                    val intent = Intent(this@LoginActivity, MainActivity::class.java)
                     startActivity(intent)
                     finish()
                 }else{

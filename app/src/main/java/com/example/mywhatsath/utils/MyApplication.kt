@@ -18,6 +18,12 @@ class MyApplication: Application() {
             return DateFormat.format("yyyy-MM-dd hh:mm:ss", cal).toString()
         }
 
+        fun formatRegDate(timestamp: Long): String{
+            val cal = Calendar.getInstance(Locale.ENGLISH)
+            cal.timeInMillis = timestamp
+            return DateFormat.format("dd/MM/yyyy", cal).toString()
+        }
+
         fun formatTimeAgo(date1: String): String {  // Note : date1 must be in   "yyyy-MM-dd hh:mm:ss"   format
             var conversionTime =""
             try{

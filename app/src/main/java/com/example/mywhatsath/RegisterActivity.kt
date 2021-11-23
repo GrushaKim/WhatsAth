@@ -110,9 +110,9 @@ class RegisterActivity : AppCompatActivity() {
         // level radio group click
         binding.levelRg.setOnCheckedChangeListener { radioGroup, checkedId ->
             when(checkedId){
-                R.id.amateurRb -> level = "amateur"
-                R.id.semiProRb -> level = "semi-pro"
-                R.id.proRb -> level = "pro"
+                R.id.amateurRb -> level = "Amateur"
+                R.id.semiProRb -> level = "Semi-pro"
+                R.id.proRb -> level = "Pro"
             }
         }
 
@@ -229,6 +229,7 @@ class RegisterActivity : AppCompatActivity() {
                     hashMap["regDate"] = timestamp
                     hashMap["role"] = 1
                     hashMap["profileImage"] = ""
+                    hashMap["aboutMe"] = ""
 
 
                     // update to DB

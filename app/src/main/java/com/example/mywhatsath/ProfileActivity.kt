@@ -3,6 +3,8 @@ package com.example.mywhatsath
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import com.bumptech.glide.Glide
 import com.example.mywhatsath.databinding.ActivityProfileBinding
 import com.example.mywhatsath.utils.MyApplication
 import com.google.firebase.auth.FirebaseAuth
@@ -47,23 +49,33 @@ class ProfileActivity : AppCompatActivity() {
                     val regDate = "${snapshot.child("regDate").value}"
                     val sport = "${snapshot.child("sport").value}"
                     val level = "${snapshot.child("level").value}"
-                   // val aboutMe = "${snapshot.child("aboutMe").value}"
+                    val aboutMe = "${snapshot.child("aboutMe").value}"
 
                     //convert regdate
                     val formattedRegDate = MyApplication.formatRegDate(regDate.toLong())
 
                     //set data
+                    try{
+                        Glide.with(this@ProfileActivity)
+                            .load(profileImage)
+                            .into(binding.profileIv)
+                    } catch(e: Exception){
+                        Log.d("PROFILE_TAG", "Failed to load the profile image. Error: ${e.message}")
+                    }
+
                     binding.nameTv.text = name
                     binding.emailTv.text = email
-                    if(sex == "male"){
+
+                    if(sex == R.string.male.toString()){
                         binding.sexIv.setImageResource(R.drawable.ic_man)
                     }else{
                         binding.sexIv.setImageResource(R.drawable.ic_woman)
                     }
+
                     binding.regDateTv.text = formattedRegDate
                     binding.sportTv.text = sport
                     binding.levelTv.text = level
-                    //binding.aboutMeTv.text = aboutMe
+                    binding.aboutMeTv.text = aboutMe
 
                 }
                 override fun onCancelled(error: DatabaseError) {

@@ -111,7 +111,7 @@ class ChatActivity : AppCompatActivity() {
       binding.sendMsgBtn.setOnClickListener {
 
           if(imageUri==null){
-              updateProfile("")
+              sendMessage("")
           }else{
               uploadImage()
           }
@@ -128,11 +128,11 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun uploadImage(){
-        pDialog.setMessage("Uploading profile image")
+        pDialog.setMessage("Uploading image")
         pDialog.show()
 
         // image path, name
-        val filePathAndName = "ProfileImages/"+fbAuth.uid
+        val filePathAndName = "ChatImages/"+fbAuth.uid
         //storage
         val reference = FirebaseStorage.getInstance().getReference(filePathAndName)
         reference.putFile(imageUri!!)
@@ -144,7 +144,7 @@ class ChatActivity : AppCompatActivity() {
                 while(!uriTask.isSuccessful);
                 val uploadedImageUrl = "${uriTask.result}"
 
-                updateProfile(uploadedImageUrl)
+                sendMessage(uploadedImageUrl)
             }
             .addOnFailureListener { e ->
                 pDialog.dismiss()
@@ -153,8 +153,7 @@ class ChatActivity : AppCompatActivity() {
 
     }
 
-        private fun updateProfile(uploadedImageUrl: String) {
-            pDialog.setMessage("Updating profile...")
+        private fun sendMessage(uploadedImageUrl: String) {
 
             // add msg to DB
             val msg = binding.msgBoxEt.text.toString()
@@ -174,7 +173,6 @@ class ChatActivity : AppCompatActivity() {
                 .child("messages").push()
                 .setValue(hashMap)
                 .addOnSuccessListener {
-                    pDialog.dismiss()
 
                     fbDbRef.getReference("Chats").child(receiverRoom!!)
                         .child("messages").push()
@@ -187,7 +185,6 @@ class ChatActivity : AppCompatActivity() {
                     imageUri = null
                 }
                 .addOnFailureListener { e ->
-                    pDialog.dismiss()
                     Toast.makeText(this, "Failed to send message. Error: ${e.message}", Toast.LENGTH_SHORT).show()
                 }
             binding.msgBoxEt.setText("")

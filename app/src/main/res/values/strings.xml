@@ -3,6 +3,15 @@
     <!--facebook app id-->
     <string name="facebook_app_id">571787797216822</string>
     <string name="fb_login_protocol_scheme">fb571787797216822</string>
+    <!--Register Levels-->
+    <string-array name="levels">
+        <item>Amateur</item>
+        <item>Semi-Pro</item>
+        <item>Pro</item>
+    </string-array>
+    <!--Register Gender-->
+    <string name="female">Female</string>
+    <string name="male">Male</string>
     <!--Register Dropdown-->
     <string-array name="sports">
         <item>Pole-dancing</item>
@@ -17,4 +26,5 @@
     </string-array>
     <string name="open">Open</string>
     <string name="close">Close</string>
+
 </resources>

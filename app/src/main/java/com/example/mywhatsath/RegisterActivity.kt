@@ -102,17 +102,17 @@ class RegisterActivity : AppCompatActivity() {
         // gender radio group click
         binding.genderRg.setOnCheckedChangeListener { radioGroup, checkedId ->
             when(checkedId){
-                R.id.femaleRb -> sex = "female"
-                R.id.maleRb -> sex = "male"
+                R.id.femaleRb -> sex = R.string.female.toString()
+                R.id.maleRb -> sex = R.string.male.toString()
             }
         }
 
         // level radio group click
         binding.levelRg.setOnCheckedChangeListener { radioGroup, checkedId ->
             when(checkedId){
-                R.id.amateurRb -> level = "Amateur"
-                R.id.semiProRb -> level = "Semi-pro"
-                R.id.proRb -> level = "Pro"
+                R.id.amateurRb -> level = resources.getStringArray(R.array.levels)[0].toString()
+                R.id.semiProRb -> level = resources.getStringArray(R.array.levels)[1].toString()
+                R.id.proRb -> level = resources.getStringArray(R.array.levels)[2].toString()
             }
         }
 

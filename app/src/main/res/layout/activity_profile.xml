@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_below="@+id/ivTopWave"
-        android:layout_marginTop="-20dp"
+        android:layout_marginTop="-25dp"
         android:layout_marginLeft="15dp"
         android:orientation="horizontal">
 
@@ -41,6 +41,8 @@
         android:layout_above="@+id/editProfileBtn"
         android:layout_below="@+id/titleTvLl"
         android:layout_marginHorizontal="15dp"
+        android:paddingLeft="20dp"
+        android:descendantFocusability="blocksDescendants"
         android:layout_marginTop="10dp"
         android:background="@color/white">
         <LinearLayout
@@ -58,13 +60,13 @@
                 android:layout_width="150dp"
                 android:layout_height="150dp"
                 android:src="@drawable/ic_baseline_person_24"
-                app:civ_border_width="2dp"
+                app:civ_border_width="5dp"
                 app:civ_border_color="@color/primaryYellow"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="25dp"
                 android:gravity="center"
                 android:orientation="vertical">
                 <!--Name-->
@@ -121,6 +123,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
+                android:paddingLeft="15dp"
                 android:orientation="horizontal">
                 <TextView
                     android:id="@+id/regDateTv"
@@ -129,7 +132,7 @@
                     android:paddingStart="10dp"
                     android:text="01/01/2022"
                     android:textColor="@color/black"
-                    android:textSize="14sp"/>
+                    android:textSize="18sp"/>
             </LinearLayout>
 
 
@@ -161,6 +164,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
+                    android:paddingLeft="15dp"
                     android:orientation="horizontal">
 
                     <TextView
@@ -170,7 +174,7 @@
                         android:paddingStart="10dp"
                         android:text="Poledancing"
                         android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
 
@@ -201,6 +205,7 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:paddingLeft="15dp"
                     android:layout_weight="2"
                     android:orientation="horizontal">
 
@@ -211,7 +216,7 @@
                         android:paddingStart="10dp"
                         android:text="Semi-pro"
                         android:textColor="@color/black"
-                        android:textSize="14sp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
 
@@ -251,7 +256,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:maxLines="5"
-                        android:text="Anything"
+                        android:text="Describe yourself :D"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
                 </LinearLayout>

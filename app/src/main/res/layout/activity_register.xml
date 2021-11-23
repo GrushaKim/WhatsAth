@@ -20,6 +20,7 @@
         android:layout_height="match_parent"
         android:layout_above="@+id/signupBtn"
         android:layout_below="@+id/ivTopWave"
+        android:descendantFocusability="blocksDescendants"
         android:background="@color/white">
 
         <LinearLayout
@@ -50,6 +51,7 @@
                     android:drawableStart="@drawable/ic_baseline_person_24"
                     android:drawablePadding="8dp"
                     android:hint="name"
+                    android:background="@android:color/transparent"
                     android:inputType="textPersonName"
                     android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -67,6 +69,7 @@
                     android:drawableStart="@drawable/ic_baseline_email_24"
                     android:drawablePadding="8dp"
                     android:hint="email"
+                    android:background="@android:color/transparent"
                     android:inputType="textEmailAddress"
                     android:textColor="@color/black" />
 
@@ -139,6 +142,7 @@
                     android:drawableStart="@drawable/ic_baseline_lock_24"
                     android:drawablePadding="8dp"
                     android:hint="password"
+                    android:background="@android:color/transparent"
                     android:inputType="textPassword"
                     android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -240,6 +244,7 @@
                     android:drawableStart="@drawable/ic_baseline_lock_24"
                     android:drawablePadding="8dp"
                     android:hint="confirm password"
+                    android:background="@android:color/transparent"
                     android:inputType="textPassword"
                     android:textColor="@color/black" />
             </com.google.android.material.textfield.TextInputLayout>
@@ -306,14 +311,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:text="female" />
+                        android:text="Female" />
 
                     <RadioButton
                         android:id="@+id/maleRb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:text="male" />
+                        android:text="Male" />
                 </RadioGroup>
             </LinearLayout>
 
@@ -369,21 +374,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:text="amateur" />
+                        android:text="Amateur" />
 
                     <RadioButton
                         android:id="@+id/semiProRb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:text="semi-pro" />
+                        android:text="Semi-Pro" />
 
                     <RadioButton
                         android:id="@+id/proRb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:text="pro" />
+                        android:text="Pro" />
                 </RadioGroup>
             </LinearLayout>
 

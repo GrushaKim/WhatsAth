@@ -38,7 +38,7 @@
     <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/saveProfileBtn"
+        android:layout_above="@+id/btnLl"
         android:layout_below="@+id/titleTvLl"
         android:layout_marginHorizontal="15dp"
         android:paddingLeft="20dp"
@@ -266,6 +266,7 @@
 
     <!--Edit Profile Button-->
     <LinearLayout
+        android:id="@+id/btnLl"
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:layout_marginTop="5dp"

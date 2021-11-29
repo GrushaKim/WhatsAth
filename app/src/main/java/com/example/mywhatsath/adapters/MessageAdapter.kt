@@ -42,10 +42,10 @@ class MessageAdapter(
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         val currentMsg = messageList[position]
-        val timestamp = messageList[position].timestamp
+        val timestamp = currentMsg.timestamp
         val msgDate = MyApplication.formatTimeStamp(timestamp!!)
         val timeago = MyApplication.formatTimeAgo(msgDate)
-        val msgImage = messageList[position].msgImage
+        val msgImage = currentMsg.msgImage
 
         if(holder.javaClass == SentViewHolder::class.java){
             if(msgImage.isNullOrEmpty()){

@@ -12,7 +12,7 @@
     <color name="blue">#0000FF</color>
     <color name="primaryBlue">#0b409c</color>
     <color name="primaryYellow">#ffce63</color>
-    <color name="primaryPaleYellow">#FF9800</color>
+    <color name="primaryPaleYellow">#ffce63</color>
     <color name="primaryGray">#848c7c</color>
     <color name="primaryDimBlue">#546c8c</color>
 </resources>

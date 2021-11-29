@@ -11,6 +11,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mywhatsath.adapters.UserAdapter
 import com.example.mywhatsath.databinding.ActivityDashboardUserBinding
 import com.example.mywhatsath.models.ModelUser
+import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -25,7 +26,6 @@ class DashboardUserActivity : AppCompatActivity() {
     private lateinit var userList: ArrayList<ModelUser>
     private lateinit var userAdapter: UserAdapter
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardUserBinding.inflate(layoutInflater)
@@ -39,6 +39,17 @@ class DashboardUserActivity : AppCompatActivity() {
         // init arraylist for holder
         userList = ArrayList()
         userAdapter = UserAdapter(this, userList)
+
+        // bottom drawer
+        BottomSheetBehavior.from(binding.bottomDrawerSheet).apply {
+            peekHeight = 200
+            this.state = BottomSheetBehavior.STATE_COLLAPSED
+        }
+
+        binding.logoutBtn.setOnClickListener {
+            fbAuth.signOut()
+            checkUser()
+        }
 
         // init recyclerview
         userRecyclerView = binding.userRecyclerView

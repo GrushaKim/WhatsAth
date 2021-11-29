@@ -2,6 +2,7 @@ package com.example.mywhatsath.adapters
 
 import android.content.Context
 import android.content.Intent
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -10,6 +11,7 @@ import androidx.core.content.ContextCompat.startActivity
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mywhatsath.ChatActivity
+import com.example.mywhatsath.R
 import com.example.mywhatsath.databinding.ItemDashboardUserBinding
 import com.example.mywhatsath.models.ModelUser
 import de.hdodenhof.circleimageview.CircleImageView
@@ -41,7 +43,21 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>{
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         val currentUser = userList[position]
+        val profileImage = currentUser.profileImage
+
+        // set the data
         holder.nameTv.text = currentUser.name
+        if(profileImage.isNullOrBlank()){
+            holder.profileImageIv.setImageResource(R.drawable.ic_baseline_person_24)
+        }else{
+            try{
+                Glide.with(context)
+                    .load(profileImage)
+                    .into(holder.profileImageIv)
+            } catch(e: Exception){
+                Log.d("UserAdapter_TAG", "onBindViewHolder: Failed to load profileImage")
+            }
+        }
 
         // move to individual chat
         holder.itemView.setOnClickListener {
@@ -51,8 +67,6 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>{
 
             context.startActivity(intent)
         }
-
-//        Glide.with(context).load(currentUser.profileImage).into(holder.profileImageIv)
 
     }
 

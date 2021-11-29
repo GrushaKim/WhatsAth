@@ -86,7 +86,7 @@ class ProfileEditActivity : AppCompatActivity() {
 
         binding.levelsSp.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
             override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                updatedLevel = sports[position]
+                updatedLevel = levels[position]
                 Log.d(RegisterActivity.TAG, "onItemSelected: selected level is $updatedLevel")
             }
             override fun onNothingSelected(p0: AdapterView<*>?) {
@@ -138,18 +138,28 @@ class ProfileEditActivity : AppCompatActivity() {
                     if(profileImage == "" || profileImage.isEmpty()){
                         binding.profileIv.setBackgroundResource(R.drawable.ic_baseline_person_24)
                     }else{
-//                        TODO()
+                        try{
+                            Glide.with(this@ProfileEditActivity)
+                                .load(profileImage)
+                                .into(binding.profileIv)
+                        } catch(e: Exception){
+                            Log.d(TAG, "onDataChange: failed to load profileImage. Error: ${e.message}")
+                        }
                     }
+
                     binding.nameEt.hint = name
                     binding.emailTv.text = email
+
                     if(sex == R.string.male.toString()){
                         binding.sexIv.setImageResource(R.drawable.ic_man)
                     }else{
                         binding.sexIv.setImageResource(R.drawable.ic_woman)
                     }
+
                     binding.regDateTv.text = formattedRegDate
                     binding.sportsSp.setSelection(resources.getStringArray(R.array.sports).indexOf(sport))
                     binding.levelsSp.setSelection(resources.getStringArray(R.array.levels).indexOf(level))
+
                     if(aboutMe == "" || aboutMe.isEmpty()){
                         binding.aboutMeEt.hint = "Describe yourself less than $maxLength characters  "
                     }else{
@@ -158,13 +168,10 @@ class ProfileEditActivity : AppCompatActivity() {
                 }
                 override fun onCancelled(error: DatabaseError) {
                 }
-
             })
     }
 
     private fun uploadImage(){
-        pDialog.setMessage("Uploading profile image")
-        pDialog.show()
 
         // image path, name
         val filePathAndName = "ProfileImages/"+fbAuth.uid
@@ -172,7 +179,6 @@ class ProfileEditActivity : AppCompatActivity() {
         val reference = FirebaseStorage.getInstance().getReference(filePathAndName)
         reference.putFile(imageUri!!)
             .addOnSuccessListener { taskSnapshot ->
-                pDialog.dismiss()
 
                 //get uri of uploaded image
                 val uriTask: Task<Uri> = taskSnapshot.storage.downloadUrl
@@ -183,7 +189,6 @@ class ProfileEditActivity : AppCompatActivity() {
                 Log.d(TAG, "uploadImage: uploaded your profile image to firebase storage")
             }
             .addOnFailureListener { e ->
-                pDialog.dismiss()
                 Toast.makeText(this, "Failed to upload profile image. Error: ${e.message}", Toast.LENGTH_SHORT).show()
                 Log.d(TAG, "uploadImage: failed to upload your profile image to firebase storage. Error: ${e.message}")
             }
@@ -191,54 +196,43 @@ class ProfileEditActivity : AppCompatActivity() {
     }
 
     private fun updateProfile(uploadedImageUrl: String) {
-        pDialog.setMessage("Updating profile...")
 
         // add msg to DB
         val hashMap: HashMap<String, Any?> = HashMap()
+        val name = binding.nameEt.text.toString().trim()
+        val sport = updatedSport
+        val level = updatedLevel
+        val aboutMe = binding.aboutMeEt.text.toString()
 
+        // check profile image
         if(imageUri != null){
             hashMap["profileImage"] = uploadedImageUrl
         }
 
-        fbDbRef.getReference("Users").child(fbAuth.uid!!)
-            .setValue(hashMap)
+        // other info to be updated
+        if(!name.isNullOrEmpty()){ hashMap["name"] = name }
+        hashMap["sport"] = sport
+        hashMap["level"] = level
+        hashMap["aboutMe"] = aboutMe
+
+        val ref = fbDbRef.getReference("Users")
+        ref.child(fbAuth.uid!!)
+            .updateChildren(hashMap)
             .addOnSuccessListener {
                 Toast.makeText(this, "Successfully uploaded your profile", Toast.LENGTH_SHORT).show()
                 Log.d(TAG, "updateProfile: Successfully updated your profile")
                 imageUri = null
+                startActivity(Intent(this@ProfileEditActivity, ProfileActivity::class.java))
             }
             .addOnFailureListener { e ->
                 Toast.makeText(this, "Failed to upload your profile", Toast.LENGTH_SHORT).show()
                 Log.d(TAG, "updateProfile: Failed to update your profile")
             }
-
-        /*fbDbRef.getReference("Chats").child(senderRoom!!)
-            .child("messages").push()
-            .setValue(hashMap)
-            .addOnSuccessListener {
-                pDialog.dismiss()
-
-                fbDbRef.getReference("Chats").child(receiverRoom!!)
-                    .child("messages").push()
-                    .setValue(hashMap)
-
-                binding.uploadImgBtn.setImageResource(R.drawable.ic_baseline_add_a_photo_gray24)
-                binding.msgBoxEt.hint = "Send a message..."
-
-                // nullify the value of imageUri for the next message
-                imageUri = null
-            }
-            .addOnFailureListener { e ->
-                pDialog.dismiss()
-                Toast.makeText(this, "Failed to send message. Error: ${e.message}", Toast.LENGTH_SHORT).show()
-            }
-        binding.msgBoxEt.setText("")*/
-
     }
 
     private fun pickImageFromGallery() {
         val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "images/*"
+        intent.type = "image/*"
         galleryActivityResultLauncher.launch(intent)
     }
 
@@ -253,7 +247,7 @@ class ProfileEditActivity : AppCompatActivity() {
                 //set imageview
                 binding.profileIv.setImageURI(imageUri)
             }else{
-                Toast.makeText(this, "Cancelled", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "Cancelled to upload image", Toast.LENGTH_SHORT).show()
             }
         }
     )

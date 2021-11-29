@@ -55,12 +55,16 @@ class ProfileActivity : AppCompatActivity() {
                     val formattedRegDate = MyApplication.formatRegDate(regDate.toLong())
 
                     //set data
-                    try{
-                        Glide.with(this@ProfileActivity)
-                            .load(profileImage)
-                            .into(binding.profileIv)
-                    } catch(e: Exception){
-                        Log.d("PROFILE_TAG", "Failed to load the profile image. Error: ${e.message}")
+                    if(profileImage.isEmpty() || profileImage == ""){
+                        binding.profileIv.setImageResource(R.drawable.ic_baseline_person_24)
+                    }else{
+                        try{
+                            Glide.with(this@ProfileActivity)
+                                .load(profileImage)
+                                .into(binding.profileIv)
+                        } catch(e: Exception){
+                            Log.d("PROFILE_TAG", "Failed to load the profile image. Error: ${e.message}")
+                        }
                     }
 
                     binding.nameTv.text = name
@@ -75,7 +79,12 @@ class ProfileActivity : AppCompatActivity() {
                     binding.regDateTv.text = formattedRegDate
                     binding.sportTv.text = sport
                     binding.levelTv.text = level
-                    binding.aboutMeTv.text = aboutMe
+
+                    if(aboutMe.isEmpty() || aboutMe == ""){
+                        binding.aboutMeTv.text = "Update your information"
+                    }else{
+                        binding.aboutMeTv.text = aboutMe
+                    }
 
                 }
                 override fun onCancelled(error: DatabaseError) {

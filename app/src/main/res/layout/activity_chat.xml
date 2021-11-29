@@ -38,6 +38,7 @@
             android:layout_weight="75"
             android:layout_marginLeft="10dp"
             android:paddingLeft="10dp"
+            android:inputType="textNoSuggestions"
             android:background="@drawable/msg_box_bg"
             android:hint="Send a message..."/>
 

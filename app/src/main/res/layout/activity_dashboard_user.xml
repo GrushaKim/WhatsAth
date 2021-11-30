@@ -20,7 +20,7 @@
     <FrameLayout
         android:id="@+id/bottomDrawerSheet"
         android:layout_width="match_parent"
-        android:layout_height="350dp"
+        android:layout_height="200dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         android:background="@drawable/menu_rounded_bg"
         >
@@ -32,35 +32,73 @@
             <ImageView
                 android:layout_width="50dp"
                 android:layout_height="wrap_content"
+                android:layout_marginBottom="40dp"
                 android:src="@drawable/ic_baseline_dehaze_24"
                 android:scaleType="fitXY"
                 android:layout_gravity="center|top"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="100dp"
-            android:orientation="horizontal"
-            android:weightSum="2"
-            android:layout_gravity="center">
-            <ImageView
-                android:id="@+id/logoutBtn"
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/ic_baseline_power_settings_new_24"
-                android:scaleType="centerInside" />
-            <ImageView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:src="@drawable/ic_baseline_chat_24"
-                android:scaleType="centerInside" />
+
+            <!--Row#1-->
+            <LinearLayout
+                android:layout_width="350dp"
+                android:layout_height="40dp"
+                android:layout_marginVertical="10dp"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:layout_gravity="center">
+                <ImageView
+                    android:id="@+id/profileBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_baseline_badge_24"
+                    android:scaleType="fitCenter" />
+                <ImageView
+                    android:id="@+id/searchBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_baseline_person_add_24"
+                    android:scaleType="fitCenter" />
+                <ImageView
+                    android:id="@+id/chatBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_baseline_chat_24"
+                    android:scaleType="fitCenter" />
+            </LinearLayout>
+            <!--Row#2-->
+            <LinearLayout
+                android:layout_width="350dp"
+                android:layout_height="40dp"
+                android:layout_marginVertical="10dp"
+                android:orientation="horizontal"
+                android:weightSum="3"
+                android:layout_gravity="center">
+                <ImageView
+                    android:id="@+id/helpBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_baseline_support_agent_24"
+                    android:scaleType="fitCenter" />
+                <ImageView
+                    android:id="@+id/settingsBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_baseline_settings_24"
+                    android:scaleType="fitCenter" />
+                <ImageView
+                    android:id="@+id/logoutBtn"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_baseline_power_settings_new_24"
+                    android:scaleType="fitCenter" />
+            </LinearLayout>
 
         </LinearLayout>
-
-
-        <!--Contents-->
-
     </FrameLayout>
 
 

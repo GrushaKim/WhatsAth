@@ -42,13 +42,27 @@ class DashboardUserActivity : AppCompatActivity() {
 
         // bottom drawer
         BottomSheetBehavior.from(binding.bottomDrawerSheet).apply {
-            peekHeight = 200
+            peekHeight = 180
             this.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
+
+        // <Drawer menu>
         binding.logoutBtn.setOnClickListener {
             fbAuth.signOut()
             checkUser()
+        }
+
+        binding.profileBtn.setOnClickListener {
+            startActivity(Intent(this@DashboardUserActivity, ProfileActivity::class.java))
+        }
+
+        binding.searchBtn.setOnClickListener {
+            startActivity(Intent(this@DashboardUserActivity, SearchActivity::class.java))
+        }
+
+        binding.chatBtn.setOnClickListener {
+            this.recreate()
         }
 
         // init recyclerview
@@ -68,39 +82,14 @@ class DashboardUserActivity : AppCompatActivity() {
                     if(fbAuth.currentUser?.uid != currentUser?.uid){
                         userList.add(currentUser!!)
                     }
-
                 }
-
                 userAdapter.notifyDataSetChanged()
             }
             override fun onCancelled(error: DatabaseError) {
             }
         })
-
-
-/*        // logout button click
-        binding.logoutTv.setOnClickListener {
-            fbAuth.signOut()
-            checkUser()
-        }*/
-
     }
 
-    // inflate navigation menu
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.menu, menu)
-
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    // logout
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        if(item.itemId == R.id.logout){
-            fbAuth.signOut()
-            checkUser()
-        }
-        return true
-    }
 
     private fun checkUser() {
         // get current user
@@ -110,7 +99,6 @@ class DashboardUserActivity : AppCompatActivity() {
             finish()
         }else{
             val email = fbUser.email
-//            binding.titleTv.text = email
         }
     }
 }

@@ -17,6 +17,7 @@ import com.example.mywhatsath.databinding.ActivitySearchBinding
 import com.example.mywhatsath.models.ModelMessage
 import com.example.mywhatsath.models.ModelUser
 import com.google.android.material.chip.Chip
+import com.google.android.material.chip.ChipGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.protobuf.Value
@@ -60,6 +61,10 @@ class SearchActivity : AppCompatActivity() {
 
         loadAllUsers()
 
+        // set search conditions
+        setSportsFilterChips()
+        setLevelsFilterChips()
+
         // search
         binding.searchEt.addTextChangedListener(object: TextWatcher{
             override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -75,17 +80,46 @@ class SearchActivity : AppCompatActivity() {
             }
         })
 
+        binding.levelsCg.setOnCheckedChangeListener { group, checkedId ->
+                val chip: Chip? = group.findViewById(checkedId)
+                val level = chip?.text.toString().trim()
+
+                Toast.makeText(this, level, Toast.LENGTH_SHORT).show()
+
+                try{
+                    searchAdapter.filter!!.filter(level)
+                    Log.d(TAG, "onCreate: $level")
+
+                }catch(e: Exception){
+                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
+                }
+            }
+        }
 
        /* // create chips
         entryChip()
 
         // select sport chips
-        choiceSportChips()
+        choiceSportChips()*/
 
-        // filter chips
-        filterChips()*/
 
+
+    private fun setSportsFilterChips() {
+        binding.sportsCg.setOnCheckedChangeListener { group, checkedId ->
+            val chip: Chip? = group.findViewById(checkedId)
+            val keyword = chip?.text.toString()
+
+            if(chip?.isChecked == true){
+                binding.searchEt.setText(keyword)
+            }
+        }
     }
+    private fun setLevelsFilterChips() {
+        binding.levelsCg.setOnCheckedChangeListener { group, checkedId ->
+            val chip: Chip? = group.findViewById(checkedId)
+            }
+        }
+
 
     private fun loadAllUsers() {
         val ref = fbDbRef.getReference("Users")
@@ -107,26 +141,8 @@ class SearchActivity : AppCompatActivity() {
             }
         })
 
-       /* fbDbRef.child("Users").addValueEventListener(object: ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                // clear a previous list
-                userList.clear()
-                // get the data
-                for(postSnapshot in snapshot.children){
-                    val currentUser = postSnapshot.getValue(ModelUser::class.java)
-
-                    // add all friends except the current user
-                    if(fbAuth.currentUser?.uid != currentUser?.uid){
-                        userList.add(currentUser!!)
-                    }
-                }
-                userAdapter.notifyDataSetChanged()
-            }
-            override fun onCancelled(error: DatabaseError) {
-            }
-        })*/
-
     }
+}
 
     /*private fun filterChips() {
         binding.filtersGroupChips.setOnCheckedChangeListener { group, checkedId ->
@@ -189,4 +205,3 @@ class SearchActivity : AppCompatActivity() {
             }
         }
     }*/
-}

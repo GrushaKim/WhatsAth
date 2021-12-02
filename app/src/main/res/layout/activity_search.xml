@@ -8,9 +8,7 @@
     tools:context=".SearchActivity">
 
 
-    <!--Search Bar-->
-
-
+        <!--Search Bar-->
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
@@ -19,7 +17,7 @@
             android:layout_marginHorizontal="20dp"
             app:hintEnabled="false"
             android:padding="5dp"
-            android:layout_height="70dp">
+            android:layout_height="60dp">
 
             <EditText
                 android:id="@+id/searchEt"
@@ -35,6 +33,174 @@
                 android:maxLines="1"/>
 
         </com.google.android.material.textfield.TextInputLayout>
+
+
+        <LinearLayout
+            android:id="@+id/searchChipsLl"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:orientation="vertical"
+            android:layout_gravity="center_vertical">
+
+            <!--Search Condition#1-->
+            <LinearLayout
+                android:id="@+id/searchCgLl1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical">
+
+            <HorizontalScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:scrollbars="none">
+
+                <com.google.android.material.chip.ChipGroup
+                    android:id="@+id/sportsCg"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingHorizontal="8dp"
+                    app:singleSelection="true">
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/sportChip1"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/poledancing"
+                        android:textColor="@color/white"
+                        app:chipBackgroundColor="@color/primaryPaleBlue" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/sportChip2"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/pilates"
+                        android:textColor="@color/white"
+                        app:chipBackgroundColor="@color/primaryPaleBlue" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/sportChip3"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/yoga"
+                        android:textColor="@color/white"
+                        app:chipBackgroundColor="@color/primaryPaleBlue" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/sportChip4"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/swimming"
+                        android:textColor="@color/white"
+                        app:chipBackgroundColor="@color/primaryPaleBlue" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/sportChip5"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/running"
+                        android:textColor="@color/white"
+                        app:chipBackgroundColor="@color/primaryPaleBlue" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/sportChip6"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/climbing"
+                        android:textColor="@color/white"
+                        app:chipBackgroundColor="@color/primaryPaleBlue" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/sportChip7"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/powerlifting"
+                        android:textColor="@color/white"
+                        app:chipBackgroundColor="@color/primaryPaleBlue" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/sportChip8"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fitness"
+                        android:textColor="@color/white"
+                        app:chipBackgroundColor="@color/primaryPaleBlue" />
+
+                    <com.google.android.material.chip.Chip
+                        android:id="@+id/sportChip9"
+                        style="@style/Widget.MaterialComponents.Chip.Filter"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="@string/fitness"
+                        android:textColor="@color/white"
+                        app:chipBackgroundColor="@color/primaryPaleBlue" />
+
+                </com.google.android.material.chip.ChipGroup>
+            </HorizontalScrollView>
+            </LinearLayout>
+
+            <!--Search Condition#2-->
+            <LinearLayout
+                android:id="@+id/searchCgLl2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_gravity="center_vertical">
+
+                <HorizontalScrollView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:scrollbars="none">
+
+                    <com.google.android.material.chip.ChipGroup
+                        android:id="@+id/levelsCg"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:paddingHorizontal="8dp"
+                        app:singleSelection="true">
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/levelChip1"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/amateur"
+                            android:textColor="@color/white"
+                            app:chipBackgroundColor="@color/primaryPaleMint" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/levelChip2"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/semiPro"
+                            android:textColor="@color/white"
+                            app:chipBackgroundColor="@color/primaryPaleMint" />
+
+                        <com.google.android.material.chip.Chip
+                            android:id="@+id/levelChip3"
+                            style="@style/Widget.MaterialComponents.Chip.Filter"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="@string/pro"
+                            android:textColor="@color/white"
+                            app:chipBackgroundColor="@color/primaryPaleMint" />
+
+                    </com.google.android.material.chip.ChipGroup>
+                </HorizontalScrollView>
+            </LinearLayout>
+
+        </LinearLayout>
+
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/searchRecyclerView"

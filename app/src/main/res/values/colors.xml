@@ -15,4 +15,6 @@
     <color name="primaryPaleYellow">#ffce63</color>
     <color name="primaryGray">#848c7c</color>
     <color name="primaryDimBlue">#546c8c</color>
+    <color name="primaryPaleBlue">#9FCCF4</color>
+    <color name="primaryPaleMint">#9FF4DA</color>
 </resources>

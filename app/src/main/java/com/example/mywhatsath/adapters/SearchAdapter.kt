@@ -1,5 +1,6 @@
 package com.example.mywhatsath.adapters
 
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -8,6 +9,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mywhatsath.ChatActivity
@@ -15,6 +17,8 @@ import com.example.mywhatsath.R
 import com.example.mywhatsath.databinding.ItemSearchListBinding
 import com.example.mywhatsath.models.ModelUser
 import com.example.mywhatsath.utils.SearchFilter
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
 
 class SearchAdapter: RecyclerView.Adapter<SearchAdapter.HolderSearch>, Filterable {
 
@@ -23,6 +27,8 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.HolderSearch>, Filterabl
     var filterList: ArrayList<ModelUser>
 
     private lateinit var binding: ItemSearchListBinding
+    private lateinit var fbAuth: FirebaseAuth
+    private lateinit var fbDbRef: FirebaseDatabase
 
     private var filter: SearchFilter? = null
 
@@ -44,36 +50,70 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.HolderSearch>, Filterabl
 
     // data getter+setter
     override fun onBindViewHolder(holder: HolderSearch, position: Int) {
+        fbAuth = FirebaseAuth.getInstance()
+        fbDbRef = FirebaseDatabase.getInstance()
+        val hashMap: HashMap<String, Any?> = HashMap()
+
         val model = searchList[position]
         val uid = model.uid
-        val profileImage = model.profileImage
-        val name = model.name
-        val email = model.email
-        val gender = model.gender
-        val heartsCnt = model.hearts
-        val sport = model.sport
-        val level = model.level
+
+        hashMap["followed"] = uid
 
         // set to holder
-        holder.nameTv.text = name
-        holder.emailTv.text = email
-        if(profileImage.isNullOrBlank()){
+        holder.nameTv.text = model.name
+        holder.emailTv.text = model.email
+        holder.sportTv.text = model.sport
+        holder.levelTv.text = model.level
+        
+        if(model.profileImage.isNullOrBlank()){
             holder.profileIv.setImageResource(R.drawable.ic_baseline_person_24)
         }else{
             try{
                 Glide.with(context)
-                    .load(profileImage)
+                    .load(model.profileImage)
                     .into(holder.profileIv)
             } catch(e: Exception){
                 Log.d("SearchAdapter_TAG", "onBindViewHolder: Failed to load profileImage")
             }
         }
 
-        // move to chat
+        if(model.gender == R.string.male.toString()){
+            holder.genderIv.setImageResource(R.drawable.ic_man)
+        }else{
+            holder.genderIv.setImageResource(R.drawable.ic_woman)
+        }
+
+        // check if the user want to contact the selected
         holder.profileIv.setOnClickListener {
-            val intent = Intent(context, ChatActivity::class.java)
-            intent.putExtra("userId", uid)
-            context.startActivity(intent)
+
+            val builder = AlertDialog.Builder(context)
+            builder.setMessage("Do you want to contact?")
+                .setCancelable(false)
+                .setPositiveButton("Yes") { dialog, id ->
+                    // add uid to followings&followed
+                    val ref = fbDbRef.getReference("Users")
+                    ref.child(fbAuth.uid!!).child("followed")
+
+                        .addOnSuccessListener {
+                            Log.d("SEARCHADAPTER_TAG", "onBindViewHolder: successfully added to followed")
+                        }
+                        .addOnFailureListener { e ->
+                            Toast.makeText(context, "Failed to contact", Toast.LENGTH_SHORT).show()
+                            Log.d("SEARCHADAPTER_TAG", "onBindViewHolder: failed to add to followed. Error: ${e.message}")
+                        }
+
+                    // move to chat function
+                    val intent = Intent(context, ChatActivity::class.java)
+                    intent.putExtra("userId", uid)
+                    context.startActivity(intent)
+                }
+                .setNegativeButton("No") { dialog, id ->
+                    dialog.dismiss()
+                }
+            val alert = builder.create()
+            alert.show()
+
+
         }
     }
 
@@ -86,7 +126,6 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.HolderSearch>, Filterabl
         var profileIv = binding.profileIv
         var nameTv = binding.nameTv
         var emailTv = binding.emailTv
-        var genderTv = binding.genderTv
         var genderIv = binding.genderIv
         var heartsCntTv = binding.heartsCntTv
         var sportTv = binding.sportTv

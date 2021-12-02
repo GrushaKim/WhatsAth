@@ -18,84 +18,120 @@ class MessageAdapter(
     val context: Context, val messageList: ArrayList<ModelMessage>
 ): RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
-    val ITEM_RECEIVED = 1
-    val ITEM_SENT = 2
-
     private lateinit var sentBinding: ItemSentMsgBinding
     private lateinit var receivedBinding: ItemReceivedMsgBinding
 
+    private lateinit var fbAuth: FirebaseAuth
+
+    private val MESSAGE_SENT = 0
+    private val MESSAGE_RECEIVED = 1
+
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
-        // inflate receivedMessage
-        if(viewType == 1){
-            receivedBinding = ItemReceivedMsgBinding.inflate(
-                LayoutInflater.from(context), parent, false)
-            return ReceivedViewHolder(receivedBinding.root)
-        }else{ // inflate sentMessage
+        // inflate sentBinding
+        if(viewType == MESSAGE_SENT){
             sentBinding = ItemSentMsgBinding.inflate(
                 LayoutInflater.from(context), parent, false
             )
             return SentViewHolder(sentBinding.root)
+        }else{ // inflate receivedBinding
+            receivedBinding = ItemReceivedMsgBinding.inflate(
+                LayoutInflater.from(context), parent, false)
+            return ReceivedViewHolder(receivedBinding.root)
         }
     }
 
     override fun onBindViewHolder(holder: RecyclerView.ViewHolder, position: Int) {
 
         val currentMsg = messageList[position]
+        val msg = currentMsg.message
         val timestamp = currentMsg.timestamp
         val msgDate = MyApplication.formatTimeStamp(timestamp!!)
         val timeago = MyApplication.formatTimeAgo(msgDate)
-        val msgImage = currentMsg.msgImage
+        val image = currentMsg.image
 
         if(holder.javaClass == SentViewHolder::class.java){
-            if(msgImage.isNullOrEmpty()){
-                val viewHolder = holder as SentViewHolder
-                holder.sentMsg.text = currentMsg.message
+            val viewHolder = holder as SentViewHolder
+
+            if(image.isNullOrEmpty()){
+                holder.sentMsg.text = msg
                 holder.msgDate.text = timeago
-            }else{
-                val viewHolder = holder as SentViewHolder
-                holder.sentMsg.visibility = View.GONE
-                holder.sentIv.visibility = View.VISIBLE
-                holder.msgDate.text = timeago
-                //set image
-                try{
-                    Glide.with(context)
-                        .load(msgImage)
-                        .into(holder.sentIv)
-                } catch(e: Exception){
-                    Log.d("MessageAdapter_TAG", "onBindViewHolder: Failed to load a picture from sentViewHolder")
+            } else{
+                if(msg == "" || msg == null){
+                    holder.sentIv.visibility = View.VISIBLE
+                    holder.sentMsg.visibility = View.GONE
+                    holder.msgDate.text = timeago
+                    //set image
+                    try{
+                        Glide.with(context)
+                            .load(image)
+                            .into(holder.sentIv)
+                    } catch(e: Exception){
+                        Log.d("MessageAdapter_TAG", "onBindViewHolder: Failed to load a picture from sentViewHolder")
+                    }
+                }else{
+                    holder.sentIv.visibility = View.VISIBLE
+                    holder.sentMsg.text = msg
+                    holder.msgDate.text = timeago
+                    //set image
+                    try{
+                        Glide.with(context)
+                            .load(image)
+                            .into(holder.sentIv)
+                    } catch(e: Exception){
+                        Log.d("MessageAdapter_TAG", "onBindViewHolder: Failed to load a picture from sentViewHolder")
+                    }
                 }
+
             }
+
         }else{ // ReceivedViewHolder
-            if(msgImage.isNullOrEmpty()){
-                val viewHolder = holder as ReceivedViewHolder
+            val viewHolder = holder as ReceivedViewHolder
+            if(image.isNullOrEmpty()){
                 holder.receivedMsg.text = currentMsg.message
                 holder.msgDate.text = timeago
             }else{
-                val viewHolder = holder as ReceivedViewHolder
-                holder.receivedMsg.visibility = View.GONE
-                holder.receivedIv.visibility = View.VISIBLE
-                holder.msgDate.text = timeago
-                //set image
-                try{
-                    Glide.with(context)
-                        .load(msgImage)
-                        .into(holder.receivedIv)
-                } catch(e: Exception){
-                    Log.d("MessageAdapter_TAG", "onBindViewHolder: Failed to load a picture from receivedViewHolder")
+                if(msg == "" || msg == null) {
+                    holder.receivedIv.visibility = View.VISIBLE
+                    holder.receivedMsg.visibility = View.GONE
+                    holder.msgDate.text = timeago
+                    //set image
+                    try{
+                        Glide.with(context)
+                            .load(image)
+                            .into(holder.receivedIv)
+                    } catch(e: Exception){
+                        Log.d("MessageAdapter_TAG", "onBindViewHolder: Failed to load a picture from receivedViewHolder")
+                    }
+                }else{
+                    holder.receivedIv.visibility = View.VISIBLE
+                    holder.receivedMsg.text = msg
+                    holder.msgDate.text = timeago
+                    //set image
+                    try{
+                        Glide.with(context)
+                            .load(image)
+                            .into(holder.receivedIv)
+                    } catch(e: Exception){
+                        Log.d("MessageAdapter_TAG", "onBindViewHolder: Failed to load a picture from receivedViewHolder")
+                    }
                 }
+
             }
         }
     }
 
     // to determine which viewbinding should be selected depending on its type
     override fun getItemViewType(position: Int): Int {
+        fbAuth = FirebaseAuth.getInstance()
+        val currentUserId = fbAuth.currentUser!!.uid
         val currentMsg = messageList[position]
 
-        if(FirebaseAuth.getInstance().currentUser?.uid.equals(currentMsg.senderId)){
-            return ITEM_SENT
+        if(currentMsg.senderId == currentUserId){
+            return MESSAGE_SENT
         }else{
-            return ITEM_RECEIVED
+            return MESSAGE_RECEIVED
         }
     }
 
@@ -109,7 +145,7 @@ class MessageAdapter(
         val sentIv = sentBinding.sentIv
     }
 
-    inner class ReceivedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+   inner class ReceivedViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
         val receivedMsg = receivedBinding.receivedMsgTv
         val msgDate = receivedBinding.msgDate
         val receivedIv = receivedBinding.receivedIv

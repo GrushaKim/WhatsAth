@@ -8,16 +8,17 @@
 
     <RelativeLayout
         android:id="@+id/receivedMsgRl"
-        android:layout_width="wrap_content"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:background="@drawable/rounded_corner_dimblue">
+        android:background="@drawable/rounded_corner_gray_msg">
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/receivedIv"
-            android:layout_width="220dp"
-            android:layout_height="200dp"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
             android:layout_centerHorizontal="true"
-            android:background="@color/primaryDimBlue"
+            android:layout_margin="5dp"
+            android:background="@color/lightGray"
             android:visibility="gone"
             android:scaleType="fitXY"
             app:shapeAppearanceOverlay="@style/styleRoundedCornersImage"
@@ -26,12 +27,12 @@
             android:id="@+id/receivedMsgTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="This message was received"
+            android:layout_below="@+id/receivedIv"
+            android:text="@string/thisMessageReceived"
             android:paddingHorizontal="13dp"
             android:paddingVertical="5dp"
             android:textColor="@color/white"
             android:textSize="18sp"/>
-
     </RelativeLayout>
     <RelativeLayout
         android:layout_width="wrap_content"

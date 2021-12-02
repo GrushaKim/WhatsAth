@@ -8,26 +8,28 @@
 
     <RelativeLayout
         android:id="@+id/sentMsgRl"
-        android:layout_width="wrap_content"
+        android:layout_width="280dp"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
-        android:background="@drawable/rounded_corner_yellow">
+        android:background="@drawable/rounded_corner_yellow_msg">
 
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/sentIv"
-            android:layout_width="220dp"
-            android:layout_height="200dp"
+            android:layout_width="match_parent"
+            android:layout_height="230dp"
             android:layout_centerHorizontal="true"
+            android:layout_margin="5dp"
             android:background="@color/primaryYellow"
-            android:visibility="gone"
             android:scaleType="fitXY"
+            android:visibility="gone"
             app:shapeAppearanceOverlay="@style/styleRoundedCornersImage"
             android:src="@drawable/icon_google" />
        <TextView
             android:id="@+id/sentMsgTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="This message was sent"
+            android:layout_below="@+id/sentIv"
+            android:text="@string/thisMessageSent"
             android:paddingHorizontal="13dp"
             android:paddingVertical="5dp"
             android:textColor="@color/white"

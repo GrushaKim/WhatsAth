@@ -30,6 +30,11 @@ class ProfileActivity : AppCompatActivity() {
         //load the profile
         loadUserProfile()
 
+        //back button click
+        binding.backBtn.setOnClickListener {
+            onBackPressed()
+        }
+
         //edit button click
         binding.editProfileBtn.setOnClickListener {
             startActivity(Intent(this@ProfileActivity, ProfileEditActivity::class.java))

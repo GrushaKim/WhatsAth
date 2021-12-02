@@ -26,5 +26,17 @@
     </string-array>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <!--Instruction Text-->
+    <string name="userName">Name</string>
+    <string name="userEmail">Email</string>
+    <string name="userGender">Gender</string>
+    <string name="userSport">Sport</string>
+    <string name="userLevel">Level</string>
+    <string name="userHearts">0</string>
+    <string name="textMessage"> Text message</string>
+    <string name="thisMessageSent">This message has been sent</string>
+    <string name="thisMessageReceived">This message has been received</string>
+    <string name="Contact">Contact</string>
+    <string name="searchEtText">Find your fitness mate</string>
 
 </resources>

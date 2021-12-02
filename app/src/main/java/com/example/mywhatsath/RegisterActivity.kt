@@ -230,6 +230,7 @@ class RegisterActivity : AppCompatActivity() {
                     hashMap["role"] = 1
                     hashMap["profileImage"] = ""
                     hashMap["aboutMe"] = ""
+                    hashMap["hearts"] = 0
 
 
                     // update to DB

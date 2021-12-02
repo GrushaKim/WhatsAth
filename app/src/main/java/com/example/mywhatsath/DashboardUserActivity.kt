@@ -26,6 +26,8 @@ class DashboardUserActivity : AppCompatActivity() {
     private lateinit var userList: ArrayList<ModelUser>
     private lateinit var userAdapter: UserAdapter
 
+    var latestMessage: String? = null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardUserBinding.inflate(layoutInflater)

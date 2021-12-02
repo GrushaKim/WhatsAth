@@ -13,14 +13,15 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         tools:listitem="@layout/item_dashboard_user"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="10dp"
         android:layout_marginHorizontal="10dp"
         />
 
+    <!--Bottom Drawer-->
     <FrameLayout
         android:id="@+id/bottomDrawerSheet"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="210dp"
         app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"
         android:background="@drawable/menu_rounded_bg"
         >
@@ -30,7 +31,7 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
             <ImageView
-                android:layout_width="50dp"
+                android:layout_width="35dp"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="40dp"
                 android:src="@drawable/ic_baseline_dehaze_24"
@@ -40,64 +41,143 @@
             <!--Row#1-->
             <LinearLayout
                 android:layout_width="350dp"
-                android:layout_height="40dp"
-                android:layout_marginVertical="10dp"
+                android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:weightSum="3"
                 android:layout_gravity="center">
-                <ImageView
+                <LinearLayout
                     android:id="@+id/profileBtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_baseline_badge_24"
-                    android:scaleType="fitCenter" />
-                <ImageView
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:src="@drawable/ic_baseline_badge_24"
+                        android:scaleType="fitCenter" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:text="profile"/>
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/searchBtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_baseline_person_add_24"
-                    android:scaleType="fitCenter" />
-                <ImageView
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:src="@drawable/ic_baseline_manage_search_24"
+                        android:scaleType="fitCenter" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:text="search"/>
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/chatBtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_baseline_chat_24"
-                    android:scaleType="fitCenter" />
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:src="@drawable/ic_baseline_chat_24"
+                        android:scaleType="fitCenter" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:text="chat"/>
+                </LinearLayout>
             </LinearLayout>
             <!--Row#2-->
             <LinearLayout
                 android:layout_width="350dp"
-                android:layout_height="40dp"
-                android:layout_marginVertical="10dp"
+                android:layout_height="60dp"
                 android:orientation="horizontal"
                 android:weightSum="3"
                 android:layout_gravity="center">
-                <ImageView
+                <LinearLayout
                     android:id="@+id/helpBtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_baseline_support_agent_24"
-                    android:scaleType="fitCenter" />
-                <ImageView
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:src="@drawable/ic_baseline_support_agent_24"
+                        android:scaleType="fitCenter" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:text="help"/>
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/settingsBtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_baseline_settings_24"
-                    android:scaleType="fitCenter" />
-                <ImageView
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:src="@drawable/ic_baseline_settings_24"
+                        android:scaleType="fitCenter" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:text="settings"/>
+                </LinearLayout>
+
+                <LinearLayout
                     android:id="@+id/logoutBtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
-                    android:src="@drawable/ic_baseline_power_settings_new_24"
-                    android:scaleType="fitCenter" />
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <ImageView
+                        android:layout_width="match_parent"
+                        android:layout_height="35dp"
+                        android:src="@drawable/ic_baseline_power_settings_new_24"
+                        android:scaleType="fitCenter" />
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textAlignment="center"
+                        android:textColor="@color/white"
+                        android:textStyle="bold"
+                        android:text="logout"/>
+                </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
     </FrameLayout>
 

@@ -6,9 +6,63 @@
     android:layout_marginTop="5dp"
     tools:context=".ChatActivity">
 
-    <ScrollView
+    <View
+        android:id="@+id/hr1"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_above="@+id/toolbarLl"
+        android:layout_marginTop="2dp"
+        android:background="@color/lightGray"/>
+
+    <!--Toolbar-->
+    <LinearLayout
+        android:id="@+id/toolbarLl"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:weightSum="4"
+        android:orientation="horizontal"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/backBtn"
+            android:layout_width="0dp"
+            android:layout_height="32dp"
+            android:layout_weight="0.5"
+            android:layout_marginStart="10dp"
+            android:padding="5dp"
+            android:src="@drawable/ic_baseline_arrow_back_24"/>
+        <TextView
+            android:id="@+id/nameTv"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="2.5"
+            android:paddingLeft="20dp"
+            android:text="@string/userName"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/profileIv"
+            android:layout_width="0dp"
+            android:layout_height="45dp"
+            android:layout_weight="1"
+            android:padding="2dp"
+            android:src="@drawable/ic_baseline_person_24"/>
+    </LinearLayout>
+
+    <View
+        android:id="@+id/hr2"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@+id/toolbarLl"
+        android:layout_marginBottom="8dp"
+        android:background="@color/primaryYellow"/>
+
+    <!--Messages-->
+    <androidx.core.widget.NestedScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:descendantFocusability="blocksDescendants"
+        android:layout_below="@+id/hr2"
         android:layout_above="@+id/chatLl">
 
         <androidx.recyclerview.widget.RecyclerView
@@ -18,8 +72,9 @@
             android:layout_above="@+id/chatLl"
             android:layout_alignParentTop="true" />
 
-    </ScrollView>
+    </androidx.core.widget.NestedScrollView>
 
+    <!--Message Input-->
     <LinearLayout
         android:id="@+id/chatLl"
         android:layout_alignParentBottom="true"
@@ -29,51 +84,64 @@
         android:layout_marginVertical="5dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
-        android:weightSum="100">
+        android:weightSum="5">
 
         <EditText
             android:id="@+id/msgBoxEt"
             android:layout_width="wrap_content"
             android:layout_height="50dp"
-            android:layout_weight="75"
-            android:layout_marginLeft="10dp"
-            android:paddingLeft="10dp"
-            android:inputType="textNoSuggestions"
+            android:layout_weight="4"
+            android:layout_marginLeft="7dp"
+            android:paddingStart="10dp"
+            android:maxHeight="?actionBarSize"
+            android:maxWidth="?actionBarSize"
+            android:inputType="textVisiblePassword"
+            android:singleLine="true"
             android:background="@drawable/msg_box_bg"
-            android:hint="Send a message..."/>
+            android:hint="@string/textMessage"/>
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_weight="25"
+            android:layout_weight="1"
             android:orientation="horizontal">
 
-            <LinearLayout
+            <FrameLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:padding="5dp"
                 android:gravity="center"
                 android:orientation="vertical">
                 <ImageView
                     android:id="@+id/uploadImgBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:src="@drawable/ic_baseline_add_a_photo_24" />
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:src="@drawable/ic_baseline_insert_photo_24_gray" />
 
+                <ImageView
+                    android:id="@+id/cancelUploadBtn"
+                    android:layout_width="13dp"
+                    android:layout_height="13dp"
+                    android:visibility="gone"
+                    android:elevation="5dp"
+                    android:layout_gravity="top|right"
+                    android:src="@drawable/ic_baseline_close_24" />
 
-            </LinearLayout>
+            </FrameLayout>
 
             <LinearLayout
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
+                android:padding="5dp"
                 android:gravity="center"
                 android:orientation="vertical">
 
                 <ImageView
                     android:id="@+id/sendMsgBtn"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
                     android:src="@drawable/ic_baseline_send_24" />
 
 

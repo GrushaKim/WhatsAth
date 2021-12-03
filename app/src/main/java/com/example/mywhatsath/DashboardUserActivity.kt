@@ -3,11 +3,6 @@ package com.example.mywhatsath
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
-import android.widget.LinearLayout
-import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mywhatsath.adapters.UserAdapter
@@ -16,7 +11,6 @@ import com.example.mywhatsath.models.ModelUser
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.protobuf.Value
 
 class DashboardUserActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDashboardUserBinding
@@ -89,6 +83,37 @@ class DashboardUserActivity : AppCompatActivity() {
     private fun loadChatlist() {
         val ref = fbDbRef.getReference("Users")
 
+        ref.child(fbAuth.uid!!)
+            .child("followed")
+            .addListenerForSingleValueEvent(object: ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    userList.clear()
+
+                    for(ds in snapshot.children){
+                        val followedUser = ds.child("uid").getValue(String::class.java)
+
+                        ref.addListenerForSingleValueEvent(object: ValueEventListener{
+                            override fun onDataChange(snapshot: DataSnapshot) {
+
+                                for(pds in snapshot.children){
+                                    val currentUser = pds.getValue(ModelUser::class.java)
+                                    if(currentUser!!.uid == followedUser)
+                                        userList.add(currentUser!!)
+                                }
+
+                            userAdapter.notifyDataSetChanged()
+                            }
+                            override fun onCancelled(error: DatabaseError) {
+                            }
+                        })
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
+
+       /* val ref = fbDbRef.getReference("Users")
+
         ref.child(fbAuth.uid!!).child("followed").addListenerForSingleValueEvent(object: ValueEventListener{
 
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -115,7 +140,7 @@ class DashboardUserActivity : AppCompatActivity() {
             }
             override fun onCancelled(error: DatabaseError) {
             }
-        })
+        })*/
 
         /*ref.child(fbAuth.uid!!).child("followed").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -132,6 +157,12 @@ class DashboardUserActivity : AppCompatActivity() {
             override fun onCancelled(error: DatabaseError) {
             }
         })*/
+    }
+
+    private fun loadChatListProcess(followedUser: String?) {
+        val ref = fbDbRef.getReference("Users")
+
+
     }
 
 

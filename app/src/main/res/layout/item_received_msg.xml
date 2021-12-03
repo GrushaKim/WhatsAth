@@ -8,13 +8,13 @@
 
     <RelativeLayout
         android:id="@+id/receivedMsgRl"
-        android:layout_width="280dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:background="@drawable/rounded_corner_gray_msg">
         <com.google.android.material.imageview.ShapeableImageView
             android:id="@+id/receivedIv"
-            android:layout_width="match_parent"
+            android:layout_width="250dp"
             android:layout_height="230dp"
             android:layout_centerHorizontal="true"
             android:layout_margin="5dp"

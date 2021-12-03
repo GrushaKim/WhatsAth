@@ -57,7 +57,7 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.HolderSearch>, Filterabl
         val model = searchList[position]
         val uid = model.uid
 
-        hashMap["followed"] = uid
+        hashMap["uid"] = uid
 
         // set to holder
         holder.nameTv.text = model.name
@@ -83,19 +83,33 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.HolderSearch>, Filterabl
             holder.genderIv.setImageResource(R.drawable.ic_woman)
         }
 
-        // check if the user want to contact the selected
+        // confirm if the current user want to contact the selected user
         holder.profileIv.setOnClickListener {
 
             val builder = AlertDialog.Builder(context)
-            builder.setMessage("Do you want to contact?")
+            builder.setMessage("Do you want to add ${model.name} to your chatlist?")
                 .setCancelable(false)
                 .setPositiveButton("Yes") { dialog, id ->
                     // add uid to followings&followed
                     val ref = fbDbRef.getReference("Users")
                     ref.child(fbAuth.uid!!).child("followed")
-
+                        .push()
+                        .setValue(hashMap)
                         .addOnSuccessListener {
                             Log.d("SEARCHADAPTER_TAG", "onBindViewHolder: successfully added to followed")
+
+                            val hashMap2: HashMap<String, Any?> = HashMap()
+                            hashMap2["uid"] = fbAuth.uid!!
+
+                            ref.child(uid!!).child("followings")
+                                .push()
+                                .setValue(hashMap2)
+                                .addOnSuccessListener {
+                                    Log.d("SEARCHADAPTER_TAG", "onBindViewHolder: successfully added to followings")
+                                }
+                                .addOnFailureListener { e ->
+                                    Log.d("SEARCHADAPTER_TAG", "onBindViewHolder: failed to add to followings. Error: ${e.message}")
+                                }
                         }
                         .addOnFailureListener { e ->
                             Toast.makeText(context, "Failed to contact", Toast.LENGTH_SHORT).show()

@@ -20,7 +20,7 @@ class DashboardUserActivity : AppCompatActivity() {
 
     // firebase auth, db
     private lateinit var fbAuth: FirebaseAuth
-    private lateinit var fbDbRef: DatabaseReference
+    private lateinit var fbDbRef: FirebaseDatabase
     // userlist recyclerview & adapter
     private lateinit var userRecyclerView: RecyclerView
     private lateinit var userList: ArrayList<ModelUser>
@@ -35,12 +35,15 @@ class DashboardUserActivity : AppCompatActivity() {
 
         // init auth&db
         fbAuth = FirebaseAuth.getInstance()
-        fbDbRef = FirebaseDatabase.getInstance().getReference()
+        fbDbRef = FirebaseDatabase.getInstance()
         checkUser()
 
         // init arraylist for holder
         userList = ArrayList()
         userAdapter = UserAdapter(this, userList)
+
+        // load chatlist
+        loadChatlist()
 
         // bottom drawer
         BottomSheetBehavior.from(binding.bottomDrawerSheet).apply {
@@ -72,21 +75,22 @@ class DashboardUserActivity : AppCompatActivity() {
         userRecyclerView.layoutManager = LinearLayoutManager(this)
         userRecyclerView.adapter = userAdapter
 
-        fbDbRef.child("Users").addValueEventListener(object: ValueEventListener{
+    }
+
+    private fun loadChatlist() {
+        val ref = fbDbRef.getReference("Users")
+        ref.child(fbAuth.uid!!).child("followed").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 // clear a previous list
                 userList.clear()
                 // get the data
-                for(postSnapshot in snapshot.children){
+                for (postSnapshot in snapshot.children) {
                     val currentUser = postSnapshot.getValue(ModelUser::class.java)
-
-                    // add all friends except the current user
-                    if(fbAuth.currentUser?.uid != currentUser?.uid){
                         userList.add(currentUser!!)
-                    }
                 }
                 userAdapter.notifyDataSetChanged()
             }
+
             override fun onCancelled(error: DatabaseError) {
             }
         })

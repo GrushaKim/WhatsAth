@@ -38,6 +38,9 @@ class ChatActivity : AppCompatActivity() {
     //progress dialog
     private lateinit var pDialog: ProgressDialog
 
+    //check hearts
+    private var hasHearts = false
+
     companion object{
         const val TAG = "CHAT_TAG"
     }
@@ -79,14 +82,12 @@ class ChatActivity : AppCompatActivity() {
         // check if imageUri exists
         checkImageUri(imageUri)
 
+        // check if the user liked the receiver
+        checkHearts(receiverId)
+
         // back button click
         binding.backBtn.setOnClickListener {
             onBackPressed()
-        }
-
-        // block click
-        binding.blockBtn.setOnClickListener {
-            blockUser(receiverId)
         }
 
         // pick image from gallery
@@ -108,7 +109,111 @@ class ChatActivity : AppCompatActivity() {
                 uploadImage(senderId, receiverId)
             }
         }
+        // Hearts button click
+        binding.heartsBtn.setOnClickListener {
+            // check HasHearts
+            if(hasHearts){
+                removeHearts(receiverId)
+            }else{
+                addHearts(receiverId)
+            }
+        }
     }
+
+    private fun addHearts(receiverId: String?) {
+
+        val timestamp = System.currentTimeMillis()
+
+        //setup data
+        val hashMap = HashMap<String, Any>()
+        hashMap["userId"] = fbAuth.uid!!
+        hashMap["timestamp"] = timestamp
+
+        //save to database
+        val ref = fbDbRef.getReference("Users")
+        ref.child(receiverId!!).child("hearts").child(fbAuth.uid!!)
+            .setValue(hashMap)
+            .addOnSuccessListener {
+                Log.d(TAG, "addHearts: adding to hearts")
+                ref.child(receiverId!!)
+                    .addListenerForSingleValueEvent(object: ValueEventListener{
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            var heartsCnt = "${snapshot.child("heartsCnt").value}"
+                            if(heartsCnt=="" || heartsCnt=="null"){
+                                heartsCnt = "0"
+                            }
+                            // increase count
+                            val newHeartsCnt = heartsCnt.toInt() +1
+                            val hashMap = HashMap<String, Any>()
+                            hashMap["heartsCnt"] = newHeartsCnt
+                            ref.child(receiverId!!)
+                                .updateChildren(hashMap)
+                                .addOnCompleteListener {
+                                    Log.d(TAG, "onDataChange: updated heartsCnt")
+                                }
+                        }
+                        override fun onCancelled(error: DatabaseError) {
+                            TODO("Not yet implemented")
+                        }
+                    })
+            }
+            .addOnFailureListener { e ->
+                Log.d(TAG, "addHearts: failed to add to hearts. Error: ${e.message}")
+            }
+    }
+
+    private fun removeHearts(receiverId: String?) {
+        val ref = fbDbRef.getReference("Users")
+        ref.child(receiverId!!).child("hearts").child(fbAuth.uid!!)
+            .removeValue()
+            .addOnSuccessListener {
+                ref.child(receiverId!!)
+                    .addListenerForSingleValueEvent(object: ValueEventListener{
+                        override fun onDataChange(snapshot: DataSnapshot) {
+                            var heartsCnt = "${snapshot.child("heartsCnt").value}"
+                            if(heartsCnt=="" || heartsCnt=="null"){
+                                Log.d(TAG, "removeHearts: removed hearts")
+                            }else{
+                                // decrease count
+                                val newHeartsCnt = heartsCnt.toInt() -1
+                                val hashMap = HashMap<String, Any>()
+                                hashMap["heartsCnt"] = newHeartsCnt
+                                ref.child(receiverId!!)
+                                    .updateChildren(hashMap)
+                                    .addOnCompleteListener {
+                                        Log.d(TAG, "onDataChange: updated heartsCnt")
+                                    }
+                            }
+                        }
+                        override fun onCancelled(error: DatabaseError) {
+                        }
+                    })
+            }
+            .addOnFailureListener { e ->
+                Log.d(TAG, "removeHearts: failed to remove hearts. Error: ${e.message}")
+            }
+    }
+
+    private fun checkHearts(receiverId: String?) {
+        Log.d(TAG, "checkHearts: check if the current user liked the receiver")
+        val ref = fbDbRef.getReference("Users")
+        ref.child(receiverId!!).child("hearts").child(fbAuth.uid!!)
+            .addValueEventListener(object: ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    hasHearts = snapshot.exists()
+                    if(hasHearts){
+                        Log.d(TAG, "onDataChange: unavailable to click Hearts")
+                        binding.heartsBtn.setImageResource(R.drawable.ic_hearts_red)
+                    }else{
+                        Log.d(TAG, "onDataChange: available to click Hearts")
+                        binding.heartsBtn.setImageResource(R.drawable.ic_hearts)
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
+    }
+
 
     private fun blockUser(receiverId: String?) {
         val builder = AlertDialog.Builder(this)

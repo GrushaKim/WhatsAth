@@ -73,7 +73,9 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>{
         fbDbRef = FirebaseDatabase.getInstance()
 
         val ref = fbDbRef.getReference("Chat")
-        ref.child("")
+
+
+
 
         // set the data
         holder.nameTv.text = currentUser.name
@@ -96,6 +98,8 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>{
 
             context.startActivity(intent)
         }
+
+
     }
 
 
@@ -120,8 +124,19 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>{
             popupMenus.inflate(R.menu.menu)
             popupMenus.setOnMenuItemClickListener {
                 when(it.itemId){
+                    // add to favorite
                     R.id.hearts -> {
-                        Toast.makeText(context, "Clicked", Toast.LENGTH_SHORT).show()
+                        Toast.makeText(context, "userId is ${position.uid} ", Toast.LENGTH_SHORT).show()
+                        true
+                    }
+                    // show profile
+                    R.id.profile -> {
+
+                        true
+                    }
+                    // block the user
+                    R.id.block -> {
+
                         true
                     }
                     else -> true

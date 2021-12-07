@@ -10,7 +10,8 @@ class ModelUser{
     var sport: String? = null
     var aboutMe: String? = null
     var sex: String? = null
-    var hearts: Int? = 0
+
+
 
     constructor(){}
     constructor(
@@ -22,8 +23,7 @@ class ModelUser{
         level: String?,
         sport: String?,
         aboutMe: String?,
-        sex: String?,
-        hearts: Int?
+        sex: String?
     ) {
         this.name = name
         this.email = email
@@ -34,7 +34,6 @@ class ModelUser{
         this.sport = sport
         this.aboutMe = aboutMe
         this.sex = sex
-        this.hearts = hearts
     }
 
 

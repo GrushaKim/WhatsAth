@@ -32,7 +32,7 @@ class ProfileActivity : AppCompatActivity() {
 
         //back button click
         binding.backBtn.setOnClickListener {
-            onBackPressed()
+            startActivity(Intent(this@ProfileActivity, DashboardUserActivity::class.java))
         }
 
         //edit button click

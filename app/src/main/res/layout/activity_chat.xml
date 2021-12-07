@@ -47,13 +47,13 @@
             android:padding="2dp"
             android:src="@drawable/ic_baseline_person_24"/>
         <ImageView
-            android:id="@+id/blockBtn"
+            android:id="@+id/heartsBtn"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_weight="0.5"
             android:layout_marginStart="10dp"
             android:padding="5dp"
-            android:src="@drawable/ic_baseline_block_24"/>
+            android:src="@drawable/ic_hearts"/>
 
     </LinearLayout>
 

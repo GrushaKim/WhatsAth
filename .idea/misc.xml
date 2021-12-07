@@ -9,6 +9,7 @@
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_add_a_photo_24.xml" value="0.24375" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_add_a_photo_gray24.xml" value="0.24375" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_arrow_back_24.xml" value="0.10277777777777777" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_block_24.xml" value="0.20104166666666667" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_check_24.xml" value="0.2160367722165475" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_check_circle_outline_24.xml" value="0.24375" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_directions_run_24.xml" value="0.24375" />
@@ -16,8 +17,10 @@
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_error_outline_24.xml" value="0.24375" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_insert_photo_24.xml" value="0.24375" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_manage_search_24_gray.xml" value="0.24375" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_more_vert_24.xml" value="0.2390194075587334" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_person_24.xml" value="0.1" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_power_settings_new_24.xml" value="0.24375" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_remove_circle_24.xml" value="0.24375" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_search_24.xml" value="0.24375" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_self_improvement_24.xml" value="0.24375" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_send_24.xml" value="0.11481481481481481" />
@@ -29,6 +32,7 @@
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_top_wave_blue.xml" value="0.24375" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_woman.xml" value="0.24375" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/menu_rounded_bg.xml" value="0.1" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/more_btn_border.xml" value="0.1" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/msg_box_bg.xml" value="0.1" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/rounded_corner_blue.xml" value="0.13148148148148148" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/rounded_corner_dimblue_msg.xml" value="0.24375" />
@@ -48,15 +52,16 @@
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/activity_search.xml" value="0.264" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/activity_splash.xml" value="0.16" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/dropdown_item.xml" value="0.264" />
-        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/item_dashboard_user.xml" value="0.1" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/item_dashboard_user.xml" value="0.4" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/item_received_msg.xml" value="0.1" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/item_search_list.xml" value="0.264" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/item_sent_msg.xml" value="0.264" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/list_item.xml" value="0.1" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/menu_drawer.xml" value="0.152" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/nav_holder.xml" value="0.16" />
-        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/menu/menu.xml" value="0.17222222222222222" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/menu/menu.xml" value="0.536" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/menu/nav_menu.xml" value="0.4" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/menu/user_menu.xml" value="0.18072916666666666" />
       </map>
     </option>
   </component>

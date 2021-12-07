@@ -64,7 +64,7 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.HolderSearch>, Filterabl
         holder.emailTv.text = model.email
         holder.sportTv.text = model.sport
         holder.levelTv.text = model.level
-        
+
         if(model.profileImage.isNullOrBlank()){
             holder.profileIv.setImageResource(R.drawable.ic_baseline_person_24)
         }else{
@@ -87,7 +87,7 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.HolderSearch>, Filterabl
         holder.profileIv.setOnClickListener {
 
             val builder = AlertDialog.Builder(context)
-            builder.setMessage("Do you want to add ${model.name} to your chatlist?")
+            builder.setMessage("Add ${model.name} to your chatlist?")
                 .setCancelable(false)
                 .setPositiveButton("Yes") { dialog, id ->
                     // add uid to followings&followed

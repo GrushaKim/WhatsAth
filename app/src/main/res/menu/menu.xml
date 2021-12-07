@@ -2,10 +2,17 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/profile"
-        android:title="Profile"/>
+        android:title="Profile"
+        android:icon="@drawable/ic_baseline_badge_24"/>
 
     <item
-        android:id="@+id/logout"
-        android:title="Logout"/>
+        android:id="@+id/hearts"
+        android:title="Add to Favorite"
+        android:icon="@drawable/ic_hearts"/>
+
+    <item
+        android:id="@+id/block"
+        android:title="Block"
+        android:icon="@drawable/ic_baseline_block_24"/>
 
 </menu>

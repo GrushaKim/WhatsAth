@@ -6,6 +6,27 @@
     android:orientation="vertical"
     android:gravity="center">
 
+<!--    &lt;!&ndash;Swipe Layout&ndash;&gt;
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:orientation="horizontal"
+        android:padding="5dp">
+        <ImageView
+            android:id="@+id/blockBtn"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:gravity="end|center_vertical"
+            android:src="@drawable/ic_baseline_block_24"/>
+        <ImageView
+            android:id="@+id/deleteBtn"
+            android:layout_width="70dp"
+            android:layout_height="match_parent"
+            android:gravity="end|center_vertical"
+            android:src="@drawable/ic_baseline_remove_circle_24"/>
+    </LinearLayout>-->
+
+    <!--Main Layout-->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -27,31 +48,58 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="5dp"
-        android:orientation="vertical"
-        android:layout_gravity="center">
-        <TextView
-            android:id="@+id/nameTv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Name"
-            android:textStyle="bold"
-            android:layout_marginBottom="5dp"
-            android:maxLines="1"
-            android:textSize="18sp"/>
-        <TextView
-            android:id="@+id/dummyTv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="temp"
-            android:maxLines="14"
-            android:textSize="16sp"/>
+        android:orientation="horizontal"
+        android:layout_gravity="center_vertical">
+        <LinearLayout
+            android:id="@+id/infoLl"
+            android:layout_width="0dp"
+            android:layout_weight="3.5"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+            <TextView
+                android:id="@+id/nameTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Name"
+                android:textStyle="bold"
+                android:layout_marginBottom="5dp"
+                android:maxLines="1"
+                android:textSize="18sp"/>
+            <TextView
+                android:id="@+id/dummyTv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="temp"
+                android:maxLines="14"
+                android:textSize="16sp"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="0.5"
+            android:orientation="vertical"
+            android:layout_gravity="center">
+            <ImageView
+                android:id="@+id/moreBtn"
+                android:layout_width="30dp"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_baseline_more_vert_24"/>
+
+        </LinearLayout>
 
     </LinearLayout>
-    </LinearLayout>
 
-    //check to delete
+
+
+    <!--//check to delete
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/primaryDimBlue"/>
+            android:background="@color/primaryDimBlue"/>-->
+    </LinearLayout>
+
+
 </LinearLayout>

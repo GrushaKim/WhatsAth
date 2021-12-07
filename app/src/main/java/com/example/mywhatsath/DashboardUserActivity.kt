@@ -1,8 +1,12 @@
 package com.example.mywhatsath
 
+import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mywhatsath.adapters.UserAdapter
@@ -45,6 +49,13 @@ class DashboardUserActivity : AppCompatActivity() {
         followedList = ArrayList()
         userAdapter = UserAdapter(this, userList)
 
+        // init recyclerview
+        userRecyclerView = binding.userRecyclerView
+        userRecyclerView.layoutManager = LinearLayoutManager(this)
+        userRecyclerView.adapter = userAdapter
+
+        /*setItemTouchHelper()*/
+
         // load chatlist
         loadChatlist()
 
@@ -73,12 +84,39 @@ class DashboardUserActivity : AppCompatActivity() {
             this.recreate()
         }
 
-        // init recyclerview
-        userRecyclerView = binding.userRecyclerView
-        userRecyclerView.layoutManager = LinearLayoutManager(this)
-        userRecyclerView.adapter = userAdapter
+
 
     }
+
+   /* private fun setItemTouchHelper() {
+        ItemTouchHelper(object: ItemTouchHelper.Callback(){
+            override fun getMovementFlags(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder
+            ): Int {
+                val dragFlags = 0 // no drag
+                val swipeFlags = ItemTouchHelper.LEFT
+                return makeMovementFlags(dragFlags, swipeFlags)
+            }
+
+            override fun onMove(
+                recyclerView: RecyclerView,
+                viewHolder: RecyclerView.ViewHolder,
+                target: RecyclerView.ViewHolder
+            ): Boolean {
+                return true
+            }
+
+            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                if(4 == direction){
+                    viewHolder.itemId
+                    Log.d(TAG, "onSwiped: ${viewHolder.itemId}")
+                }
+            }
+        }).apply {
+            attachToRecyclerView(userRecyclerView)
+        }
+    }*/
 
     private fun loadChatlist() {
         val ref = fbDbRef.getReference("Users")
@@ -101,7 +139,7 @@ class DashboardUserActivity : AppCompatActivity() {
                                         userList.add(currentUser!!)
                                 }
 
-                            userAdapter.notifyDataSetChanged()
+                                userAdapter.notifyDataSetChanged()
                             }
                             override fun onCancelled(error: DatabaseError) {
                             }
@@ -112,35 +150,31 @@ class DashboardUserActivity : AppCompatActivity() {
                 }
             })
 
-       /* val ref = fbDbRef.getReference("Users")
-
-        ref.child(fbAuth.uid!!).child("followed").addListenerForSingleValueEvent(object: ValueEventListener{
-
-            override fun onDataChange(snapshot: DataSnapshot) {
-//                followedList.clear()
-                for(ds in snapshot.children) {
-                    val followedUser =  ds.child("uid").value.toString()
-//                    followedList.add(followedUser!!)
-                    Log.d(TAG, "onDataChange: $followedUser")
-
-                    ref.child(followedUser!!).addListenerForSingleValueEvent(object: ValueEventListener{
-                        override fun onDataChange(snapshot: DataSnapshot) {
-                            userList.clear()
-                            for(ds in snapshot.children){
-                                val currentUser = ds.getValue(ModelUser::class.java)
-                                userList.add(currentUser!!)
-                            }
-                            userAdapter.notifyDataSetChanged()
-                        }
-
-                        override fun onCancelled(error: DatabaseError) {
-                        }
-                })
-            }
-            }
-            override fun onCancelled(error: DatabaseError) {
-            }
-        })*/
+        /* val ref = fbDbRef.getReference("Users")
+         ref.child(fbAuth.uid!!).child("followed").addListenerForSingleValueEvent(object: ValueEventListener{
+             override fun onDataChange(snapshot: DataSnapshot) {
+ //                followedList.clear()
+                 for(ds in snapshot.children) {
+                     val followedUser =  ds.child("uid").value.toString()
+ //                    followedList.add(followedUser!!)
+                     Log.d(TAG, "onDataChange: $followedUser")
+                     ref.child(followedUser!!).addListenerForSingleValueEvent(object: ValueEventListener{
+                         override fun onDataChange(snapshot: DataSnapshot) {
+                             userList.clear()
+                             for(ds in snapshot.children){
+                                 val currentUser = ds.getValue(ModelUser::class.java)
+                                 userList.add(currentUser!!)
+                             }
+                             userAdapter.notifyDataSetChanged()
+                         }
+                         override fun onCancelled(error: DatabaseError) {
+                         }
+                 })
+             }
+             }
+             override fun onCancelled(error: DatabaseError) {
+             }
+         })*/
 
         /*ref.child(fbAuth.uid!!).child("followed").addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -153,17 +187,11 @@ class DashboardUserActivity : AppCompatActivity() {
                 }
                 userAdapter.notifyDataSetChanged()
             }
-
             override fun onCancelled(error: DatabaseError) {
             }
         })*/
     }
 
-    private fun loadChatListProcess(followedUser: String?) {
-        val ref = fbDbRef.getReference("Users")
-
-
-    }
 
 
     private fun checkUser() {

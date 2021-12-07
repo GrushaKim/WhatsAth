@@ -25,14 +25,14 @@ class MainActivity : AppCompatActivity() {
 
         supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        binding.navView.setNavigationItemSelectedListener {
+        /*binding.navView.setNavigationItemSelectedListener {
             when(it.itemId){
                 R.id.nav_chat -> startActivity(Intent(this@MainActivity, DashboardUserActivity::class.java))
                 R.id.nav_profile -> startActivity(Intent(this@MainActivity, ProfileActivity::class.java))
             }
 
             true
-        }
+        }*/
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {

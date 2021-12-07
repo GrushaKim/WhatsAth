@@ -27,13 +27,4 @@
 
    </androidx.constraintlayout.widget.ConstraintLayout>
 
-   <com.google.android.material.navigation.NavigationView
-       android:id="@+id/navView"
-       android:layout_width="wrap_content"
-       android:layout_height="match_parent"
-       android:foregroundGravity="left"
-       android:fitsSystemWindows="true"
-       app:headerLayout="@layout/nav_holder"
-       app:menu="@menu/nav_menu"
-       />
 </androidx.drawerlayout.widget.DrawerLayout>

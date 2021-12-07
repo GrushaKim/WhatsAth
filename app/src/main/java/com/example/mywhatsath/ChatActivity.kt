@@ -1,6 +1,7 @@
 package com.example.mywhatsath
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
@@ -13,7 +14,6 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.core.widget.NestedScrollView
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -84,6 +84,11 @@ class ChatActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+        // block click
+        binding.blockBtn.setOnClickListener {
+            blockUser(receiverId)
+        }
+
         // pick image from gallery
         binding.uploadImgBtn.setOnClickListener {
             pickImageFromGallery()
@@ -103,6 +108,30 @@ class ChatActivity : AppCompatActivity() {
                 uploadImage(senderId, receiverId)
             }
         }
+    }
+
+    private fun blockUser(receiverId: String?) {
+        val builder = AlertDialog.Builder(this)
+        builder.setMessage("Block this user?")
+            .setCancelable(false)
+            .setPositiveButton("Block"){ dialog, id ->
+                val ref = fbDbRef.getReference("Users")
+                val hashMap = HashMap<String, Any>()
+                hashMap.put(receiverId.toString(), receiverId.toString())
+                ref.child(fbAuth.uid!!).child("blocked")
+                    .updateChildren(hashMap)
+                    .addOnSuccessListener {
+                        Log.d(TAG, "blockUser: successfully blocked the user")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.d(TAG, "blockUser: failed to block the user")
+                    }
+            }
+            .setNegativeButton("Cancel"){ dialog, id ->
+                dialog.dismiss()
+            }
+        val alert = builder.create()
+        alert.show()
     }
 
     private fun loadMessages(senderId: String, receiverId: String?) {

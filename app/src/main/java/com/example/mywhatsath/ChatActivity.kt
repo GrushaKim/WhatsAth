@@ -289,6 +289,11 @@ class ChatActivity : AppCompatActivity() {
                     imageUri = null
                     checkImageUri(imageUri)
                     binding.msgBoxEt.setText("")
+                    
+                    val hashMap2: HashMap<String, Any?> = HashMap()
+                    hashMap2["latestMessage"] = message
+
+
 
                 }
                 .addOnFailureListener { e ->

@@ -18,6 +18,7 @@ import com.example.mywhatsath.ChatActivity
 import com.example.mywhatsath.ProfileActivity
 import com.example.mywhatsath.R
 import com.example.mywhatsath.databinding.ItemDashboardUserBinding
+import com.example.mywhatsath.models.ModelMessage
 import com.example.mywhatsath.models.ModelUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -30,6 +31,7 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>{
 
     private val context: Context
     var userList: ArrayList<ModelUser>
+    lateinit var latestMessage: String
     private lateinit var fbAuth: FirebaseAuth
     private lateinit var fbDbRef: FirebaseDatabase
 
@@ -75,6 +77,7 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>{
 
         // set the data
         holder.nameTv.text = currentUser.name
+
         if(profileImage.isNullOrBlank()){
             holder.profileImageIv.setImageResource(R.drawable.ic_baseline_person_24)
         }else{
@@ -104,8 +107,6 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>{
 
 
     }
-
-
 
 
 

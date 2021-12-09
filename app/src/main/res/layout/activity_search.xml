@@ -7,11 +7,12 @@
     android:orientation="vertical"
     tools:context=".SearchActivity">
 
+
     <!--Category Tabs-->
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="40dp"
         android:layout_marginVertical="10dp"
         android:layout_marginHorizontal="5dp"
         app:tabIndicatorFullWidth="false"
@@ -24,7 +25,7 @@
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content" />
 
 <!--        &lt;!&ndash;Search Bar&ndash;&gt;
         <com.google.android.material.textfield.TextInputLayout

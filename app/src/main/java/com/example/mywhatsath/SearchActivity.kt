@@ -98,37 +98,48 @@ class SearchActivity : AppCompatActivity() {
             FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,
             this
         )
-        userList = ArrayList()
+        categoryList = ArrayList()
 
         // load all sport categories from db
-        val ref = fbDbRef.getReference("Users")
+        val ref = fbDbRef.getReference("Sports")
         ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
-                userList.clear()
+                categoryList.clear()
 
-                val modelAll = ModelUser("01", "All", "", "", "",  "", "", "", 0)
-                val modelPopular =
-                    ModelUser("01", "Popular", "", "", "", "",  "", "", 0)
+                val modelAll = ModelSport("01", "All")
+                val modelPopular = ModelSport("01", "Popular")
 
-                userList.add(modelAll)
-                userList.add(modelPopular)
+                categoryList.add(modelAll)
+                categoryList.add(modelPopular)
 
                 viewPagerAdapter.addFragment(
                     SearchFragment.newInstance(
-                        "${modelAll.uid}",
-                        "${modelAll.name}"
-                    ), modelAll.name!!
+                        "${modelAll.id}",
+                        "${modelAll.sport}",
+                    ), modelAll.sport!!
                 )
                 viewPagerAdapter.addFragment(
                     SearchFragment.newInstance(
-                        "${modelPopular.uid}",
-                        "${modelPopular.name}"
-                    ), modelPopular.name!!
+                        "${modelPopular.id}",
+                        "${modelAll.sport}"
+                    ), modelPopular.sport!!
                 )
 
                 viewPagerAdapter.notifyDataSetChanged()
-            }
 
+                // load all sport categories from db
+                for(ds in snapshot.children){
+                    val model = ds.getValue(ModelSport::class.java)
+                        categoryList.add(model!!)
+                        viewPagerAdapter.addFragment(
+                            SearchFragment.newInstance(
+                                "${model.id}",
+                                "${model.sport}"
+                            ), model.sport!!
+                        )
+                        viewPagerAdapter.notifyDataSetChanged()
+                    }
+            }
             override fun onCancelled(error: DatabaseError) {
             }
         })
@@ -212,7 +223,6 @@ class SearchActivity : AppCompatActivity() {
             fragmentsList.add(fragment)
             fragmentCategoryList.add(category)
         }
-
     }
 
 /*private fun filterChips() {
@@ -238,42 +248,5 @@ class SearchActivity : AppCompatActivity() {
        }
     }*/
 
-    /* private fun entryChip() {
-        binding.searchEt.setOnKeyListener { view, keyCode, keyEvent ->
-            if(keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP){
 
-                binding.apply{
-                    val keyword = searchEt.text.toString().trim()
-                    createChips(keyword)
-                    searchEt.text.clear()
-                }
-
-                return@setOnKeyListener true
-            }
-
-            false
-        }
-    }*/
-
-    /*private fun createChips(keyword: String) {
-        val chip = Chip(this)
-        chip.apply{
-            text = keyword
-            chipIcon = ContextCompat.getDrawable(
-                this@SearchActivity,
-                R.drawable.ic_launcher_background
-            )
-            isChipIconVisible = false
-            isCloseIconVisible = true
-            isClickable = true
-            isCheckable = true
-            // set add+remove a single chip
-            binding.apply{
-                chipEntryGroup.addView(chip as View)
-                chip.setOnCloseIconClickListener {
-                    chipEntryGroup.removeView(chip as View)
-                }
-            }
-        }
-    }*/
 }

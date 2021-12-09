@@ -121,7 +121,7 @@ class SearchActivity : AppCompatActivity() {
                 viewPagerAdapter.addFragment(
                     SearchFragment.newInstance(
                         "${modelPopular.id}",
-                        "${modelAll.sport}"
+                        "${modelPopular.sport}"
                     ), modelPopular.sport!!
                 )
 

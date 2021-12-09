@@ -9,7 +9,7 @@ class ModelUser{
     var level: String? = null
     var sport: String? = null
     var aboutMe: String? = null
-    var heartsCnt: Int? = null
+    var heartsCnt: Long? = null
 
 
 
@@ -23,7 +23,7 @@ class ModelUser{
         level: String?,
         sport: String?,
         aboutMe: String?,
-        heartsCnt: Int?
+        heartsCnt: Long?
     ) {
         this.uid = uid
         this.name = name

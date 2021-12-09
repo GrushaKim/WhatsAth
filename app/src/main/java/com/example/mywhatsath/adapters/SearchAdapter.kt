@@ -84,35 +84,9 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.HolderSearch>, Filterabl
         holder.profileIv.setOnClickListener {
 
             val builder = AlertDialog.Builder(context)
-            builder.setMessage("Add ${model.name} to your chatlist?")
+            builder.setMessage("Contact ${model.name}?")
                 .setCancelable(false)
                 .setPositiveButton("Yes") { dialog, id ->
-                    // add uid to followings&followed
-                    val ref = fbDbRef.getReference("Users")
-                    ref.child(fbAuth.uid!!).child("followed")
-                        .child(uid!!)
-                        .setValue(hashMap)
-                        .addOnSuccessListener {
-                            Log.d("SEARCHADAPTER_TAG", "onBindViewHolder: successfully added to followed")
-
-                            val hashMap2: HashMap<String, Any?> = HashMap()
-                            hashMap2["uid"] = fbAuth.uid!!
-
-                            ref.child(uid!!).child("followings")
-                                .child(fbAuth.uid!!)
-                                .setValue(hashMap2)
-                                .addOnSuccessListener {
-                                    Log.d("SEARCHADAPTER_TAG", "onBindViewHolder: successfully added to followings")
-                                }
-                                .addOnFailureListener { e ->
-                                    Log.d("SEARCHADAPTER_TAG", "onBindViewHolder: failed to add to followings. Error: ${e.message}")
-                                }
-                        }
-                        .addOnFailureListener { e ->
-                            Toast.makeText(context, "Failed to contact", Toast.LENGTH_SHORT).show()
-                            Log.d("SEARCHADAPTER_TAG", "onBindViewHolder: failed to add to followed. Error: ${e.message}")
-                        }
-
                     // move to chat function
                     val intent = Intent(context, ChatActivity::class.java)
                     intent.putExtra("userId", uid)
@@ -123,8 +97,6 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.HolderSearch>, Filterabl
                 }
             val alert = builder.create()
             alert.show()
-
-
         }
     }
 

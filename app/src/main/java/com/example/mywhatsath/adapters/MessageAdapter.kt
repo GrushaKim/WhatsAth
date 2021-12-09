@@ -55,30 +55,30 @@ class MessageAdapter(
             val viewHolder = holder as SentViewHolder
 
             if(imageUrl.isNullOrEmpty()){
-                holder.sentMsg.text = msg
-                holder.msgDate.text = timeago
+                viewHolder.sentMsg.text = msg
+                viewHolder.msgDate.text = timeago
             } else{
                 if(msg == "" || msg == null){
-                    holder.sentIv.visibility = View.VISIBLE
-                    holder.sentMsg.visibility = View.GONE
-                    holder.msgDate.text = timeago
+                    viewHolder.sentIv.visibility = View.VISIBLE
+                    viewHolder.sentMsg.visibility = View.GONE
+                    viewHolder.msgDate.text = timeago
                     //set image
                     try{
                         Glide.with(context)
                             .load(imageUrl)
-                            .into(holder.sentIv)
+                            .into(viewHolder.sentIv)
                     } catch(e: Exception){
                         Log.d("MessageAdapter_TAG", "onBindViewHolder: Failed to load a picture from sentViewHolder")
                     }
                 }else{
-                    holder.sentIv.visibility = View.VISIBLE
-                    holder.sentMsg.text = msg
-                    holder.msgDate.text = timeago
+                    viewHolder.sentIv.visibility = View.VISIBLE
+                    viewHolder.sentMsg.text = msg
+                    viewHolder.msgDate.text = timeago
                     //set image
                     try{
                         Glide.with(context)
                             .load(imageUrl)
-                            .into(holder.sentIv)
+                            .into(viewHolder.sentIv)
                     } catch(e: Exception){
                         Log.d("MessageAdapter_TAG", "onBindViewHolder: Failed to load a picture from sentViewHolder")
                     }
@@ -89,30 +89,30 @@ class MessageAdapter(
         }else{ // ReceivedViewHolder
             val viewHolder = holder as ReceivedViewHolder
             if(imageUrl.isNullOrEmpty()){
-                holder.receivedMsg.text = currentMsg.message
-                holder.msgDate.text = timeago
+                viewHolder.receivedMsg.text = currentMsg.message
+                viewHolder.msgDate.text = timeago
             }else{
                 if(msg == "" || msg == null) {
-                    holder.receivedIv.visibility = View.VISIBLE
-                    holder.receivedMsg.visibility = View.GONE
-                    holder.msgDate.text = timeago
+                    viewHolder.receivedIv.visibility = View.VISIBLE
+                    viewHolder.receivedMsg.visibility = View.GONE
+                    viewHolder.msgDate.text = timeago
                     //set image
                     try{
                         Glide.with(context)
                             .load(imageUrl)
-                            .into(holder.receivedIv)
+                            .into(viewHolder.receivedIv)
                     } catch(e: Exception){
                         Log.d("MessageAdapter_TAG", "onBindViewHolder: Failed to load a picture from receivedViewHolder")
                     }
                 }else{
-                    holder.receivedIv.visibility = View.VISIBLE
-                    holder.receivedMsg.text = msg
-                    holder.msgDate.text = timeago
+                    viewHolder.receivedIv.visibility = View.VISIBLE
+                    viewHolder.receivedMsg.text = msg
+                    viewHolder.msgDate.text = timeago
                     //set image
                     try{
                         Glide.with(context)
                             .load(imageUrl)
-                            .into(holder.receivedIv)
+                            .into(viewHolder.receivedIv)
                     } catch(e: Exception){
                         Log.d("MessageAdapter_TAG", "onBindViewHolder: Failed to load a picture from receivedViewHolder")
                     }

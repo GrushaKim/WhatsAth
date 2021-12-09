@@ -40,16 +40,28 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>{
         this.userList = userList
     }
 
-    // delete specific chat
-    fun deleteItem(viewHolder: RecyclerView.ViewHolder){
-        val hashMap: HashMap<String, Any?> = HashMap()
-        /* list.removeAt(viewHolder.adapterPosition)
-        * notifyItemRemoved(viewHolder.adapterPosition)*/
-        /*userList.removeAt(i)
-        notifyDataSetChanged()*/
+    // delete specific chat by swipe
+    fun deleteItem(index: Int, receiverId: String){
+        val ref = FirebaseDatabase.getInstance().getReference("Chats")
+
+        userList.removeAt(index)
+        notifyDataSetChanged()
+
+        ref.child(fbAuth.uid!!)
+            .child("$receiverId")
+            .removeValue()
+            .addOnSuccessListener {
+                Log.d("UserAdapter_TAG", "deleteItem: successfully deleted messages ")
+                Toast.makeText(context, "All messages deleted", Toast.LENGTH_SHORT).show()
+            }
+            .addOnFailureListener { e ->
+                Log.d("UserAdapter_TAG", "deleteItem: failed to delete messages. Error: ${e.message} ")
+            }
+
     }
 
     fun blockItem(i: Int){
+
         userList.removeAt(i)
         notifyDataSetChanged()
     }
@@ -133,43 +145,8 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>{
         val dummyTv: TextView = binding.dummyTv
         val infoLl: LinearLayout = binding.infoLl
         val profileImageIv: CircleImageView = binding.profileImageIv
-        val moreBtn: ImageView = binding.moreBtn
 
-        init{
-            moreBtn.setOnClickListener { popupMenus(it) }
-        }
 
-        private fun popupMenus(itemView: View){
-            val position = userList[adapterPosition]
-            val popupMenus = PopupMenu(context, itemView)
-            popupMenus.inflate(R.menu.menu)
-            popupMenus.setOnMenuItemClickListener {
-                when(it.itemId){
-                    // add to favorite
-                    R.id.hearts -> {
-                        Toast.makeText(context, "userId is ${position.uid} ", Toast.LENGTH_SHORT).show()
-                        true
-                    }
-                    // show profile
-                    R.id.profile -> {
-
-                        true
-                    }
-                    // block the user
-                    R.id.block -> {
-
-                        true
-                    }
-                    else -> true
-                }
-            }
-            popupMenus.show()
-            val popup = PopupMenu::class.java.getDeclaredField("mPopup")
-            popup.isAccessible = true
-            val menu = popup.get(popupMenus)
-            menu.javaClass.getDeclaredMethod("setForceShowIcon", Boolean::class.java)
-                .invoke(menu,true)
-        }
     }
 
 

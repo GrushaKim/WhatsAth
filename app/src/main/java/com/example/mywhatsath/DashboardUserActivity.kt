@@ -11,10 +11,13 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mywhatsath.adapters.UserAdapter
 import com.example.mywhatsath.databinding.ActivityDashboardUserBinding
+import com.example.mywhatsath.models.ModelMessage
 import com.example.mywhatsath.models.ModelUser
+import com.example.mywhatsath.utils.SwipeToDeleteCallback
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
+import com.google.protobuf.Value
 
 class DashboardUserActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDashboardUserBinding
@@ -29,10 +32,8 @@ class DashboardUserActivity : AppCompatActivity() {
     // userlist recyclerview & adapter
     private lateinit var userRecyclerView: RecyclerView
     private lateinit var userList: ArrayList<ModelUser>
-    private lateinit var followedList: ArrayList<Any>
     private lateinit var userAdapter: UserAdapter
 
-    var latestMessage: String? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -46,18 +47,33 @@ class DashboardUserActivity : AppCompatActivity() {
 
         // init arraylist for holder
         userList = ArrayList()
-        followedList = ArrayList()
         userAdapter = UserAdapter(this, userList)
 
-        // init recyclerview
-        userRecyclerView = binding.userRecyclerView
-        userRecyclerView.layoutManager = LinearLayoutManager(this)
-        userRecyclerView.adapter = userAdapter
+        // init recyclerview with swipe to delete a specific chat
+        userRecyclerView = binding.userRecyclerView.apply{
+            adapter = userAdapter
+            layoutManager = LinearLayoutManager(this@DashboardUserActivity)
+            val swipeDelete = object: SwipeToDeleteCallback(this@DashboardUserActivity){
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    val arrPosition = viewHolder.absoluteAdapterPosition
+                    val receiverId = userList[arrPosition].uid.toString()
+
+                    userAdapter.deleteItem(viewHolder.adapterPosition, receiverId)
+                }
+            }
+
+            val touchHelper = ItemTouchHelper(swipeDelete)
+            touchHelper.attachToRecyclerView(this)
+        }
+
 
         /*setItemTouchHelper()*/
 
         // load chatlist
         loadChatlist()
+
+        // load userList
+        loadUserList()
 
 
         // bottom drawer
@@ -94,6 +110,11 @@ class DashboardUserActivity : AppCompatActivity() {
 
     }
 
+    private fun loadUserList() {
+        val ref = fbDbRef.getReference("Users")
+
+
+    }
 
 
     /* private fun setItemTouchHelper() {
@@ -127,26 +148,27 @@ class DashboardUserActivity : AppCompatActivity() {
      }*/
 
     private fun loadChatlist() {
-        val ref = fbDbRef.getReference("Users")
+        val chatRef = fbDbRef.getReference("Chats")
+        val userRef = fbDbRef.getReference("Users")
 
-        ref.child(fbAuth.uid!!)
-            .child("followed")
-            .addListenerForSingleValueEvent(object: ValueEventListener{
+        chatRef.child(fbAuth.uid!!)
+            .addListenerForSingleValueEvent(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
+
                     userList.clear()
 
                     for(ds in snapshot.children){
-                        val followedUser = ds.child("uid").getValue(String::class.java)
+                        Log.d(TAG, "onDataChange: successfully get the chat key - ${ds.key}")
+                        val chatKey = ds.key!!
 
-                        ref.addListenerForSingleValueEvent(object: ValueEventListener{
+                        // check if uid matches
+                        userRef.addListenerForSingleValueEvent(object: ValueEventListener{
                             override fun onDataChange(snapshot: DataSnapshot) {
-
                                 for(pds in snapshot.children){
-                                    val currentUser = pds.getValue(ModelUser::class.java)
-                                    if(currentUser!!.uid == followedUser)
-                                        userList.add(currentUser!!)
+                                    val chatUser = pds.getValue(ModelUser::class.java)
+                                    if(chatUser!!.uid == chatKey)
+                                        userList.add(chatUser!!)
                                 }
-
                                 userAdapter.notifyDataSetChanged()
                             }
                             override fun onCancelled(error: DatabaseError) {
@@ -157,47 +179,6 @@ class DashboardUserActivity : AppCompatActivity() {
                 override fun onCancelled(error: DatabaseError) {
                 }
             })
-
-        /* val ref = fbDbRef.getReference("Users")
-         ref.child(fbAuth.uid!!).child("followed").addListenerForSingleValueEvent(object: ValueEventListener{
-             override fun onDataChange(snapshot: DataSnapshot) {
- //                followedList.clear()
-                 for(ds in snapshot.children) {
-                     val followedUser =  ds.child("uid").value.toString()
- //                    followedList.add(followedUser!!)
-                     Log.d(TAG, "onDataChange: $followedUser")
-                     ref.child(followedUser!!).addListenerForSingleValueEvent(object: ValueEventListener{
-                         override fun onDataChange(snapshot: DataSnapshot) {
-                             userList.clear()
-                             for(ds in snapshot.children){
-                                 val currentUser = ds.getValue(ModelUser::class.java)
-                                 userList.add(currentUser!!)
-                             }
-                             userAdapter.notifyDataSetChanged()
-                         }
-                         override fun onCancelled(error: DatabaseError) {
-                         }
-                 })
-             }
-             }
-             override fun onCancelled(error: DatabaseError) {
-             }
-         })*/
-
-        /*ref.child(fbAuth.uid!!).child("followed").addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                // clear a previous list
-                userList.clear()
-                // get the data
-                for (postSnapshot in snapshot.children) {
-                    val currentUser = postSnapshot.getValue(ModelUser::class.java)
-                        userList.add(currentUser!!)
-                }
-                userAdapter.notifyDataSetChanged()
-            }
-            override fun onCancelled(error: DatabaseError) {
-            }
-        })*/
     }
 
 

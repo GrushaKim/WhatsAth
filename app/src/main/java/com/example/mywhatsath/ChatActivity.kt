@@ -72,7 +72,6 @@ class ChatActivity : AppCompatActivity() {
         chatRecyclerView.layoutManager = LinearLayoutManager(this)
         chatRecyclerView.adapter = messageAdapter
 
-
         // load name&profileImage of recipient
         loadToolbarInfo(receiverId)
 
@@ -252,6 +251,7 @@ class ChatActivity : AppCompatActivity() {
                         messageList.add(chat!!)
                 }
                 messageAdapter.notifyDataSetChanged()
+                chatRecyclerView.scrollToPosition(messageList.size -1)
             }
             override fun onCancelled(error: DatabaseError) {
             }
@@ -262,7 +262,6 @@ class ChatActivity : AppCompatActivity() {
     private fun sendMsg(senderId: String, receiverId: String?, uploadedImgUrl: String){
 
         // set data
-        val hashMap: HashMap<String, Any?> = HashMap()
         val message = binding.msgBoxEt.text.toString()
         val timestamp = System.currentTimeMillis()
 

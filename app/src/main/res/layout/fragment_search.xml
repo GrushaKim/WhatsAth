@@ -57,11 +57,6 @@
 
 
     <!--RecyclerView for Search Results-->
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:descendantFocusability="blocksDescendants"
-        android:background="@color/white">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/searchRecyclerView"
@@ -73,6 +68,5 @@
         android:layout_marginBottom="10dp"
         />
 
-    </androidx.core.widget.NestedScrollView>
 
 </LinearLayout>

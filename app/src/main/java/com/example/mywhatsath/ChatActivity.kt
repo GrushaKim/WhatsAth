@@ -241,7 +241,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun loadMessages(senderId: String, receiverId: String?) {
-        val ref = fbDbRef.getReference("Chat")
+        val ref = fbDbRef.getReference("/Chats/$senderId/$receiverId")
         ref.addValueEventListener(object: ValueEventListener{
             override fun onDataChange(snapshot: DataSnapshot) {
                 messageList.clear()
@@ -249,12 +249,7 @@ class ChatActivity : AppCompatActivity() {
                 // get all messages
                 for(ds: DataSnapshot in snapshot.children){
                     val chat = ds.getValue(ModelMessage::class.java)
-
-                    if(chat!!.senderId.equals(senderId) && chat!!.receiverId.equals(receiverId) ||
-                        chat!!.senderId.equals(receiverId) && chat!!.receiverId.equals(senderId)
-                    ){
-                        messageList.add(chat)
-                    }
+                        messageList.add(chat!!)
                 }
                 messageAdapter.notifyDataSetChanged()
             }
@@ -274,36 +269,33 @@ class ChatActivity : AppCompatActivity() {
         if(message.isNullOrEmpty() && uploadedImgUrl == ""){
             Toast.makeText(this, "Please type your message or attach an image", Toast.LENGTH_SHORT).show()
         }else{
-            hashMap["senderId"] = senderId
-            hashMap["receiverId"] = receiverId
-            hashMap["message"] = message
-            hashMap["image"] = uploadedImgUrl
-            hashMap["timestamp"] = timestamp
+            // save all messages to each room
+            val senderRef = fbDbRef.getReference("/Chats/$senderId/$receiverId").push()
+            val receiverRef = fbDbRef.getReference("/Chats/$receiverId/$senderId").push()
 
-            val ref = fbDbRef.getReference()
-            ref.child("Chat")
-                .push()
-                .setValue(hashMap)
+            val modelMessage = ModelMessage(
+                senderRef.key!!, message, receiverId, senderId, timestamp, uploadedImgUrl)
+
+            senderRef.setValue(modelMessage)
                 .addOnSuccessListener {
-                    Log.d(TAG, "sendMessage: This message has successfully been sent")
+                    Log.d(TAG, "sendMsg: succesfully saved the message to senderRef")
                     imageUri = null
                     checkImageUri(imageUri)
-                    binding.msgBoxEt.setText("")
-                    
-                    val hashMap2: HashMap<String, Any?> = HashMap()
-                    hashMap2["latestMessage"] = message
-
-
-
+                    binding.msgBoxEt.text.clear()
                 }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "Failed to send a message", Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, "sendMessage: Failed to send a message. Error: ${e.message}")
-                    imageUri = null
-                    checkImageUri(imageUri)
-                    binding.msgBoxEt.setText("")
-
+                .addOnFailureListener{ e ->
+                    Log.d(TAG, "sendMsg: failed to save the message. Error: ${e.message}")
                 }
+
+            receiverRef.setValue(modelMessage)
+
+            // save the latest message
+            val latestMsgRef = fbDbRef.getReference("/Latest-Message/$senderId/$receiverId")
+            latestMsgRef.setValue(modelMessage)
+
+            val latestMsgRefTo = fbDbRef.getReference("/Latest-Message/$receiverId/$senderId")
+            latestMsgRefTo.setValue(modelMessage)
+
         }
 
 

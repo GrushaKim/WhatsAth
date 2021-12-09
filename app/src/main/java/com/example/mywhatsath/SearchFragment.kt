@@ -142,7 +142,7 @@ class SearchFragment : Fragment {
                 choiceCg.addView(chip as View)
                 chip.setOnCloseIconClickListener {
                     choiceCg.removeView(chip as View)
-                    binding.searchEt.setText("")
+                    binding.searchEt.text.clear()
                 }
             }
         }

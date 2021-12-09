@@ -9,13 +9,6 @@
     tools:context=".DashboardUserActivity">
 
     <!--UserList-->
-    <androidx.core.widget.NestedScrollView
-        android:layout_marginVertical="15dp"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:descendantFocusability="blocksDescendants"
-        android:background="@color/white">
-
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/userRecyclerView"
         android:layout_width="match_parent"
@@ -24,8 +17,6 @@
         android:layout_marginTop="10dp"
         android:layout_marginHorizontal="10dp"
         />
-
-    </androidx.core.widget.NestedScrollView>
 
     <!--Bottom Drawer-->
     <FrameLayout

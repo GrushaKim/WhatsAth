@@ -49,12 +49,12 @@ class MessageAdapter(
         val timestamp = currentMsg.timestamp
         val msgDate = MyApplication.formatTimeStamp(timestamp!!)
         val timeago = MyApplication.formatTimeAgo(msgDate)
-        val image = currentMsg.image
+        val imageUrl = currentMsg.imageUrl
 
         if(holder.javaClass == SentViewHolder::class.java){
             val viewHolder = holder as SentViewHolder
 
-            if(image.isNullOrEmpty()){
+            if(imageUrl.isNullOrEmpty()){
                 holder.sentMsg.text = msg
                 holder.msgDate.text = timeago
             } else{
@@ -65,7 +65,7 @@ class MessageAdapter(
                     //set image
                     try{
                         Glide.with(context)
-                            .load(image)
+                            .load(imageUrl)
                             .into(holder.sentIv)
                     } catch(e: Exception){
                         Log.d("MessageAdapter_TAG", "onBindViewHolder: Failed to load a picture from sentViewHolder")
@@ -77,7 +77,7 @@ class MessageAdapter(
                     //set image
                     try{
                         Glide.with(context)
-                            .load(image)
+                            .load(imageUrl)
                             .into(holder.sentIv)
                     } catch(e: Exception){
                         Log.d("MessageAdapter_TAG", "onBindViewHolder: Failed to load a picture from sentViewHolder")
@@ -88,7 +88,7 @@ class MessageAdapter(
 
         }else{ // ReceivedViewHolder
             val viewHolder = holder as ReceivedViewHolder
-            if(image.isNullOrEmpty()){
+            if(imageUrl.isNullOrEmpty()){
                 holder.receivedMsg.text = currentMsg.message
                 holder.msgDate.text = timeago
             }else{
@@ -99,7 +99,7 @@ class MessageAdapter(
                     //set image
                     try{
                         Glide.with(context)
-                            .load(image)
+                            .load(imageUrl)
                             .into(holder.receivedIv)
                     } catch(e: Exception){
                         Log.d("MessageAdapter_TAG", "onBindViewHolder: Failed to load a picture from receivedViewHolder")
@@ -111,7 +111,7 @@ class MessageAdapter(
                     //set image
                     try{
                         Glide.with(context)
-                            .load(image)
+                            .load(imageUrl)
                             .into(holder.receivedIv)
                     } catch(e: Exception){
                         Log.d("MessageAdapter_TAG", "onBindViewHolder: Failed to load a picture from receivedViewHolder")

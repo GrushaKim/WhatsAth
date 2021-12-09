@@ -21,17 +21,14 @@ import com.example.mywhatsath.databinding.ItemDashboardUserBinding
 import com.example.mywhatsath.models.ModelMessage
 import com.example.mywhatsath.models.ModelUser
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.FirebaseDatabase
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import de.hdodenhof.circleimageview.CircleImageView
 
 class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>{
 
     private val context: Context
     var userList: ArrayList<ModelUser>
-    lateinit var latestMessage: String
+    var latestMessage: String = ""
     private lateinit var fbAuth: FirebaseAuth
     private lateinit var fbDbRef: FirebaseDatabase
 
@@ -74,9 +71,31 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>{
 
         fbAuth = FirebaseAuth.getInstance()
         fbDbRef = FirebaseDatabase.getInstance()
+        latestMessage = String()
+
+        val ref = fbDbRef.getReference("Latest-Message/${fbAuth.uid}/${currentUser.uid}")
 
         // set the data
         holder.nameTv.text = currentUser.name
+
+        // get the latest message of each chat
+
+            // check if each chat has the latest message
+            ref.addValueEventListener(object: ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    if(snapshot.exists()){
+                        val modelMessage = snapshot.getValue(ModelMessage::class.java)
+                        latestMessage = modelMessage!!.message!!.toString()
+                        holder.dummyTv.text = latestMessage
+                        Log.d("UserAdapter_TAG", "onDataChange: latestMessage of user - ${fbAuth.uid} to the user - ${currentUser.uid}is $latestMessage")
+                    }else{
+                        latestMessage = ""
+                        holder.dummyTv.text = latestMessage
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {
+                }
+            })
 
         if(profileImage.isNullOrBlank()){
             holder.profileImageIv.setImageResource(R.drawable.ic_baseline_person_24)
@@ -89,6 +108,7 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>{
                 Log.d("UserAdapter_TAG", "onBindViewHolder: Failed to load profileImage")
             }
         }
+
 
         // move to individual chat
         holder.infoLl.setOnClickListener {
@@ -107,9 +127,6 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>{
 
 
     }
-
-
-
 
     inner class UserViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
         val nameTv: TextView = binding.nameTv

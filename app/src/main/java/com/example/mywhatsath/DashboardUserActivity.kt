@@ -59,6 +59,7 @@ class DashboardUserActivity : AppCompatActivity() {
         // load chatlist
         loadChatlist()
 
+
         // bottom drawer
         BottomSheetBehavior.from(binding.bottomDrawerSheet).apply {
             peekHeight = 180
@@ -93,35 +94,37 @@ class DashboardUserActivity : AppCompatActivity() {
 
     }
 
-   /* private fun setItemTouchHelper() {
-        ItemTouchHelper(object: ItemTouchHelper.Callback(){
-            override fun getMovementFlags(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder
-            ): Int {
-                val dragFlags = 0 // no drag
-                val swipeFlags = ItemTouchHelper.LEFT
-                return makeMovementFlags(dragFlags, swipeFlags)
-            }
 
-            override fun onMove(
-                recyclerView: RecyclerView,
-                viewHolder: RecyclerView.ViewHolder,
-                target: RecyclerView.ViewHolder
-            ): Boolean {
-                return true
-            }
 
-            override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-                if(4 == direction){
-                    viewHolder.itemId
-                    Log.d(TAG, "onSwiped: ${viewHolder.itemId}")
-                }
-            }
-        }).apply {
-            attachToRecyclerView(userRecyclerView)
-        }
-    }*/
+    /* private fun setItemTouchHelper() {
+         ItemTouchHelper(object: ItemTouchHelper.Callback(){
+             override fun getMovementFlags(
+                 recyclerView: RecyclerView,
+                 viewHolder: RecyclerView.ViewHolder
+             ): Int {
+                 val dragFlags = 0 // no drag
+                 val swipeFlags = ItemTouchHelper.LEFT
+                 return makeMovementFlags(dragFlags, swipeFlags)
+             }
+
+             override fun onMove(
+                 recyclerView: RecyclerView,
+                 viewHolder: RecyclerView.ViewHolder,
+                 target: RecyclerView.ViewHolder
+             ): Boolean {
+                 return true
+             }
+
+             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                 if(4 == direction){
+                     viewHolder.itemId
+                     Log.d(TAG, "onSwiped: ${viewHolder.itemId}")
+                 }
+             }
+         }).apply {
+             attachToRecyclerView(userRecyclerView)
+         }
+     }*/
 
     private fun loadChatlist() {
         val ref = fbDbRef.getReference("Users")

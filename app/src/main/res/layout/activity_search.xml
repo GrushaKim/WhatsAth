@@ -12,18 +12,17 @@
         android:id="@+id/tabLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_marginHorizontal="10dp"
+        android:layout_marginVertical="10dp"
+        android:layout_marginHorizontal="5dp"
         app:tabIndicatorFullWidth="false"
+        app:tabTextColor="@color/white"
         app:tabIndicatorHeight="0dp"
-        android:background="@android:color/transparent"
         app:tabBackground="@drawable/search_tab_selector"
         app:tabMode="scrollable"/>
 
     <!--View Pager-->
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewPager"
-        android:layout_margin="8dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 

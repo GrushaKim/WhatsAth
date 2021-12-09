@@ -41,7 +41,7 @@ class RegisterActivity : AppCompatActivity() {
     private var name = ""
     private var email = ""
     private var pwd = ""
-    private var sex = ""
+    private var gender = ""
     private var sport = ""
     private var level = ""
     private var isAtLeast8: Boolean = false
@@ -100,8 +100,8 @@ class RegisterActivity : AppCompatActivity() {
         // gender radio group click
         binding.genderRg.setOnCheckedChangeListener { radioGroup, checkedId ->
             when(checkedId){
-                R.id.femaleRb -> sex = "Female"
-                R.id.maleRb -> sex = "Male"
+                R.id.femaleRb -> gender = "Female"
+                R.id.maleRb -> gender = "Male"
             }
         }
 
@@ -245,12 +245,12 @@ class RegisterActivity : AppCompatActivity() {
             Toast.makeText(this, "Select your major sport", Toast.LENGTH_SHORT).show()
         }else{
             // 3. register an user with the validated info
-            registerUser(name, email, pwd, sex, level, selectedSport, selectedSportId)
+            registerUser(name, email, pwd, gender, level, selectedSport, selectedSportId)
         }
     }
 
     private fun registerUser(
-        name: String, email: String, pwd: String, sex: String, level: String, sport: String, sportId: String){
+        name: String, email: String, pwd: String, gender: String, level: String, sport: String, sportId: String){
         fbAuth.createUserWithEmailAndPassword(email, pwd)
             .addOnCompleteListener {
 
@@ -263,7 +263,7 @@ class RegisterActivity : AppCompatActivity() {
                     hashMap["uid"] = uid
                     hashMap["name"] = name
                     hashMap["email"] = email
-                    hashMap["sex"] = sex
+                    hashMap["gender"] = gender
                     hashMap["sport"] = sport
                     hashMap["sportId"] = sportId
                     hashMap["level"] = level

@@ -106,12 +106,12 @@ class SearchActivity : AppCompatActivity() {
             override fun onDataChange(snapshot: DataSnapshot) {
                 userList.clear()
 
-                val modelAll = ModelUser("01", "All", "", "", "", "", "", "", "", 0)
-                val modelMostPopularUsers =
-                    ModelUser("01", "Most Popular", "", "", "", "", "", "", "", 0)
+                val modelAll = ModelUser("01", "All", "", "", "",  "", "", "", 0)
+                val modelPopular =
+                    ModelUser("01", "Popular", "", "", "", "",  "", "", 0)
 
                 userList.add(modelAll)
-                userList.add(modelMostPopularUsers)
+                userList.add(modelPopular)
 
                 viewPagerAdapter.addFragment(
                     SearchFragment.newInstance(
@@ -121,9 +121,9 @@ class SearchActivity : AppCompatActivity() {
                 )
                 viewPagerAdapter.addFragment(
                     SearchFragment.newInstance(
-                        "${modelMostPopularUsers.uid}",
-                        "${modelMostPopularUsers.name}"
-                    ), modelAll.name!!
+                        "${modelPopular.uid}",
+                        "${modelPopular.name}"
+                    ), modelPopular.name!!
                 )
 
                 viewPagerAdapter.notifyDataSetChanged()

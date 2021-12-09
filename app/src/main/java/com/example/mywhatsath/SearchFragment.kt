@@ -18,11 +18,6 @@ import com.google.firebase.database.ValueEventListener
 
 class SearchFragment : Fragment {
     private lateinit var binding: FragmentSearchBinding
-    private lateinit var searchList: ArrayList<ModelUser>
-    private lateinit var searchAdapter: SearchAdapter
-
-    private var uid = ""
-    private var name = ""
 
     companion object{
         private const val TAG = "SEARCH_FRAGMENT_TAG"
@@ -37,6 +32,13 @@ class SearchFragment : Fragment {
             return fragment
         }
     }
+
+    private lateinit var searchList: ArrayList<ModelUser>
+    private lateinit var searchAdapter: SearchAdapter
+
+    private var uid = ""
+    private var name = ""
+
 
     constructor()
 
@@ -60,8 +62,8 @@ class SearchFragment : Fragment {
         //load all tabs
         if(name == "All"){
             loadAllUsers()
-        }else if(name == "Most Popular"){
-            loadMostPopularUsers("heartsCnt")
+        }else if(name == "Popular"){
+            loadPopularUsers("heartsCnt")
         }/*else{
             loadCategorizedUsers()
         }*/
@@ -79,8 +81,6 @@ class SearchFragment : Fragment {
             }
             override fun afterTextChanged(p0: Editable?) {
             }
-
-
         })
 
         return binding.root
@@ -104,28 +104,12 @@ class SearchFragment : Fragment {
             }
         })
 
-        // search
-        binding.searchEt.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                try {
-                    searchAdapter.filter!!.filter(s)
-                } catch (e: Exception) {
-                    Log.d(SearchActivity.TAG, "onTextChanged: failed to search users. Error: ${e.message}")
-                }
-            }
-
-            override fun afterTextChanged(ed: Editable?) {
-            }
-        })
     }
 
-    private fun loadMostPopularUsers(orderBy: String) {
+    private fun loadPopularUsers(orderBy: String) {
         searchList = ArrayList()
         val ref = FirebaseDatabase.getInstance().getReference("Users")
-        ref.orderByChild(orderBy).limitToFirst(10)
+        ref.orderByChild(orderBy).limitToLast(10)
             .addValueEventListener(object: ValueEventListener{
                 override fun onDataChange(snapshot: DataSnapshot) {
                     searchList.clear()
@@ -133,6 +117,7 @@ class SearchFragment : Fragment {
                         val model = ds.getValue(ModelUser::class.java)
                         searchList.add(model!!)
                     }
+                    searchList.reverse()
                     searchAdapter = SearchAdapter(context!!, searchList)
                     binding.searchRecyclerView.adapter = searchAdapter
                 }
@@ -140,22 +125,6 @@ class SearchFragment : Fragment {
                 }
             })
 
-        // search
-        binding.searchEt.addTextChangedListener(object : TextWatcher {
-            override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-            }
-
-            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                try {
-                    searchAdapter.filter!!.filter(s)
-                } catch (e: Exception) {
-                    Log.d(SearchActivity.TAG, "onTextChanged: failed to search users. Error: ${e.message}")
-                }
-            }
-
-            override fun afterTextChanged(ed: Editable?) {
-            }
-        })
     }
 
 

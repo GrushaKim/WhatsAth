@@ -62,6 +62,7 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.HolderSearch>, Filterabl
         // set to holder
         holder.nameTv.text = model.name
         holder.emailTv.text = model.email
+        holder.genderTv.text = model.gender
         holder.sportTv.text = model.sport
         holder.levelTv.text = model.level
         holder.heartsCntTv.text = model.heartsCnt.toString()
@@ -78,11 +79,6 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.HolderSearch>, Filterabl
             }
         }
 
-        if(model.gender!!.lowercase() == R.string.male.toString().lowercase()){
-            holder.genderIv.setImageResource(R.drawable.ic_man)
-        }else{
-            holder.genderIv.setImageResource(R.drawable.ic_woman)
-        }
 
         // confirm if the current user want to contact the selected user
         holder.profileIv.setOnClickListener {
@@ -141,7 +137,7 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.HolderSearch>, Filterabl
         var profileIv = binding.profileIv
         var nameTv = binding.nameTv
         var emailTv = binding.emailTv
-        var genderIv = binding.genderIv
+        var genderTv = binding.genderTv
         var heartsCntTv = binding.heartsCntTv
         var sportTv = binding.sportTv
         var levelTv = binding.levelTv

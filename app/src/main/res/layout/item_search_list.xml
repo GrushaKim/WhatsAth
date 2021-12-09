@@ -9,7 +9,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="100dp"
-        android:padding="10dp"
+        android:paddingHorizontal="10dp"
         android:orientation="horizontal">
 
         <!--ProfileImage-->
@@ -17,7 +17,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:paddingLeft="5dp"
+            android:paddingLeft="20dp"
             android:layout_gravity="center">
 
             <de.hdodenhof.circleimageview.CircleImageView
@@ -38,14 +38,14 @@
             android:layout_height="match_parent"
             android:orientation="vertical"
             android:paddingLeft="5dp"
-            android:layout_marginTop="7dp"
+            android:layout_marginTop="11dp"
             android:layout_gravity="center_vertical">
         <!--Name&Email-->
         <LinearLayout
             android:id="@+id/searchListLl1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:weightSum="4"
+            android:weightSum="5"
             android:layout_marginBottom="3dp"
             android:orientation="horizontal"
             android:layout_gravity="center">
@@ -53,7 +53,7 @@
                 android:id="@+id/nameTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.5"
+                android:layout_weight="2"
                 android:text="@string/userName"
                 android:textStyle="bold"
                 android:maxLines="1"
@@ -62,7 +62,7 @@
                 android:id="@+id/emailTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="2.5"
+                android:layout_weight="3"
                 android:text="@string/userEmail"
                 android:textStyle="italic"
                 android:maxLines="1"
@@ -74,7 +74,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:weightSum="10"
+            android:weightSum="5"
             android:layout_gravity="center_vertical">
             <TextView
                 android:id="@+id/genderTv"
@@ -84,20 +84,13 @@
                 android:text="@string/userGender"
                 android:maxLines="1"
                 android:textSize="12sp"/>
-            <ImageView
-                android:id="@+id/genderIv"
-                android:layout_width="15dp"
-                android:layout_height="15dp"
-                android:layout_weight="1"
-                android:layout_marginTop="5dp"
-                android:layout_gravity="left"
-                android:src="@drawable/ic_woman"/>
+
             <TextView
                 android:id="@+id/heartsCntTv"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"
-                android:layout_weight="1.5"
+                android:layout_weight="0.5"
                 android:text="@string/userHearts"
                 android:maxLines="1"
                 android:textSize="12sp"/>
@@ -105,17 +98,17 @@
                 android:id="@+id/heartsIv"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
-                android:layout_weight="1"
+                android:layout_weight="0.5"
                 android:layout_marginTop="5dp"
                 android:layout_gravity="left"
-                android:src="@drawable/ic_hearts"/>
+                android:src="@drawable/ic_hearts_red"/>
         </LinearLayout>
             <!--Sport&Level-->
             <LinearLayout
                 android:id="@+id/searchListLl3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:weightSum="2"
+                android:weightSum="5"
                 android:layout_marginBottom="3dp"
                 android:orientation="horizontal"
                 android:layout_gravity="center">
@@ -123,7 +116,7 @@
                     android:id="@+id/sportTv"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
-                    android:layout_weight="1"
+                    android:layout_weight="2"
                     android:text="@string/userSport"
                     android:maxLines="1"
                     android:textSize="12sp"/>

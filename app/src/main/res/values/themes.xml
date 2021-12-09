@@ -26,4 +26,8 @@
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">5%</item>
     </style>
+
+<!--    <style name="Base.Widget.Design.TabLayout" parent="android:Widget">
+        <item name="tabBackground">@drawable/search_tab_selector</item>
+    </style>-->
 </resources>

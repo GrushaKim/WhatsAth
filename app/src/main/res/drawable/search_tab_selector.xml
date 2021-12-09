@@ -3,6 +3,9 @@
 
     <item android:drawable="@drawable/search_tab_bg_selected"
         android:state_selected="true"/>
-    <item android:drawable="@drawable/search_tab_bg_unselected"/>
+    <item android:drawable="@drawable/search_tab_bg_unselected"
+        android:state_selected="false"
+        android:state_focused="false"
+        android:state_pressed="false"/>
 
 </selector>

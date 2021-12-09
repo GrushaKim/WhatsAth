@@ -1,6 +1,7 @@
 package com.example.mywhatsath
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
@@ -17,6 +18,7 @@ import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.core.content.ContextCompat
 import androidx.core.widget.addTextChangedListener
 import com.example.mywhatsath.databinding.ActivityRegisterBinding
+import com.example.mywhatsath.models.ModelSport
 import com.example.mywhatsath.utils.MyApplication
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
@@ -31,6 +33,10 @@ class RegisterActivity : AppCompatActivity() {
     // firebase vars
     private lateinit var fbAuth: FirebaseAuth
     private lateinit var fbDbRef: FirebaseDatabase
+    // sports select dialog
+    private lateinit var sportsList: ArrayList<ModelSport>
+    private var selectedSportId = ""
+    private var selectedSport = ""
     // register info vars
     private var name = ""
     private var email = ""
@@ -53,19 +59,11 @@ class RegisterActivity : AppCompatActivity() {
 
         // init
         fbAuth = FirebaseAuth.getInstance()
+        fbDbRef = FirebaseDatabase.getInstance()
 
-        val sports = resources.getStringArray(R.array.sports)
-        binding.sportsSp.adapter = ArrayAdapter(
-            this, android.R.layout.simple_dropdown_item_1line, sports)
+        // load sport categories
+        loadSports()
 
-        binding.sportsSp.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                sport = sports[position]
-                Log.d(TAG, "onItemSelected: selected sport is $sport")
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-            }
-        }
 
         // email check button click
         binding.chkEmailBtn.setOnClickListener {
@@ -102,9 +100,14 @@ class RegisterActivity : AppCompatActivity() {
         // gender radio group click
         binding.genderRg.setOnCheckedChangeListener { radioGroup, checkedId ->
             when(checkedId){
-                R.id.femaleRb -> sex = R.string.female.toString()
-                R.id.maleRb -> sex = R.string.male.toString()
+                R.id.femaleRb -> sex = "Female"
+                R.id.maleRb -> sex = "Male"
             }
+        }
+
+        // select major sport
+        binding.sportTv.setOnClickListener {
+            sportPickDialog()
         }
 
         // level radio group click
@@ -120,6 +123,40 @@ class RegisterActivity : AppCompatActivity() {
         binding.signupBtn.setOnClickListener {
             validateData()
         }
+    }
+
+    private fun sportPickDialog() {
+        Log.d(TAG, "sportPickDialog: displaying the selected sport from dialog")
+        val sportsArr = arrayOfNulls<String>(sportsList.size)
+        for(i in sportsList.indices){
+            sportsArr[i] = sportsList[i].sport
+        }
+        // alertdialog for selection
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Select your major sport")
+            .setItems(sportsArr) {dialog, which ->
+                selectedSport = sportsList[which].sport
+                selectedSportId = sportsList[which].id
+                binding.sportTv.text = selectedSport
+            }
+            .show()
+    }
+
+    private fun loadSports() {
+        sportsList = ArrayList()
+        // get data from db
+        val ref = fbDbRef.getReference("Sports")
+        ref.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                sportsList.clear()
+                for(ds in snapshot.children){
+                    val model = ds.getValue(ModelSport::class.java)
+                    sportsList.add(model!!)
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
     }
 
     private fun checkEmail() {
@@ -184,18 +221,19 @@ class RegisterActivity : AppCompatActivity() {
         name = binding.nameEt.text.toString().trim()
         email = binding.emailEt.text.toString().trim()
         pwd = binding.pwdEt.text.toString().trim()
+        sport = binding.sportTv.toString()
         val confirmPwd = binding.confirmPwdEt.text.toString().trim()
 
         // 2. validate
-        if(name.isEmpty()){
+        if(name.isNullOrEmpty()){
             Toast.makeText(this, "Enter your name", Toast.LENGTH_SHORT).show()
         }else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
             Toast.makeText(this, "Enter valid email address", Toast.LENGTH_SHORT).show()
         }else if(isRegistered){
             Toast.makeText(this, "Please enter another email address", Toast.LENGTH_SHORT).show()
-        }else if(pwd.isEmpty()){
+        }else if(pwd.isNullOrEmpty()){
             Toast.makeText(this, "Enter your password", Toast.LENGTH_SHORT).show()
-        }else if(confirmPwd.isEmpty()){
+        }else if(confirmPwd.isNullOrEmpty()){
             Toast.makeText(this, "Confirm your password", Toast.LENGTH_SHORT).show()
         }else if(pwd != confirmPwd){
             binding.confirmPwdErrLl.visibility = View.VISIBLE
@@ -203,14 +241,16 @@ class RegisterActivity : AppCompatActivity() {
             Toast.makeText(this, "Select your gender", Toast.LENGTH_SHORT).show()
         }else if(binding.levelRg.checkedRadioButtonId == -1){
             Toast.makeText(this, "Select your level", Toast.LENGTH_SHORT).show()
+        }else if(sport.isNullOrEmpty()){
+            Toast.makeText(this, "Select your major sport", Toast.LENGTH_SHORT).show()
         }else{
             // 3. register an user with the validated info
-            registerUser(name, email, pwd, sex, level, sport)
+            registerUser(name, email, pwd, sex, level, selectedSport, selectedSportId)
         }
     }
 
     private fun registerUser(
-        name: String, email: String, pwd: String, sex: String, level: String, sport: String){
+        name: String, email: String, pwd: String, sex: String, level: String, sport: String, sportId: String){
         fbAuth.createUserWithEmailAndPassword(email, pwd)
             .addOnCompleteListener {
 
@@ -225,6 +265,7 @@ class RegisterActivity : AppCompatActivity() {
                     hashMap["email"] = email
                     hashMap["sex"] = sex
                     hashMap["sport"] = sport
+                    hashMap["sportId"] = sportId
                     hashMap["level"] = level
                     hashMap["regDate"] = timestamp
                     hashMap["role"] = 1

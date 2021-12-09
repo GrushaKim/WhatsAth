@@ -163,6 +163,7 @@ class ChatActivity : AppCompatActivity() {
     }
 
     private fun removeHearts(receiverId: String?) {
+        // save to database
         val ref = fbDbRef.getReference("Users")
         ref.child(receiverId!!).child("hearts").child(fbAuth.uid!!)
             .removeValue()

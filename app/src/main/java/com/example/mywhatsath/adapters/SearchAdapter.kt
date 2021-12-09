@@ -64,6 +64,7 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.HolderSearch>, Filterabl
         holder.emailTv.text = model.email
         holder.sportTv.text = model.sport
         holder.levelTv.text = model.level
+        holder.heartsCntTv.text = model.heartsCnt.toString()
 
         if(model.profileImage.isNullOrBlank()){
             holder.profileIv.setImageResource(R.drawable.ic_baseline_person_24)
@@ -77,7 +78,7 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.HolderSearch>, Filterabl
             }
         }
 
-        if(model.gender == R.string.male.toString()){
+        if(model.gender!!.lowercase() == R.string.male.toString().lowercase()){
             holder.genderIv.setImageResource(R.drawable.ic_man)
         }else{
             holder.genderIv.setImageResource(R.drawable.ic_woman)
@@ -93,7 +94,7 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.HolderSearch>, Filterabl
                     // add uid to followings&followed
                     val ref = fbDbRef.getReference("Users")
                     ref.child(fbAuth.uid!!).child("followed")
-                        .push()
+                        .child(uid!!)
                         .setValue(hashMap)
                         .addOnSuccessListener {
                             Log.d("SEARCHADAPTER_TAG", "onBindViewHolder: successfully added to followed")
@@ -102,7 +103,7 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.HolderSearch>, Filterabl
                             hashMap2["uid"] = fbAuth.uid!!
 
                             ref.child(uid!!).child("followings")
-                                .push()
+                                .child(fbAuth.uid!!)
                                 .setValue(hashMap2)
                                 .addOnSuccessListener {
                                     Log.d("SEARCHADAPTER_TAG", "onBindViewHolder: successfully added to followings")

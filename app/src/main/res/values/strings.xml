@@ -14,14 +14,12 @@
     <string name="male">Male</string>
     <!--Register Dropdown-->
     <string-array name="sports">
-        <item>Pole-dancing</item>
+        <item>Pole Dancing</item>
         <item>Pilates</item>
         <item>Yoga</item>
         <item>Climbing</item>
         <item>Running</item>
         <item>Swimming</item>
-        <item>Powerlifting</item>
-        <item>Fitness</item>
         <item>Martial Arts</item>
     </string-array>
     <string name="open">Open</string>
@@ -29,30 +27,49 @@
     <!--Info Text-->
     <string name="userName">Name</string>
     <string name="userEmail">Email</string>
+    <string name="userPwd">Password</string>
+    <string name="userPwdConfirm">Confirm Password</string>
     <string name="userGender">Gender</string>
     <string name="userSport">Sport</string>
     <string name="userLevel">Level</string>
     <string name="userHearts">0</string>
     <!--Instruction Text-->
+    <string name="registerForm">Register Form</string>
+    <string name="profile">Profile</string>
+    <string name="check">Check</string>
+    <string name="pwdRule1">Password should be</string>
+    <string name="pwdRule2">At least 8 characters</string>
+    <string name="pwdRule3">Minimum one number</string>
+    <string name="pwdMismatch">your password doesn\'t match</string>
+    <string name="signup">Sign up</string>
+    <string name="login">Log in</string>
+    <string name="regDate">Registration Date</string>
+    <string name="aboutMe">About Me</string>
+    <string name="cancel">Cancel</string>
+    <string name="save">Save</string>
+    <string name="edit">Edit</string>
+    <string name="describe">Describe yourself :D</string>
+    <string name="forgotPwd">Forgot Password?</string>
+    <string name="selectSport">Select your major sport</string>
     <string name="textMessage"> Text message</string>
     <string name="thisMessageSent">This message has been sent</string>
     <string name="thisMessageReceived">This message has been received</string>
     <string name="searchEtText">Find your fitness mate</string>
+    <string name="shareFitness">Share Your Fitness with Us</string>
     <!--Sports Type-->
-    <string name="poledancing">Pole-dancing</string>
+    <string name="poledancing">Pole Dancing</string>
     <string name="pilates">Pilates</string>
     <string name="yoga">Yoga</string>
     <string name="climbing">Climbing</string>
     <string name="running">Running</string>
     <string name="swimming">Swimming</string>
-    <string name="powerlifting">Powerlifting</string>
-    <string name="fitness">Fitness</string>
     <string name="martialArts">Martial Arts</string>
     <!--Level Type-->
     <string name="amateur">Amateur</string>
     <string name="semiPro">Semi-Pro</string>
     <string name="pro">Pro</string>
-
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

@@ -36,7 +36,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Profile"
+                android:text="@string/profile"
                 android:textColor="@color/primaryBlue"
                 android:textSize="30sp"
                 android:textStyle="bold"/>
@@ -86,7 +86,7 @@
                     android:textColor="@color/black"
                     android:textSize="20sp"
                     android:textStyle="bold"
-                    android:text="Agrafena"/>
+                    android:text="@string/userName"/>
                 <!--Email-->
                 <TextView
                     android:id="@+id/emailTv"
@@ -95,7 +95,7 @@
                     android:textColor="@color/primaryGray"
                     android:layout_marginBottom="3dp"
                     android:textSize="14sp"
-                    android:text="agrafena@gmail.com"/>
+                    android:text="@string/userEmail"/>
                 <!--Sex Symbol-->
                 <ImageView
                     android:id="@+id/sexIv"
@@ -123,7 +123,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="Registration Date"
+                    android:text="@string/regDate"
                     android:textColor="@color/black"
                     android:textStyle="bold"
                     android:textSize="18sp"/>
@@ -139,7 +139,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:paddingStart="10dp"
-                    android:text="01/01/2022"
                     android:textColor="@color/black"
                     android:textSize="18sp"/>
             </LinearLayout>
@@ -163,7 +162,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Sport"
+                        android:text="@string/userSport"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -181,7 +180,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="10dp"
-                        android:text="Poledancing"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -205,7 +203,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Level"
+                        android:text="@string/userLevel"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -223,7 +221,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:paddingStart="10dp"
-                        android:text="Semi-pro"
                         android:textColor="@color/black"
                         android:textSize="18sp" />
                 </LinearLayout>
@@ -246,7 +243,7 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="About Me"
+                        android:text="@string/aboutMe"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold"
@@ -265,7 +262,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:maxLines="5"
-                        android:text="Describe yourself :D"
+                        android:text="@string/describe"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -288,7 +285,7 @@
         android:layout_marginHorizontal="15dp"
         android:textSize="14sp"
         android:textColor="@color/white"
-        android:text="edit profile"/>
+        android:text="@string/edit"/>
 
     <!--Bottom Wave Background-->
     <ImageView

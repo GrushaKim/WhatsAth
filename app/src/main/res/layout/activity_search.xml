@@ -7,8 +7,27 @@
     android:orientation="vertical"
     tools:context=".SearchActivity">
 
+    <!--Category Tabs-->
+    <com.google.android.material.tabs.TabLayout
+        android:id="@+id/tabLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:layout_marginHorizontal="10dp"
+        app:tabIndicatorFullWidth="false"
+        app:tabIndicatorHeight="0dp"
+        android:background="@android:color/transparent"
+        app:tabBackground="@drawable/search_tab_selector"
+        app:tabMode="scrollable"/>
 
-        <!--Search Bar-->
+    <!--View Pager-->
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_margin="8dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+<!--        &lt;!&ndash;Search Bar&ndash;&gt;
         <com.google.android.material.textfield.TextInputLayout
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
@@ -43,7 +62,7 @@
             android:orientation="vertical"
             android:layout_gravity="center_vertical">
 
-            <!--Search Condition#1-->
+            &lt;!&ndash;Search Condition#1&ndash;&gt;
             <LinearLayout
                 android:id="@+id/searchCgLl1"
                 android:layout_width="match_parent"
@@ -117,38 +136,11 @@
                         android:textColor="@color/white"
                         app:chipBackgroundColor="@color/primaryPaleBlue" />
 
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/sportChip7"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/powerlifting"
-                        android:textColor="@color/white"
-                        app:chipBackgroundColor="@color/primaryPaleBlue" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/sportChip8"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/fitness"
-                        android:textColor="@color/white"
-                        app:chipBackgroundColor="@color/primaryPaleBlue" />
-
-                    <com.google.android.material.chip.Chip
-                        android:id="@+id/sportChip9"
-                        style="@style/Widget.MaterialComponents.Chip.Filter"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/fitness"
-                        android:textColor="@color/white"
-                        app:chipBackgroundColor="@color/primaryPaleBlue" />
-
                 </com.google.android.material.chip.ChipGroup>
             </HorizontalScrollView>
             </LinearLayout>
 
-            <!--Search Condition#2-->
+            &lt;!&ndash;Search Condition#2&ndash;&gt;
             <LinearLayout
                 android:id="@+id/searchCgLl2"
                 android:layout_width="match_parent"
@@ -209,83 +201,7 @@
             tools:listitem="@layout/item_search_list"
             android:layout_marginTop="10dp"
             android:layout_marginHorizontal="10dp"
-            />
-
-
-
-   <!-- Sports Chip Group
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/sportsChipGroup"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
-        app:singleSelection="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchEt">
-        <com.google.android.material.chip.Chip
-            android:id="@+id/sportChip1"
-            android:text="Pilates"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <com.google.android.material.chip.Chip
-            android:id="@+id/sportChip2"
-            android:text="Swimming"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-         <com.google.android.material.chip.Chip
-            android:id="@+id/sportChip3"
-            android:text="Climbing"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <com.google.android.material.chip.Chip
-            android:id="@+id/sportChip4"
-            android:text="Running"
-            style="@style/Widget.MaterialComponents.Chip.Choice"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-    </com.google.android.material.chip.ChipGroup>
-
-    &lt;!&ndash;Filter Chip Group&ndash;&gt;
-    <com.google.android.material.chip.ChipGroup
-        android:id="@+id/filtersGroupChips"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        app:singleSelection="true"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/sportsChipGroup">
-
-        <com.google.android.material.chip.Chip
-            android:id="@+id/filterChip1"
-            android:text="Kotlin"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <com.google.android.material.chip.Chip
-            android:id="@+id/filterChip2"
-            android:text="Dart"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <com.google.android.material.chip.Chip
-            android:id="@+id/filterChip3"
-            android:text="Java"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-        <com.google.android.material.chip.Chip
-            android:id="@+id/filterChip4"
-            android:text="Swift"
-            style="@style/Widget.MaterialComponents.Chip.Filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
-    </com.google.android.material.chip.ChipGroup>-->
+            />-->
 
 
 </LinearLayout>

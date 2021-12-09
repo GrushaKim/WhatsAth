@@ -21,7 +21,8 @@ class SearchFilter: Filter {
             val filteredModels: ArrayList<ModelUser> = ArrayList()
             // validate data
             for(i in filterList.indices){
-                if(filterList[i].email!!.lowercase().contains(constraint)){
+                if(filterList[i].email!!.lowercase().contains(constraint) ||
+                        filterList[i].name!!.lowercase().contains(constraint)){
                     filteredModels.add(filterList[i])
                 }
             }

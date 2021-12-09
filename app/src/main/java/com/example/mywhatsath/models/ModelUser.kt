@@ -1,39 +1,42 @@
 package com.example.mywhatsath.models
 
 class ModelUser{
+    var uid: String? = null
     var name: String? = null
     var email: String? = null
-    var uid: String? = null
     var profileImage: String? = null
     var gender: String? = null
     var level: String? = null
     var sport: String? = null
     var aboutMe: String? = null
     var sex: String? = null
+    var heartsCnt: Int? = null
 
 
 
     constructor(){}
     constructor(
+        uid: String?,
         name: String?,
         email: String?,
-        uid: String?,
         profileImage: String?,
         gender: String?,
         level: String?,
         sport: String?,
         aboutMe: String?,
-        sex: String?
+        sex: String?,
+        heartsCnt: Int?
     ) {
+        this.uid = uid
         this.name = name
         this.email = email
-        this.uid = uid
         this.profileImage = profileImage
         this.gender = gender
         this.level = level
         this.sport = sport
         this.aboutMe = aboutMe
         this.sex = sex
+        this.heartsCnt = heartsCnt
     }
 
 

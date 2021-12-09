@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.mywhatsath.ChatActivity
+import com.example.mywhatsath.ProfileActivity
 import com.example.mywhatsath.R
 import com.example.mywhatsath.databinding.ItemDashboardUserBinding
 import com.example.mywhatsath.models.ModelUser
@@ -72,11 +73,6 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>{
         fbAuth = FirebaseAuth.getInstance()
         fbDbRef = FirebaseDatabase.getInstance()
 
-        val ref = fbDbRef.getReference("Chat")
-
-
-
-
         // set the data
         holder.nameTv.text = currentUser.name
         if(profileImage.isNullOrBlank()){
@@ -94,6 +90,13 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>{
         // move to individual chat
         holder.infoLl.setOnClickListener {
             val intent = Intent(context, ChatActivity::class.java)
+            intent.putExtra("userId", currentUser.uid)
+
+            context.startActivity(intent)
+        }
+
+        holder.profileImageIv.setOnClickListener {
+            val intent = Intent(context, ProfileActivity::class.java)
             intent.putExtra("userId", currentUser.uid)
 
             context.startActivity(intent)

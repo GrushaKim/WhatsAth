@@ -1,6 +1,7 @@
 package com.example.mywhatsath
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
 import android.net.Uri
@@ -17,6 +18,7 @@ import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
 import com.bumptech.glide.Glide
 import com.example.mywhatsath.databinding.ActivityProfileEditBinding
+import com.example.mywhatsath.models.ModelSport
 import com.example.mywhatsath.utils.MyApplication
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -36,9 +38,13 @@ class ProfileEditActivity : AppCompatActivity() {
     //image uri
     private var imageUri: Uri? = null
 
+    // sports select dialog
+    private lateinit var sportsList: ArrayList<ModelSport>
+    private var selectedSportId = ""
+    private var selectedSport = ""
+
     //info to be updated
     private var updatedName = ""
-    private var updatedSport = ""
     private var updatedLevel = ""
     private var updatedAboutMe = ""
 
@@ -65,37 +71,25 @@ class ProfileEditActivity : AppCompatActivity() {
         //load the profile
         loadUserProfile()
 
-        //set spinner for sports dropdown menu
-        val sports = resources.getStringArray(R.array.sports)
-        binding.sportsSp.adapter = ArrayAdapter(
-            this, android.R.layout.simple_dropdown_item_1line, sports)
-
-        binding.sportsSp.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                updatedSport = sports[position]
-                Log.d(RegisterActivity.TAG, "onItemSelected: selected sport is $updatedSport")
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-            }
-        }
-
-        //set spinner for levels dropdown menu
-        val levels = resources.getStringArray(R.array.levels)
-        binding.levelsSp.adapter = ArrayAdapter(
-            this, android.R.layout.simple_dropdown_item_1line, levels)
-
-        binding.levelsSp.onItemSelectedListener = object: AdapterView.OnItemSelectedListener{
-            override fun onItemSelected(parent: AdapterView<*>?, view: View?, position: Int, id: Long) {
-                updatedLevel = levels[position]
-                Log.d(RegisterActivity.TAG, "onItemSelected: selected level is $updatedLevel")
-            }
-            override fun onNothingSelected(p0: AdapterView<*>?) {
-            }
-        }
+        // load sport categories
+        loadSports()
 
         // upload profile image
         binding.profileIv.setOnClickListener {
             pickImageFromGallery()
+        }
+
+        binding.sportTv.setOnClickListener {
+            sportPickDialog()
+        }
+
+        // level radio group click
+        binding.levelRg.setOnCheckedChangeListener { radioGroup, checkedId ->
+            when(checkedId){
+                R.id.amateurRb -> updatedLevel = resources.getStringArray(R.array.levels)[0].toString()
+                R.id.semiProRb -> updatedLevel = resources.getStringArray(R.array.levels)[1].toString()
+                R.id.proRb -> updatedLevel = resources.getStringArray(R.array.levels)[2].toString()
+            }
         }
 
         // save profile click button
@@ -116,6 +110,23 @@ class ProfileEditActivity : AppCompatActivity() {
         binding.aboutMeEt.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(maxLength))
     }
 
+    private fun loadSports() {
+        sportsList = ArrayList()
+        // get data from db
+        val ref = fbDbRef.getReference("Sports")
+        ref.addListenerForSingleValueEvent(object: ValueEventListener{
+            override fun onDataChange(snapshot: DataSnapshot) {
+                sportsList.clear()
+                for(ds in snapshot.children){
+                    val model = ds.getValue(ModelSport::class.java)
+                    sportsList.add(model!!)
+                }
+            }
+            override fun onCancelled(error: DatabaseError) {
+            }
+        })
+    }
+
     private fun loadUserProfile() {
         val ref = fbDbRef.getReference("Users")
         ref.child(fbAuth.uid!!)
@@ -127,9 +138,8 @@ class ProfileEditActivity : AppCompatActivity() {
                     val email = "${snapshot.child("email").value}"
                     val sex = "${snapshot.child("sex").value}"
                     val regDate = "${snapshot.child("regDate").value}"
-                    val sport = "${snapshot.child("sport").value}"
-                    val level = "${snapshot.child("level").value}"
                     val aboutMe = "${snapshot.child("aboutMe").value}"
+
 
                     //convert regdate
                     val formattedRegDate = MyApplication.formatRegDate(regDate.toLong())
@@ -150,15 +160,13 @@ class ProfileEditActivity : AppCompatActivity() {
                     binding.nameEt.hint = name
                     binding.emailTv.text = email
 
-                    if(sex == R.string.male.toString()){
+                    if(sex.lowercase() == R.string.male.toString().lowercase()){
                         binding.sexIv.setImageResource(R.drawable.ic_man)
                     }else{
                         binding.sexIv.setImageResource(R.drawable.ic_woman)
                     }
 
                     binding.regDateTv.text = formattedRegDate
-                    binding.sportsSp.setSelection(resources.getStringArray(R.array.sports).indexOf(sport))
-                    binding.levelsSp.setSelection(resources.getStringArray(R.array.levels).indexOf(level))
 
                     if(aboutMe == "" || aboutMe.isEmpty()){
                         binding.aboutMeEt.hint = "Describe yourself less than $maxLength characters  "
@@ -169,6 +177,23 @@ class ProfileEditActivity : AppCompatActivity() {
                 override fun onCancelled(error: DatabaseError) {
                 }
             })
+    }
+
+    private fun sportPickDialog() {
+        Log.d(RegisterActivity.TAG, "sportPickDialog: displaying the selected sport from dialog")
+        val sportsArr = arrayOfNulls<String>(sportsList.size)
+        for(i in sportsList.indices){
+            sportsArr[i] = sportsList[i].sport
+        }
+        // alertdialog for selection
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Select your major sport")
+            .setItems(sportsArr) {dialog, which ->
+                selectedSport = sportsList[which].sport
+                selectedSportId = sportsList[which].id
+                binding.sportTv.text = selectedSport
+            }
+            .show()
     }
 
     private fun uploadImage(){
@@ -200,34 +225,46 @@ class ProfileEditActivity : AppCompatActivity() {
         // add msg to DB
         val hashMap: HashMap<String, Any?> = HashMap()
         val name = binding.nameEt.text.toString().trim()
-        val sport = updatedSport
-        val level = updatedLevel
+        val selectedSport = selectedSport
+        val selectedSportId = selectedSportId
         val aboutMe = binding.aboutMeEt.text.toString()
+
 
         // check profile image
         if(imageUri != null){
             hashMap["profileImage"] = uploadedImageUrl
+        // check if name is changed
+        }else if(!name.isNullOrEmpty()){
+            hashMap["name"] = name
+        }else if(binding.levelRg.checkedRadioButtonId == -1){
+            Toast.makeText(this, "Please check your level", Toast.LENGTH_SHORT).show()
+        }else if(selectedSport.isNullOrEmpty()){
+            Toast.makeText(this, "Please select your sport", Toast.LENGTH_SHORT).show()
+        }else{
+
+            hashMap["sport"] = selectedSport
+            hashMap["sportId"] = selectedSportId
+            hashMap["level"] = updatedLevel
+            hashMap["aboutMe"] = aboutMe
+
+            val ref = fbDbRef.getReference("Users")
+            ref.child(fbAuth.uid!!)
+                .updateChildren(hashMap)
+                .addOnSuccessListener {
+                    Toast.makeText(this, "Successfully uploaded your profile", Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "updateProfile: Successfully updated your profile")
+                    imageUri = null
+                    startActivity(Intent(this@ProfileEditActivity, ProfileActivity::class.java))
+                }
+                .addOnFailureListener { e ->
+                    Toast.makeText(this, "Failed to upload your profile", Toast.LENGTH_SHORT).show()
+                    Log.d(TAG, "updateProfile: Failed to update your profile")
+                }
         }
 
-        // other info to be updated
-        if(!name.isNullOrEmpty()){ hashMap["name"] = name }
-        hashMap["sport"] = sport
-        hashMap["level"] = level
-        hashMap["aboutMe"] = aboutMe
 
-        val ref = fbDbRef.getReference("Users")
-        ref.child(fbAuth.uid!!)
-            .updateChildren(hashMap)
-            .addOnSuccessListener {
-                Toast.makeText(this, "Successfully uploaded your profile", Toast.LENGTH_SHORT).show()
-                Log.d(TAG, "updateProfile: Successfully updated your profile")
-                imageUri = null
-                startActivity(Intent(this@ProfileEditActivity, ProfileActivity::class.java))
-            }
-            .addOnFailureListener { e ->
-                Toast.makeText(this, "Failed to upload your profile", Toast.LENGTH_SHORT).show()
-                Log.d(TAG, "updateProfile: Failed to update your profile")
-            }
+
+
     }
 
     private fun pickImageFromGallery() {

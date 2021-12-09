@@ -1,5 +1,6 @@
 package com.example.mywhatsath
 
+import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.Editable
@@ -9,12 +10,17 @@ import android.view.KeyEvent
 import android.view.View
 import android.widget.Toast
 import androidx.core.content.ContextCompat
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentManager
+import androidx.fragment.app.FragmentPagerAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.viewpager.widget.ViewPager
 import com.example.mywhatsath.adapters.MessageAdapter
 import com.example.mywhatsath.adapters.SearchAdapter
 import com.example.mywhatsath.databinding.ActivitySearchBinding
 import com.example.mywhatsath.models.ModelMessage
+import com.example.mywhatsath.models.ModelSport
 import com.example.mywhatsath.models.ModelUser
 import com.google.android.material.chip.Chip
 import com.google.android.material.chip.ChipGroup
@@ -29,14 +35,19 @@ class SearchActivity : AppCompatActivity() {
     private lateinit var fbAuth: FirebaseAuth
     private lateinit var fbDbRef: FirebaseDatabase
 
-    companion object{
+    companion object {
         const val TAG = "SEARCH_TAG"
     }
 
     // adapter
     private lateinit var searchList: ArrayList<ModelUser>
+    private lateinit var categoryList: ArrayList<ModelSport>
+    private lateinit var userList: ArrayList<ModelUser>
     private lateinit var searchAdapter: SearchAdapter
     private lateinit var searchRecyclerView: RecyclerView
+
+    // viewPager
+    private lateinit var viewPagerAdapter: ViewPagerAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,62 +60,91 @@ class SearchActivity : AppCompatActivity() {
         fbDbRef = FirebaseDatabase.getInstance()
 
 
-        // set recyclerView
-        searchRecyclerView = binding.searchRecyclerView
-        searchList = ArrayList()
-        searchAdapter = SearchAdapter(this, searchList)
-
-        searchRecyclerView.layoutManager = LinearLayoutManager(this)
-        searchRecyclerView.adapter = searchAdapter
+        // inflate fragments
+        setupWithViewPagerAdapter(binding.viewPager)
+        binding.tabLayout.setupWithViewPager(binding.viewPager)
 
 
 
-        loadAllUsers()
+
+
+//        loadAllUsers()
 
         // set search conditions
-        setSportsFilterChips()
-        setLevelsFilterChips()
+//        setSportsFilterChips()
+//        setLevelsFilterChips()
 
-        // search
-        binding.searchEt.addTextChangedListener(object: TextWatcher{
-            override fun beforeTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+
+       /* binding.levelsCg.setOnCheckedChangeListener { group, checkedId ->
+            val chip: Chip? = group.findViewById(checkedId)
+            val level = chip?.text.toString().trim()
+
+            Toast.makeText(this, level, Toast.LENGTH_SHORT).show()
+
+            try {
+                searchAdapter.filter!!.filter(level)
+                Log.d(TAG, "onCreate: $level")
+
+            } catch (e: Exception) {
+                Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
             }
-            override fun onTextChanged(s: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                try{
-                    searchAdapter.filter!!.filter(s)
-                }catch(e: Exception){
-                    Log.d(TAG, "onTextChanged: failed to search users. Error: ${e.message}")
-                }
+        }*/
+    }
+
+    private fun setupWithViewPagerAdapter(viewPager: ViewPager) {
+        viewPagerAdapter = ViewPagerAdapter(
+            supportFragmentManager,
+            FragmentPagerAdapter.BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT,
+            this
+        )
+        userList = ArrayList()
+
+        // load all sport categories from db
+        val ref = fbDbRef.getReference("Users")
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                userList.clear()
+
+                val modelAll = ModelUser("01", "All", "", "", "", "", "", "", "", 0)
+                val modelMostPopularUsers =
+                    ModelUser("01", "Most Popular", "", "", "", "", "", "", "", 0)
+
+                userList.add(modelAll)
+                userList.add(modelMostPopularUsers)
+
+                viewPagerAdapter.addFragment(
+                    SearchFragment.newInstance(
+                        "${modelAll.uid}",
+                        "${modelAll.name}"
+                    ), modelAll.name!!
+                )
+                viewPagerAdapter.addFragment(
+                    SearchFragment.newInstance(
+                        "${modelMostPopularUsers.uid}",
+                        "${modelMostPopularUsers.name}"
+                    ), modelAll.name!!
+                )
+
+                viewPagerAdapter.notifyDataSetChanged()
             }
-            override fun afterTextChanged(ed: Editable?) {
+
+            override fun onCancelled(error: DatabaseError) {
             }
         })
 
-        binding.levelsCg.setOnCheckedChangeListener { group, checkedId ->
-                val chip: Chip? = group.findViewById(checkedId)
-                val level = chip?.text.toString().trim()
+        // inflate adapter to viewPager
+        viewPager.adapter = viewPagerAdapter
+    }
 
-                Toast.makeText(this, level, Toast.LENGTH_SHORT).show()
+    /* // create chips
+     entryChip()
 
-                try{
-                    searchAdapter.filter!!.filter(level)
-                    Log.d(TAG, "onCreate: $level")
-
-                }catch(e: Exception){
-                    Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
-                }
-            }
-        }
-
-       /* // create chips
-        entryChip()
-
-        // select sport chips
-        choiceSportChips()*/
+     // select sport chips
+     choiceSportChips()*/
 
 
-
-    private fun setSportsFilterChips() {
+/*    private fun setSportsFilterChips() {
         binding.sportsCg.setOnCheckedChangeListener { group, checkedId ->
             val chip: Chip? = group.findViewById(checkedId)
             val keyword = chip?.text.toString()
@@ -113,15 +153,17 @@ class SearchActivity : AppCompatActivity() {
                 binding.searchEt.setText(keyword)
             }
         }
-    }
+    }*/
+/*
     private fun setLevelsFilterChips() {
         binding.levelsCg.setOnCheckedChangeListener { group, checkedId ->
             val chip: Chip? = group.findViewById(checkedId)
             }
         }
+*/
 
 
-    private fun loadAllUsers() {
+/*    private fun loadAllUsers() {
         val ref = fbDbRef.getReference("Users")
 
         ref.addListenerForSingleValueEvent(object: ValueEventListener {
@@ -142,22 +184,51 @@ class SearchActivity : AppCompatActivity() {
         })
 
     }
-}
+}*/
 
-    /*private fun filterChips() {
-        binding.filtersGroupChips.setOnCheckedChangeListener { group, checkedId ->
-            val chip: Chip? = group.findViewById(checkedId)
+    class ViewPagerAdapter(fm: FragmentManager, behavior: Int, context: Context) :
+        FragmentPagerAdapter(fm, behavior) {
+        private val fragmentsList: ArrayList<SearchFragment> = ArrayList()
+        private val fragmentCategoryList: ArrayList<String> = ArrayList()
+        private val context: Context
 
-            if(chip?.isChecked == true){
-                Toast.makeText(this, chip.text, Toast.LENGTH_SHORT).show()
+        init {
+            this.context = context
+        }
+
+        override fun getCount(): Int {
+            return fragmentsList.size
+        }
+
+        override fun getItem(position: Int): Fragment {
+            return fragmentsList[position]
+        }
+
+        override fun getPageTitle(position: Int): CharSequence? {
+            return fragmentCategoryList[position]
+        }
+
+        fun addFragment(fragment: SearchFragment, category: String) {
+            fragmentsList.add(fragment)
+            fragmentCategoryList.add(category)
+        }
+
+    }
+
+/*private fun filterChips() {
+    binding.filtersGroupChips.setOnCheckedChangeListener { group, checkedId ->
+        val chip: Chip? = group.findViewById(checkedId)
+
+        if(chip?.isChecked == true){
+            Toast.makeText(this, chip.text, Toast.LENGTH_SHORT).show()
 //                chip?.chipBackgroundColor = getColorStateList(
 //                    R.color.primaryPaleYellow
 //                )
-            }
         }
-    }*/
+    }
+}*/
 
-   /* private fun choiceSportChips() {
+    /* private fun choiceSportChips() {
        binding.sportsChipGroup.setOnCheckedChangeListener { group, checkedId ->
            val chip: Chip? = group.findViewById(checkedId)
 
@@ -167,7 +238,7 @@ class SearchActivity : AppCompatActivity() {
        }
     }*/
 
-   /* private fun entryChip() {
+    /* private fun entryChip() {
         binding.searchEt.setOnKeyListener { view, keyCode, keyEvent ->
             if(keyCode == KeyEvent.KEYCODE_ENTER && keyEvent.action == KeyEvent.ACTION_UP){
 
@@ -205,3 +276,4 @@ class SearchActivity : AppCompatActivity() {
             }
         }
     }*/
+}

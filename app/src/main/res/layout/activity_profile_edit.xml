@@ -27,7 +27,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:text="Profile"
+            android:text="@string/profile"
             android:textColor="@color/primaryBlue"
             android:textSize="30sp"
             android:textStyle="bold"/>
@@ -41,10 +41,11 @@
         android:layout_above="@+id/btnLl"
         android:layout_below="@+id/titleTvLl"
         android:layout_marginHorizontal="15dp"
-        android:paddingLeft="20dp"
-        android:descendantFocusability="blocksDescendants"
         android:layout_marginTop="10dp"
-        android:background="@color/white">
+        android:background="@color/white"
+        android:descendantFocusability="blocksDescendants"
+        android:paddingLeft="20dp">
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -60,8 +61,8 @@
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:src="@drawable/ic_baseline_person_24"
-                    app:civ_border_width="5dp"
-                    app:civ_border_color="@color/primaryYellow"/>
+                    app:civ_border_color="@color/primaryYellow"
+                    app:civ_border_width="5dp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -74,6 +75,7 @@
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content">
+
                         <EditText
                             android:id="@+id/nameEt"
                             android:layout_width="match_parent"
@@ -87,19 +89,19 @@
                         android:id="@+id/emailTv"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:textColor="@color/primaryGray"
                         android:layout_marginTop="8dp"
                         android:layout_marginBottom="3dp"
-                        android:textSize="14sp"
-                        android:text="agrafena@gmail.com"/>
+                        android:text="@string/userEmail"
+                        android:textColor="@color/primaryGray"
+                        android:textSize="14sp" />
                     <!--Sex Symbol-->
                     <ImageView
                         android:id="@+id/sexIv"
                         android:layout_width="20dp"
                         android:layout_height="15dp"
-                        android:layout_marginTop="5dp"
                         android:layout_gravity="left"
-                        android:src="@drawable/ic_woman"/>
+                        android:layout_marginTop="5dp"
+                        android:src="@drawable/ic_woman" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -109,27 +111,31 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:orientation="horizontal"
-                android:gravity="center">
+                android:gravity="center"
+                android:orientation="horizontal">
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.5"
                     android:orientation="horizontal">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Registration Date"
+                        android:text="@string/regDate"
                         android:textColor="@color/black"
-                        android:textStyle="bold"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp"
+                        android:textStyle="bold" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="2"
-                    android:paddingLeft="15dp"
-                    android:orientation="horizontal">
+                    android:orientation="horizontal"
+                    android:paddingLeft="15dp">
+
                     <TextView
                         android:id="@+id/regDateTv"
                         android:layout_width="wrap_content"
@@ -137,7 +143,7 @@
                         android:paddingStart="10dp"
                         android:text="01/01/2022"
                         android:textColor="@color/black"
-                        android:textSize="18sp"/>
+                        android:textSize="18sp" />
                 </LinearLayout>
 
 
@@ -148,17 +154,19 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
+                android:layout_marginTop="15dp"
                 android:orientation="horizontal">
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Sport"
+                        android:text="@string/userSport"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -167,14 +175,17 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:paddingLeft="15dp"
-                    android:orientation="horizontal">
+                    android:layout_weight="3"
+                    android:orientation="horizontal"
+                    android:paddingLeft="15dp">
 
-                    <Spinner
-                        android:id="@+id/sportsSp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"/>
+                    <TextView
+                        android:id="@+id/sportTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:hint="Select your major sport"
+                        android:textColor="@color/black"
+                        android:textSize="16sp" />
 
                 </LinearLayout>
             </LinearLayout>
@@ -185,16 +196,17 @@
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:orientation="horizontal">
+
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1.5"
+                    android:layout_weight="1"
                     android:orientation="horizontal">
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Level"
+                        android:text="@string/userLevel"
                         android:textColor="@color/black"
                         android:textSize="18sp"
                         android:textStyle="bold" />
@@ -203,14 +215,36 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:paddingLeft="15dp"
+                    android:layout_weight="3"
                     android:orientation="horizontal">
 
-                    <Spinner
-                        android:id="@+id/levelsSp"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent" />
+
+                        <RadioGroup
+                            android:id="@+id/levelRg"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginRight="10dp"
+                            android:orientation="horizontal">
+
+                            <RadioButton
+                                android:id="@+id/amateurRb"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_marginStart="5dp"
+                                android:text="@string/amateur" />
+
+                            <RadioButton
+                                android:id="@+id/semiProRb"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/semiPro" />
+
+                            <RadioButton
+                                android:id="@+id/proRb"
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="@string/pro" />
+                        </RadioGroup>
 
                 </LinearLayout>
 
@@ -223,6 +257,7 @@
                 android:layout_height="wrap_content"
                 android:gravity="start"
                 android:orientation="vertical">
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -231,30 +266,32 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="About Me"
+                        android:drawableEnd="@drawable/ic_baseline_directions_run_24"
+                        android:drawablePadding="5dp"
+                        android:text="@string/aboutMe"
                         android:textColor="@color/black"
                         android:textSize="18sp"
-                        android:textStyle="bold"
-                        android:drawablePadding="5dp"
-                        android:drawableEnd="@drawable/ic_baseline_directions_run_24"/>
+                        android:textStyle="bold" />
                 </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="80dp"
                     android:orientation="horizontal">
+
                     <com.google.android.material.textfield.TextInputLayout
                         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
                         android:layout_width="match_parent"
                         android:layout_height="80dp">
+
                         <EditText
                             android:id="@+id/aboutMeEt"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
-                            android:maxLength="100"
-                            android:textSize="14sp"
                             android:inputType="textMultiLine"
-                            android:textColor="@color/black" />
+                            android:maxLength="100"
+                            android:textColor="@color/black"
+                            android:textSize="14sp" />
                     </com.google.android.material.textfield.TextInputLayout>
                 </LinearLayout>
 
@@ -285,7 +322,7 @@
             android:layout_margin="5dp"
             android:textSize="12sp"
             android:textColor="@color/white"
-            android:text="cancel"/>
+            android:text="@string/cancel"/>
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/saveProfileBtn"
@@ -296,7 +333,7 @@
             android:background="@drawable/rounded_corner_yellow"
             android:textSize="12sp"
             android:textColor="@color/white"
-            android:text="save profile"/>
+            android:text="@string/save"/>
 
     </LinearLayout>
 

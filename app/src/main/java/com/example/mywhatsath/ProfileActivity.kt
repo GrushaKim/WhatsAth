@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import com.bumptech.glide.Glide
 import com.example.mywhatsath.databinding.ActivityProfileBinding
 import com.example.mywhatsath.utils.MyApplication
@@ -27,8 +28,14 @@ class ProfileActivity : AppCompatActivity() {
         fbAuth = FirebaseAuth.getInstance()
         fbDbRef = FirebaseDatabase.getInstance()
 
+        //userId to show profile of the other user
+        val receiverId = intent.getStringExtra("userId")
+
         //load the profile
-        loadUserProfile()
+        loadUserProfile(receiverId)
+
+        // show edit button if the user of profile is the current user
+        checkCurrentUser(receiverId)
 
         //back button click
         binding.backBtn.setOnClickListener {
@@ -41,60 +48,126 @@ class ProfileActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadUserProfile() {
+
+    private fun checkCurrentUser(receiverId: String?) {
+        if(receiverId.isNullOrEmpty()){
+            binding.editProfileBtn.visibility = View.VISIBLE
+        }else{
+            binding.editProfileBtn.visibility = View.INVISIBLE
+        }
+
+    }
+
+    private fun loadUserProfile(receiverId: String?) {
         val ref = fbDbRef.getReference("Users")
-        ref.child(fbAuth.uid!!)
-            .addValueEventListener(object: ValueEventListener{
-                override fun onDataChange(snapshot: DataSnapshot) {
-                    //get user profile
-                    val profileImage = "${snapshot.child("profileImage").value}"
-                    val name = "${snapshot.child("name").value}"
-                    val email = "${snapshot.child("email").value}"
-                    val sex = "${snapshot.child("sex").value}"
-                    val regDate = "${snapshot.child("regDate").value}"
-                    val sport = "${snapshot.child("sport").value}"
-                    val level = "${snapshot.child("level").value}"
-                    val aboutMe = "${snapshot.child("aboutMe").value}"
 
-                    //convert regdate
-                    val formattedRegDate = MyApplication.formatRegDate(regDate.toLong())
+        if(receiverId.isNullOrEmpty()){
+            ref.child(fbAuth.uid!!)
+                .addValueEventListener(object: ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        //get user profile
+                        val profileImage = "${snapshot.child("profileImage").value}"
+                        val name = "${snapshot.child("name").value}"
+                        val email = "${snapshot.child("email").value}"
+                        val sex = "${snapshot.child("sex").value}"
+                        val regDate = "${snapshot.child("regDate").value}"
+                        val sport = "${snapshot.child("sport").value}"
+                        val level = "${snapshot.child("level").value}"
+                        val aboutMe = "${snapshot.child("aboutMe").value}"
 
-                    //set data
-                    if(profileImage.isEmpty() || profileImage == ""){
-                        binding.profileIv.setImageResource(R.drawable.ic_baseline_person_24)
-                    }else{
-                        try{
-                            Glide.with(this@ProfileActivity)
-                                .load(profileImage)
-                                .into(binding.profileIv)
-                        } catch(e: Exception){
-                            Log.d("PROFILE_TAG", "Failed to load the profile image. Error: ${e.message}")
+                        //convert regdate
+                        val formattedRegDate = MyApplication.formatRegDate(regDate.toLong())
+
+                        //set data
+                        if(profileImage.isEmpty() || profileImage == ""){
+                            binding.profileIv.setImageResource(R.drawable.ic_baseline_person_24)
+                        }else{
+                            try{
+                                Glide.with(this@ProfileActivity)
+                                    .load(profileImage)
+                                    .into(binding.profileIv)
+                            } catch(e: Exception){
+                                Log.d("PROFILE_TAG", "Failed to load the profile image. Error: ${e.message}")
+                            }
                         }
+
+                        binding.nameTv.text = name
+                        binding.emailTv.text = email
+
+                        if(sex.lowercase() == R.string.male.toString().lowercase()){
+                            binding.sexIv.setImageResource(R.drawable.ic_man)
+                        }else{
+                            binding.sexIv.setImageResource(R.drawable.ic_woman)
+                        }
+
+                        binding.regDateTv.text = formattedRegDate
+                        binding.sportTv.text = sport
+                        binding.levelTv.text = level
+
+                        if(aboutMe.isEmpty() || aboutMe == ""){
+                            binding.aboutMeTv.text = "Update your information"
+                        }else{
+                            binding.aboutMeTv.text = aboutMe
+                        }
+
                     }
-
-                    binding.nameTv.text = name
-                    binding.emailTv.text = email
-
-                    if(sex == R.string.male.toString()){
-                        binding.sexIv.setImageResource(R.drawable.ic_man)
-                    }else{
-                        binding.sexIv.setImageResource(R.drawable.ic_woman)
+                    override fun onCancelled(error: DatabaseError) {
                     }
+                })
+        }else{
+            ref.child(receiverId!!)
+                .addValueEventListener(object: ValueEventListener{
+                    override fun onDataChange(snapshot: DataSnapshot) {
+                        //get user profile
+                        val profileImage = "${snapshot.child("profileImage").value}"
+                        val name = "${snapshot.child("name").value}"
+                        val email = "${snapshot.child("email").value}"
+                        val sex = "${snapshot.child("sex").value}"
+                        val regDate = "${snapshot.child("regDate").value}"
+                        val sport = "${snapshot.child("sport").value}"
+                        val level = "${snapshot.child("level").value}"
+                        val aboutMe = "${snapshot.child("aboutMe").value}"
 
-                    binding.regDateTv.text = formattedRegDate
-                    binding.sportTv.text = sport
-                    binding.levelTv.text = level
+                        //convert regdate
+                        val formattedRegDate = MyApplication.formatRegDate(regDate.toLong())
 
-                    if(aboutMe.isEmpty() || aboutMe == ""){
-                        binding.aboutMeTv.text = "Update your information"
-                    }else{
-                        binding.aboutMeTv.text = aboutMe
+                        //set data
+                        if(profileImage.isEmpty() || profileImage == ""){
+                            binding.profileIv.setImageResource(R.drawable.ic_baseline_person_24)
+                        }else{
+                            try{
+                                Glide.with(this@ProfileActivity)
+                                    .load(profileImage)
+                                    .into(binding.profileIv)
+                            } catch(e: Exception){
+                                Log.d("PROFILE_TAG", "Failed to load the profile image. Error: ${e.message}")
+                            }
+                        }
+
+                        binding.nameTv.text = name
+                        binding.emailTv.text = email
+
+                        if(sex == R.string.male.toString()){
+                            binding.sexIv.setImageResource(R.drawable.ic_man)
+                        }else{
+                            binding.sexIv.setImageResource(R.drawable.ic_woman)
+                        }
+
+                        binding.regDateTv.text = formattedRegDate
+                        binding.sportTv.text = sport
+                        binding.levelTv.text = level
+
+                        if(aboutMe.isEmpty() || aboutMe == ""){
+                            binding.aboutMeTv.text = ""
+                        }else{
+                            binding.aboutMeTv.text = aboutMe
+                        }
+
                     }
+                    override fun onCancelled(error: DatabaseError) {
+                    }
+                })
+        }
 
-                }
-                override fun onCancelled(error: DatabaseError) {
-                }
-
-            })
     }
 }

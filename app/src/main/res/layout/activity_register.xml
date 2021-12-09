@@ -33,7 +33,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="30dp"
-                android:text="Register Form"
+                android:text="@string/registerForm"
                 android:textAlignment="textStart"
                 android:textColor="@color/primaryBlue"
                 android:textSize="25sp"
@@ -50,7 +50,7 @@
                     android:layout_height="match_parent"
                     android:drawableStart="@drawable/ic_baseline_person_24"
                     android:drawablePadding="8dp"
-                    android:hint="name"
+                    android:hint="@string/userName"
                     android:background="@android:color/transparent"
                     android:inputType="textPersonName"
                     android:textColor="@color/black" />
@@ -68,7 +68,7 @@
                     android:layout_height="match_parent"
                     android:drawableStart="@drawable/ic_baseline_email_24"
                     android:drawablePadding="8dp"
-                    android:hint="email"
+                    android:hint="@string/userEmail"
                     android:background="@android:color/transparent"
                     android:inputType="textEmailAddress"
                     android:textColor="@color/black" />
@@ -122,7 +122,7 @@
                     android:layout_marginStart="10dp"
                     android:background="@drawable/rounded_corner_yellow"
                     android:padding="0dp"
-                    android:text="check"
+                    android:text="@string/check"
                     android:textSize="10sp" />
 
             </LinearLayout>
@@ -141,7 +141,7 @@
                     android:layout_height="match_parent"
                     android:drawableStart="@drawable/ic_baseline_lock_24"
                     android:drawablePadding="8dp"
-                    android:hint="password"
+                    android:hint="@string/userPwd"
                     android:background="@android:color/transparent"
                     android:inputType="textPassword"
                     android:textColor="@color/black" />
@@ -159,7 +159,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
-                    android:text="Password should be"
+                    android:text="@string/pwdRule1"
                     android:textColor="@color/primaryDimBlue"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -191,7 +191,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
                         android:gravity="center|start"
-                        android:text="At least 8 characters"
+                        android:text="@string/pwdRule2"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -223,7 +223,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
                         android:gravity="center|start"
-                        android:text="Minimum one number"
+                        android:text="@string/pwdRule3"
                         android:textColor="@color/black"
                         android:textSize="14sp" />
                 </LinearLayout>
@@ -243,7 +243,7 @@
                     android:layout_height="match_parent"
                     android:drawableStart="@drawable/ic_baseline_lock_24"
                     android:drawablePadding="8dp"
-                    android:hint="confirm password"
+                    android:hint="@string/userPwdConfirm"
                     android:background="@android:color/transparent"
                     android:inputType="textPassword"
                     android:textColor="@color/black" />
@@ -278,7 +278,7 @@
                     android:layout_marginStart="10dp"
                     android:layout_marginEnd="10dp"
                     android:gravity="center|start"
-                    android:text="your password doesn't match"
+                    android:text="@string/pwdMismatch"
                     android:textColor="@color/red"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -294,7 +294,7 @@
                 <TextView
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:text="Gender"
+                    android:text="@string/userGender"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -311,14 +311,14 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:text="Female" />
+                        android:text="@string/female" />
 
                     <RadioButton
                         android:id="@+id/maleRb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:text="Male" />
+                        android:text="@string/male" />
                 </RadioGroup>
             </LinearLayout>
 
@@ -333,17 +333,21 @@
                 <TextView
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:text="Sport"
+                    android:text="@string/userSport"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
 
-                <Spinner
-                    android:id="@+id/sportsSp"
+                <TextView
+                    android:id="@+id/sportTv"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:textSize="16sp"
+                    android:hint="@string/selectSport"
+                    android:paddingLeft="10dp"
                     android:layout_marginStart="10dp"
-                    android:paddingRight="10dp" />
+                    android:paddingVertical="5dp" />
             </LinearLayout>
 
             <!--Level RadioGroup-->
@@ -357,7 +361,7 @@
                 <TextView
                     android:layout_width="60dp"
                     android:layout_height="wrap_content"
-                    android:text="Level"
+                    android:text="@string/userLevel"
                     android:textColor="@color/black"
                     android:textSize="16sp"
                     android:textStyle="bold" />
@@ -374,21 +378,21 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:text="Amateur" />
+                        android:text="@string/amateur" />
 
                     <RadioButton
                         android:id="@+id/semiProRb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:text="Semi-Pro" />
+                        android:text="@string/semiPro" />
 
                     <RadioButton
                         android:id="@+id/proRb"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="10dp"
-                        android:text="Pro" />
+                        android:text="@string/pro" />
                 </RadioGroup>
             </LinearLayout>
 
@@ -407,7 +411,7 @@
         android:layout_marginHorizontal="15dp"
         android:textSize="20sp"
         android:textColor="@color/white"
-        android:text="Sign up"/>
+        android:text="@string/signup"/>
 
     <!--Bottom Wave Background-->
     <ImageView

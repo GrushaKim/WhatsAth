@@ -139,8 +139,6 @@ class DashboardUserActivity : AppCompatActivity() {
             })
     }
 
-
-
     private fun checkUser() {
         // get current user
         val fbUser = fbAuth.currentUser

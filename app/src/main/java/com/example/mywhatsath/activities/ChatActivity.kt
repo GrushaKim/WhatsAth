@@ -25,10 +25,12 @@ import com.example.mywhatsath.R
 import com.example.mywhatsath.adapters.MessageAdapter
 import com.example.mywhatsath.databinding.ActivityChatBinding
 import com.example.mywhatsath.models.ModelMessage
+import com.example.mywhatsath.models.ModelUser
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
+import com.google.protobuf.Value
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -88,6 +90,9 @@ class ChatActivity : AppCompatActivity() {
         // load previous messages
         loadMessages(senderId, receiverId)
 
+        // check if the user is blocked
+        checkBlocked(receiverId)
+
         // check if imageUri exists
         checkImageUri(imageUri)
 
@@ -112,6 +117,8 @@ class ChatActivity : AppCompatActivity() {
                 Toast.makeText(this, "Your device does not support", Toast.LENGTH_SHORT).show()
             }
         })
+
+        // implement the function above
         activityResultLauncher=registerForActivityResult(
             ActivityResultContracts.StartActivityForResult()){ result: ActivityResult? ->
             if(result!!.resultCode == RESULT_OK && result!!.data!=null){
@@ -119,7 +126,6 @@ class ChatActivity : AppCompatActivity() {
                     RecognizerIntent.EXTRA_RESULTS) as ArrayList<Editable>
                 binding.msgBoxEt.text = speechText[0]
             }
-
         }
 
         // pick image from gallery
@@ -135,13 +141,14 @@ class ChatActivity : AppCompatActivity() {
 
         // send message click
         binding.sendMsgBtn.setOnClickListener {
-            if (imageUri == null) {
+
+            /*if (imageUri == null) {
                 sendMsg(senderId, receiverId, "")
             } else {
                 uploadImage(senderId, receiverId)
-            }
+            }*/
         }
-        // Hearts button click
+        // hearts button click
         binding.heartsBtn.setOnClickListener {
             // check HasHearts
             if(hasHearts){
@@ -150,6 +157,85 @@ class ChatActivity : AppCompatActivity() {
                 addHearts(receiverId)
             }
         }
+
+        // block button click
+        binding.blockBtn.setOnClickListener{
+            showBlockDialog(receiverId)
+        }
+    }
+
+    private fun checkBlocked(receiverId: String?) {
+        val ref = fbDbRef.getReference("Users")
+        ref.child(fbAuth.uid!!).child("blocked")
+            .addValueEventListener(object: ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+
+                    for(ds in snapshot.children){
+                        val blockedUser = ds.getValue(ModelUser::class.java)!!.uid
+                        if(blockedUser == receiverId){
+                            binding.msgBoxEt.apply{
+                                hint = "This user is blocked"
+                                isClickable = false
+                                isFocusable = false
+                                isCursorVisible = false
+                                isFocusableInTouchMode = false
+                            }
+                        } else {
+                            binding.msgBoxEt.apply{
+                                hint = "Text message"
+                                isClickable = true
+                                isFocusable = true
+                                isCursorVisible = true
+                                isFocusableInTouchMode = true
+                        }
+                    }
+                }
+                override fun onCancelled(error: DatabaseError) {
+                    TODO("Not yet implemented")
+                }
+            })
+    }
+
+    private var selectedItem = ""
+
+    private fun showBlockDialog(receiverId: String?) {
+        val reportsArr = arrayOf(
+            "Personal",
+            "Spam",
+            "Sexual content",
+            "Violent or dangerous acts"
+        )
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Select your reason to block the user")
+            .setSingleChoiceItems(reportsArr, -1){ dialog, i ->
+            selectedItem = reportsArr[i]
+        }
+            .setPositiveButton("Report and Block"){ dialog, which ->
+
+                //set the info in db to be blocked
+                val ref = fbDbRef.getReference("Users")
+                val hashMap = HashMap<String, Any>()
+                hashMap["uid"] = receiverId!!
+                hashMap["reported"] = selectedItem
+                hashMap["timestamp"] = System.currentTimeMillis()
+
+                ref.child(fbAuth.uid!!).child("blocked")
+                    .child(receiverId!!)
+                    .setValue(hashMap)
+                    .addOnSuccessListener {
+                        Log.d(TAG, "blockUser: successfully blocked the user")
+                    }
+                    .addOnFailureListener { e ->
+                        Log.d(TAG, "blockUser: failed to block the user")
+                    }
+
+            }
+            .setNegativeButton("Cancel"){ dialog, id ->
+                dialog.dismiss()
+            }
+        val alert = builder.create()
+        alert.show()
     }
 
     private fun addHearts(receiverId: String?) {
@@ -247,31 +333,6 @@ class ChatActivity : AppCompatActivity() {
             })
     }
 
-
-    private fun blockUser(receiverId: String?) {
-        val builder = AlertDialog.Builder(this)
-        builder.setMessage("Block this user?")
-            .setCancelable(false)
-            .setPositiveButton("Block"){ dialog, id ->
-                val ref = fbDbRef.getReference("Users")
-                val hashMap = HashMap<String, Any>()
-                hashMap.put(receiverId.toString(), receiverId.toString())
-                ref.child(fbAuth.uid!!).child("blocked")
-                    .updateChildren(hashMap)
-                    .addOnSuccessListener {
-                        Log.d(TAG, "blockUser: successfully blocked the user")
-                    }
-                    .addOnFailureListener { e ->
-                        Log.d(TAG, "blockUser: failed to block the user")
-                    }
-            }
-            .setNegativeButton("Cancel"){ dialog, id ->
-                dialog.dismiss()
-            }
-        val alert = builder.create()
-        alert.show()
-    }
-
     private fun loadMessages(senderId: String, receiverId: String?) {
         val ref = fbDbRef.getReference("/Chats/$senderId/$receiverId")
         ref.addValueEventListener(object: ValueEventListener{
@@ -290,7 +351,6 @@ class ChatActivity : AppCompatActivity() {
             }
         })
     }
-
 
     private fun sendMsg(senderId: String, receiverId: String?, uploadedImgUrl: String){
 
@@ -329,11 +389,7 @@ class ChatActivity : AppCompatActivity() {
             latestMsgRefTo.setValue(modelMessage)
 
         }
-
-
     }
-
-
 
     private fun loadToolbarInfo(receiverId: String?) {
 

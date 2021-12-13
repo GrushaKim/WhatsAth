@@ -53,6 +53,7 @@
             android:layout_weight="0.5"
             android:layout_marginStart="10dp"
             android:padding="5dp"
+            android:tooltipText="Click to give hearts"
             android:src="@drawable/ic_hearts"/>
         <ImageView
             android:id="@+id/blockBtn"
@@ -61,6 +62,7 @@
             android:layout_weight="0.5"
             android:layout_marginStart="10dp"
             android:padding="5dp"
+            android:tooltipText="Block and report"
             android:src="@drawable/ic_baseline_block_24"/>
 
     </LinearLayout>
@@ -125,6 +127,7 @@
                     android:id="@+id/voiceBtn"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:tooltipText="Speech to text"
                     android:src="@drawable/ic_baseline_keyboard_voice_24" />
 
             </LinearLayout>
@@ -140,6 +143,7 @@
                     android:id="@+id/uploadImgBtn"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:tooltipText="Upload an image"
                     android:src="@drawable/ic_baseline_insert_photo_24_gray" />
 
                 <ImageView

@@ -1,7 +1,5 @@
-package com.example.mywhatsath
+package com.example.mywhatsath.activities
 
-import android.app.Activity
-import android.app.AlertDialog
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -11,13 +9,11 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mywhatsath.adapters.UserAdapter
 import com.example.mywhatsath.databinding.ActivityDashboardUserBinding
-import com.example.mywhatsath.models.ModelMessage
 import com.example.mywhatsath.models.ModelUser
 import com.example.mywhatsath.utils.SwipeToDeleteCallback
 import com.google.android.material.bottomsheet.BottomSheetBehavior
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.protobuf.Value
 
 class DashboardUserActivity : AppCompatActivity() {
     private lateinit var binding: ActivityDashboardUserBinding
@@ -149,7 +145,7 @@ class DashboardUserActivity : AppCompatActivity() {
         // get current user
         val fbUser = fbAuth.currentUser
         if(fbUser == null){
-            startActivity(Intent(this,LoginActivity::class.java))
+            startActivity(Intent(this, LoginActivity::class.java))
             finish()
         }else{
             val email = fbUser.email

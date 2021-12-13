@@ -1,22 +1,27 @@
-package com.example.mywhatsath
+package com.example.mywhatsath.activities
 
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.ProgressDialog
+import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
+import android.speech.RecognizerIntent
+import android.text.Editable
 import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.mywhatsath.R
 import com.example.mywhatsath.adapters.MessageAdapter
 import com.example.mywhatsath.databinding.ActivityChatBinding
 import com.example.mywhatsath.models.ModelMessage
@@ -24,7 +29,9 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
+import java.util.*
 import kotlin.collections.ArrayList
+import kotlin.collections.HashMap
 
 class ChatActivity : AppCompatActivity() {
     private lateinit var binding: ActivityChatBinding
@@ -34,6 +41,9 @@ class ChatActivity : AppCompatActivity() {
 
     //image uri
     private var imageUri: Uri? = null
+
+    //voice recognition intent
+    private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
 
     //progress dialog
     private lateinit var pDialog: ProgressDialog
@@ -87,6 +97,29 @@ class ChatActivity : AppCompatActivity() {
         // back button click
         binding.backBtn.setOnClickListener {
             onBackPressed()
+        }
+
+        // speech to text button click
+        binding.voiceBtn.setOnClickListener(View.OnClickListener {
+            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak")
+
+            try{
+                activityResultLauncher.launch(intent)
+            }catch(e:ActivityNotFoundException){
+                Toast.makeText(this, "Your device does not support", Toast.LENGTH_SHORT).show()
+            }
+        })
+        activityResultLauncher=registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()){ result: ActivityResult? ->
+            if(result!!.resultCode == RESULT_OK && result!!.data!=null){
+                val speechText = result!!.data!!.getStringArrayListExtra(
+                    RecognizerIntent.EXTRA_RESULTS) as ArrayList<Editable>
+                binding.msgBoxEt.text = speechText[0]
+            }
+
         }
 
         // pick image from gallery

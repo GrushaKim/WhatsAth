@@ -1,11 +1,10 @@
-package com.example.mywhatsath
+package com.example.mywhatsath.activities
 
-import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.MenuItem
-import android.widget.Toast
 import androidx.appcompat.app.ActionBarDrawerToggle
+import com.example.mywhatsath.R
 import com.example.mywhatsath.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -19,7 +18,8 @@ class MainActivity : AppCompatActivity() {
 
         // set drawer menu
         toggle = ActionBarDrawerToggle(
-            this, binding.drawerLayout,R.string.open,R.string.close)
+            this, binding.drawerLayout, R.string.open, R.string.close
+        )
         binding.drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
 

@@ -1,9 +1,8 @@
-package com.example.mywhatsath
+package com.example.mywhatsath.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.util.Patterns
 import android.view.View
 import com.example.mywhatsath.databinding.ActivityResetPwdBinding
 import com.google.firebase.auth.FirebaseAuth

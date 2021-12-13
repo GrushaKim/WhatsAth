@@ -1,4 +1,4 @@
-package com.example.mywhatsath
+package com.example.mywhatsath.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity

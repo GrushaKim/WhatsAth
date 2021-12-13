@@ -1,32 +1,19 @@
-package com.example.mywhatsath
+package com.example.mywhatsath.activities
 
 import android.content.Context
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
-import android.view.KeyEvent
-import android.view.View
-import android.widget.Toast
-import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
-import com.example.mywhatsath.adapters.MessageAdapter
 import com.example.mywhatsath.adapters.SearchAdapter
 import com.example.mywhatsath.databinding.ActivitySearchBinding
-import com.example.mywhatsath.models.ModelMessage
 import com.example.mywhatsath.models.ModelSport
 import com.example.mywhatsath.models.ModelUser
-import com.google.android.material.chip.Chip
-import com.google.android.material.chip.ChipGroup
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
-import com.google.protobuf.Value
 
 class SearchActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySearchBinding

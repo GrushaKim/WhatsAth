@@ -1,6 +1,5 @@
 package com.example.mywhatsath.adapters
 
-import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.util.Log
@@ -8,14 +7,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.*
-import androidx.core.content.ContextCompat.startActivity
-import androidx.recyclerview.widget.AsyncListDiffer
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.mywhatsath.ChatActivity
-import com.example.mywhatsath.ProfileActivity
+import com.example.mywhatsath.activities.ChatActivity
+import com.example.mywhatsath.activities.ProfileActivity
 import com.example.mywhatsath.R
 import com.example.mywhatsath.databinding.ItemDashboardUserBinding
 import com.example.mywhatsath.models.ModelMessage

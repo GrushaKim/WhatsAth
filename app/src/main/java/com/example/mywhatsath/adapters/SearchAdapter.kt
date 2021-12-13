@@ -9,10 +9,9 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Filter
 import android.widget.Filterable
-import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.mywhatsath.ChatActivity
+import com.example.mywhatsath.activities.ChatActivity
 import com.example.mywhatsath.R
 import com.example.mywhatsath.databinding.ItemSearchListBinding
 import com.example.mywhatsath.models.ModelUser

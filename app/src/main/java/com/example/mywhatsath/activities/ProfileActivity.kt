@@ -1,4 +1,4 @@
-package com.example.mywhatsath
+package com.example.mywhatsath.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.util.Log
 import android.view.View
 import com.bumptech.glide.Glide
+import com.example.mywhatsath.R
 import com.example.mywhatsath.databinding.ActivityProfileBinding
 import com.example.mywhatsath.utils.MyApplication
 import com.google.firebase.auth.FirebaseAuth

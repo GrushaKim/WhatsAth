@@ -15,35 +15,35 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyWhatsAth">
         <activity
-            android:name=".CategoryAddTempActivity"
+            android:name=".activities.CategoryAddTempActivity"
             android:exported="true" />
         <activity
-            android:name=".SearchActivity"
+            android:name=".activities.SearchActivity"
             android:exported="true" />
         <activity
-            android:name=".ProfileEditActivity"
+            android:name=".activities.ProfileEditActivity"
             android:exported="true" />
         <activity
-            android:name=".ProfileActivity"
+            android:name=".activities.ProfileActivity"
             android:exported="true" />
         <activity
-            android:name=".ChatActivity"
+            android:name=".activities.ChatActivity"
             android:exported="true" />
         <activity
-            android:name=".DashboardUserActivity"
+            android:name=".activities.DashboardUserActivity"
             android:exported="true" />
         <activity
-            android:name=".ResetPwdActivity"
+            android:name=".activities.ResetPwdActivity"
             android:exported="true" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activities.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.MyWhatsAth.FullScreen" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".activities.RegisterActivity"
             android:exported="true" />
         <activity
-            android:name=".SplashActivity"
+            android:name=".activities.SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.Design.Light.NoActionBar">
             <intent-filter>
@@ -53,7 +53,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".MainActivity"
+            android:name=".activities.MainActivity"
             android:exported="true"
             android:theme="@style/Theme.Design.Light.NoActionBar" />
 

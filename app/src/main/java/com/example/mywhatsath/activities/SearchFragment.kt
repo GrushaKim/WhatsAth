@@ -1,4 +1,4 @@
-package com.example.mywhatsath
+package com.example.mywhatsath.activities
 
 import android.os.Bundle
 import android.text.Editable
@@ -10,9 +10,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
-import androidx.core.view.children
+import com.example.mywhatsath.R
 import com.example.mywhatsath.adapters.SearchAdapter
-import com.example.mywhatsath.databinding.ActivityCategoryAddTempBinding.bind
 import com.example.mywhatsath.databinding.FragmentSearchBinding
 import com.example.mywhatsath.models.ModelUser
 import com.google.android.material.chip.Chip
@@ -20,7 +19,6 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import java.nio.file.Files.find
 
 class SearchFragment : Fragment {
     private lateinit var binding: FragmentSearchBinding
@@ -29,7 +27,7 @@ class SearchFragment : Fragment {
         private const val TAG = "SEARCH_FRAGMENT_TAG"
 
         //get all data
-        fun newInstance(id: String, sport: String): SearchFragment{
+        fun newInstance(id: String, sport: String): SearchFragment {
             val fragment = SearchFragment()
             val args = Bundle()
             args.putString("id", id)

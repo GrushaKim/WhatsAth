@@ -1,6 +1,5 @@
-package com.example.mywhatsath
+package com.example.mywhatsath.activities
 
-import android.app.Activity
 import android.app.AlertDialog
 import android.content.Intent
 import android.graphics.Color
@@ -11,22 +10,16 @@ import android.text.TextWatcher
 import android.util.Log
 import android.util.Patterns
 import android.view.View
-import android.widget.AdapterView
-import android.widget.ArrayAdapter
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
-import androidx.core.content.ContextCompat
-import androidx.core.widget.addTextChangedListener
+import com.example.mywhatsath.R
 import com.example.mywhatsath.databinding.ActivityRegisterBinding
 import com.example.mywhatsath.models.ModelSport
-import com.example.mywhatsath.utils.MyApplication
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import kotlin.properties.Delegates
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding

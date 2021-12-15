@@ -64,7 +64,7 @@
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textStyle="bold"
-                        android:text="profile"/>
+                        android:text="@string/menuProfile"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -85,7 +85,7 @@
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textStyle="bold"
-                        android:text="search"/>
+                        android:text="@string/menuSearch"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -106,7 +106,7 @@
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textStyle="bold"
-                        android:text="chat"/>
+                        android:text="@string/menuChat"/>
                 </LinearLayout>
             </LinearLayout>
             <!--Row#2-->
@@ -126,7 +126,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
-                        android:src="@drawable/ic_baseline_support_agent_24"
+                        android:src="@drawable/ic_baseline_newspaper_24"
                         android:scaleType="fitCenter" />
                     <TextView
                         android:layout_width="match_parent"
@@ -134,7 +134,7 @@
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textStyle="bold"
-                        android:text="help"/>
+                        android:text="@string/menuNews"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -155,7 +155,7 @@
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textStyle="bold"
-                        android:text="settings"/>
+                        android:text="@string/menuSettings"/>
                 </LinearLayout>
 
                 <LinearLayout
@@ -176,7 +176,7 @@
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textStyle="bold"
-                        android:text="logout"/>
+                        android:text="@string/menuLogout"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>

@@ -15,6 +15,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MyWhatsAth">
         <activity
+            android:name=".activities.NewsActivity"
+            android:exported="true" />
+        <activity
             android:name=".activities.CategoryAddTempActivity"
             android:exported="true" />
         <activity

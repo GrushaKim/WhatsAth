@@ -3,6 +3,8 @@
     <!--facebook app id-->
     <string name="facebook_app_id">571787797216822</string>
     <string name="fb_login_protocol_scheme">fb571787797216822</string>
+    <!--NYT api key-->
+    <string name="news_api_key">8afbb04e07064565bb8899adc6886550</string>
     <!--Register Levels-->
     <string-array name="levels">
         <item>Amateur</item>
@@ -56,6 +58,13 @@
     <string name="thisMessageReceived">This message has been received</string>
     <string name="searchEtText">Find your fitness mate</string>
     <string name="shareFitness">Share Your Fitness with Us</string>
+    <!--Bottom Drawer Menu-->
+    <string name="menuProfile">profile</string>
+    <string name="menuSearch">search</string>
+    <string name="menuChat">chat</string>
+    <string name="menuNews">news</string>
+    <string name="menuSettings">settings</string>
+    <string name="menuLogout">logout</string>
     <!--Sports Type-->
     <string name="poledancing">Pole Dancing</string>
     <string name="pilates">Pilates</string>

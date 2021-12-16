@@ -13,7 +13,7 @@ data class Data(
     @SerializedName("description")
     val description: String?,
     @SerializedName("image")
-    val image: Any?,
+    val image: String?,
     @SerializedName("language")
     val language: String?,
     @SerializedName("published_at")

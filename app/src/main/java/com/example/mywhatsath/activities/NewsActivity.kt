@@ -3,7 +3,11 @@ package com.example.mywhatsath.activities
 import android.os.Bundle
 import android.util.Log
 import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.example.mywhatsath.adapters.NewsAdapter
 import com.example.mywhatsath.databinding.ActivityNewsBinding
+import com.example.mywhatsath.utils.retrofit.Data
 import com.example.mywhatsath.utils.retrofit.NewsResponse
 import com.example.mywhatsath.utils.retrofit.RetrofitClient
 import com.example.mywhatsath.utils.retrofit.RetrofitService
@@ -16,6 +20,10 @@ class NewsActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNewsBinding
     private lateinit var retrofit: Retrofit
     private lateinit var supplService: RetrofitService
+
+    private lateinit var newsRecyclerView: RecyclerView
+    private lateinit var newsList: ArrayList<Data>
+    private lateinit var newsAdapter: NewsAdapter
 
     /*private lateinit var newsAdapter: NewsAdapter
     private lateinit var newsList: ArrayList<ModelData>
@@ -33,24 +41,34 @@ class NewsActivity : AppCompatActivity() {
         retrofit = RetrofitClient.getInstance()
         supplService = retrofit.create(RetrofitService::class.java)
 
+        // load latest headlines
+        getHeadlines(supplService)
 
-        binding.clickBtn.setOnClickListener { 
-            getHeadlines(supplService, "a0b2b41a173e1a2641db7afe59bc972f", "sports")
-        }
-        /*newsList = ArrayList()
+        // init recyclerview
+        newsRecyclerView = binding.newsRecyclerView
+        newsList = ArrayList()
         newsAdapter = NewsAdapter(this, newsList)
 
-        binding.newsRecyclerView.apply{
-            layoutManager = LinearLayoutManager(this@NewsActivity)
-            adapter = newsAdapter
-        }*/
+        newsRecyclerView.layoutManager = LinearLayoutManager(this)
+        newsRecyclerView.adapter = newsAdapter
 
     }
 
-    private fun getHeadlines(service: RetrofitService, access_key: String, categories: String) {
-        service.getHeadlines(access_key, categories).enqueue(object: Callback<NewsResponse>{
+    private fun getHeadlines(service: RetrofitService) {
+        service.getHeadlines().enqueue(object: Callback<NewsResponse>{
             override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
-                Log.d(TAG, "onResponse: successfully loaded. ${response.body()?.data.toString()}")
+                if(response.isSuccessful){
+                    Log.d(TAG, "onResponse: successfully loaded headlines from mediastack API. ${response.body().toString()}")
+                    newsList.clear()
+
+                    val titleData = response.body()!!.data
+
+                    for(item in titleData!!){
+                        newsList.add(item)
+                    }
+                    newsAdapter.notifyDataSetChanged()
+                }
+
             }
 
             override fun onFailure(call: Call<NewsResponse>, t: Throwable) {

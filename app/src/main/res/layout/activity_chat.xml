@@ -80,8 +80,8 @@
         android:id="@+id/chatRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/hr2"
-        android:layout_above="@+id/chatLl"/>
+        android:layout_above="@+id/chatLl"
+        android:layout_below="@id/hr2" />
 
     <!--Message Input-->
     <LinearLayout

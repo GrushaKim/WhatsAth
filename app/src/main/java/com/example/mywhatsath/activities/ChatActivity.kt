@@ -46,11 +46,11 @@ class ChatActivity : AppCompatActivity() {
     //voice recognition intent
     private lateinit var activityResultLauncher: ActivityResultLauncher<Intent>
 
-    //progress dialog
-    private lateinit var pDialog: ProgressDialog
-
     //check hearts
     private var hasHearts = false
+
+    //single selection dialog
+    private var selectedItem = ""
 
     companion object{
         const val TAG = "CHAT_TAG"
@@ -196,7 +196,7 @@ class ChatActivity : AppCompatActivity() {
             })
     }
 
-    private var selectedItem = ""
+
 
     private fun showBlockDialog(receiverId: String?) {
         val reportsArr = arrayOf(

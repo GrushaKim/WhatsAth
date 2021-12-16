@@ -32,11 +32,19 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.HolderNews> {
         holder.agentTv.text = model.source
 
         // check if the loaded article has a thumbnail image
-       /* if(model.image != null){
+       if(model.image != null){
+
+           holder.headlineIv.visibility = View.VISIBLE
+           holder.textLl.weightSum = 3F
+
             Picasso.get()
                 .load(model.image)
                 .into(holder.headlineIv)
-        }*/
+        }else{
+            // set full-width layout
+            holder.headlineIv.visibility = View.GONE
+            holder.textLl.weightSum = 2F
+       }
 
     }
 
@@ -48,19 +56,7 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.HolderNews> {
         var titleTv = binding.titleTv
         var agentTv = binding.agentTv
         var headlineIv = binding.headlineIv
+        var textLl = binding.textLl
     }
-
-/*    companion object{
-        private val newsCallback = object: DiffUtil.ItemCallback<Data>(){
-            override fun areItemsTheSame(oldItem: Data, newItem: Data): Boolean {
-                return oldItem.hashCode() == newItem.hashCode()
-            }
-
-            override fun areContentsTheSame(oldItem: Data, newItem: Data): Boolean {
-                return oldItem == newItem
-            }
-
-        }
-    }*/
 
 }

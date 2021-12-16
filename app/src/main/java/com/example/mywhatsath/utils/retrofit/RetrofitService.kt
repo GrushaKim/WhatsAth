@@ -8,10 +8,7 @@ import retrofit2.http.Query
 
 interface RetrofitService {
 
-    @GET("v1/news")
-    fun getHeadlines(
-        @Query("access_key") access_key: String,
-        @Query("categories") categories: String
-    ): Call<NewsResponse>
+    @GET("v1/news?access_key=a0b2b41a173e1a2641db7afe59bc972f&categories=health,sports&languages=en&sort=published_desc")
+    fun getHeadlines(): Call<NewsResponse>
 
 }

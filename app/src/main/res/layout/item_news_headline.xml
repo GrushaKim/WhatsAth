@@ -2,12 +2,13 @@
 <androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/newsCardView"
-    app:cardElevation="10dp"
-    android:layout_margin="10dp"
+    app:cardElevation="8dp"
+    android:layout_margin="5dp"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <LinearLayout
+        android:id="@+id/textLl"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_margin="5dp"
@@ -27,7 +28,7 @@
                 android:textSize="20sp"
                 android:textStyle="bold"
                 android:textColor="@color/black"
-                android:maxLines="2" />
+                android:maxLines="3" />
 
             <!--Agent-->
             <TextView

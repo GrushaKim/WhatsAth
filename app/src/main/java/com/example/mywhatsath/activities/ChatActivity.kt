@@ -30,7 +30,6 @@ import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
-import com.google.protobuf.Value
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -167,13 +166,13 @@ class ChatActivity : AppCompatActivity() {
     private fun checkBlocked(receiverId: String?) {
         val ref = fbDbRef.getReference("Users")
         ref.child(fbAuth.uid!!).child("blocked")
-            .addValueEventListener(object: ValueEventListener{
+            .addValueEventListener(object: ValueEventListener {
                 override fun onDataChange(snapshot: DataSnapshot) {
 
-                    for(ds in snapshot.children){
+                    for (ds in snapshot.children) {
                         val blockedUser = ds.getValue(ModelUser::class.java)!!.uid
-                        if(blockedUser == receiverId){
-                            binding.msgBoxEt.apply{
+                        if (blockedUser == receiverId) {
+                            binding.msgBoxEt.apply {
                                 hint = "This user is blocked"
                                 isClickable = false
                                 isFocusable = false
@@ -181,17 +180,18 @@ class ChatActivity : AppCompatActivity() {
                                 isFocusableInTouchMode = false
                             }
                         } else {
-                            binding.msgBoxEt.apply{
+                            binding.msgBoxEt.apply {
                                 hint = "Text message"
                                 isClickable = true
                                 isFocusable = true
                                 isCursorVisible = true
                                 isFocusableInTouchMode = true
+                            }
                         }
                     }
                 }
+
                 override fun onCancelled(error: DatabaseError) {
-                    TODO("Not yet implemented")
                 }
             })
     }

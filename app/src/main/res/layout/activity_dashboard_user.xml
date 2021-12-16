@@ -117,7 +117,7 @@
                 android:weightSum="3"
                 android:layout_gravity="center">
                 <LinearLayout
-                    android:id="@+id/helpBtn"
+                    android:id="@+id/newsBtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"

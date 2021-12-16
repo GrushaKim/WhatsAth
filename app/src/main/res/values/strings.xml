@@ -4,7 +4,7 @@
     <string name="facebook_app_id">571787797216822</string>
     <string name="fb_login_protocol_scheme">fb571787797216822</string>
     <!--NYT api key-->
-    <string name="news_api_key">8afbb04e07064565bb8899adc6886550</string>
+    <string name="news_api_key">a0b2b41a173e1a2641db7afe59bc972f</string>
     <!--Register Levels-->
     <string-array name="levels">
         <item>Amateur</item>

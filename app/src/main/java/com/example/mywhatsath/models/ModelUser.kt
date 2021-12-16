@@ -1,6 +1,6 @@
 package com.example.mywhatsath.models
 
-class ModelUser{
+class ModelUser {
     var uid: String? = null
     var name: String? = null
     var email: String? = null
@@ -35,6 +35,4 @@ class ModelUser{
         this.aboutMe = aboutMe
         this.heartsCnt = heartsCnt
     }
-
-
 }

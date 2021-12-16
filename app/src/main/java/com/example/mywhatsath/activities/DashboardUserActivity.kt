@@ -74,8 +74,8 @@ class DashboardUserActivity : AppCompatActivity() {
             startActivity(Intent(this@DashboardUserActivity, SearchActivity::class.java))
         }
 
-        binding.helpBtn.setOnClickListener {
-            startActivity(Intent(this@DashboardUserActivity, CategoryAddTempActivity::class.java))
+        binding.newsBtn.setOnClickListener{
+            startActivity(Intent(this@DashboardUserActivity, NewsActivity::class.java))
         }
 
         binding.chatBtn.setOnClickListener {

@@ -11,7 +11,6 @@ import androidx.viewpager.widget.ViewPager
 import com.example.mywhatsath.adapters.SearchAdapter
 import com.example.mywhatsath.databinding.ActivitySearchBinding
 import com.example.mywhatsath.models.ModelSport
-import com.example.mywhatsath.models.ModelUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 
@@ -27,11 +26,7 @@ class SearchActivity : AppCompatActivity() {
     }
 
     // adapter
-    private lateinit var searchList: ArrayList<ModelUser>
     private lateinit var categoryList: ArrayList<ModelSport>
-    private lateinit var userList: ArrayList<ModelUser>
-    private lateinit var searchAdapter: SearchAdapter
-    private lateinit var searchRecyclerView: RecyclerView
 
     // viewPager
     private lateinit var viewPagerAdapter: ViewPagerAdapter

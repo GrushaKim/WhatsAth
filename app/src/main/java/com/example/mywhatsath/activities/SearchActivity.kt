@@ -1,18 +1,26 @@
 package com.example.mywhatsath.activities
 
 import android.content.Context
-import androidx.appcompat.app.AppCompatActivity
+import android.content.Intent
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager.widget.ViewPager
-import com.example.mywhatsath.adapters.SearchAdapter
+import com.example.mywhatsath.R
+import com.example.mywhatsath.R.menu.main_toolbar_menu
 import com.example.mywhatsath.databinding.ActivitySearchBinding
 import com.example.mywhatsath.models.ModelSport
+import com.facebook.appevents.suggestedevents.ViewOnClickListener
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.*
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
 
 class SearchActivity : AppCompatActivity() {
     private lateinit var binding: ActivitySearchBinding
@@ -36,8 +44,13 @@ class SearchActivity : AppCompatActivity() {
         binding = ActivitySearchBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //init main toolbar
+        setSupportActionBar(binding.mainToolbar)
+        binding.mainToolbar.setNavigationOnClickListener{
+            onBackPressed()
+        }
 
-        // init
+        // init auth&db
         fbAuth = FirebaseAuth.getInstance()
         fbDbRef = FirebaseDatabase.getInstance()
 
@@ -46,33 +59,29 @@ class SearchActivity : AppCompatActivity() {
         setupWithViewPagerAdapter(binding.viewPager)
         binding.tabLayout.setupWithViewPager(binding.viewPager)
 
-
-
-
-
-//        loadAllUsers()
-
-        // set search conditions
-//        setSportsFilterChips()
-//        setLevelsFilterChips()
-
-
-
-       /* binding.levelsCg.setOnCheckedChangeListener { group, checkedId ->
-            val chip: Chip? = group.findViewById(checkedId)
-            val level = chip?.text.toString().trim()
-
-            Toast.makeText(this, level, Toast.LENGTH_SHORT).show()
-
-            try {
-                searchAdapter.filter!!.filter(level)
-                Log.d(TAG, "onCreate: $level")
-
-            } catch (e: Exception) {
-                Toast.makeText(this, "Error: ${e.message}", Toast.LENGTH_LONG).show()
-            }
-        }*/
     }
+
+    // inflate menu to toolbar
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(main_toolbar_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    // set menu functions
+    override fun onOptionsItemSelected(item: MenuItem) = when(item?.itemId) {
+            R.id.homeBtn -> {
+                startActivity(Intent(this@SearchActivity, DashboardUserActivity::class.java))
+                true
+            }
+            R.id.logoutBtn -> {
+                fbAuth.signOut()
+                checkUser()
+                true
+            }
+            else -> {
+                super.onOptionsItemSelected(item)
+            }
+        }
 
     private fun setupWithViewPagerAdapter(viewPager: ViewPager) {
         viewPagerAdapter = ViewPagerAdapter(
@@ -130,55 +139,6 @@ class SearchActivity : AppCompatActivity() {
         viewPager.adapter = viewPagerAdapter
     }
 
-    /* // create chips
-     entryChip()
-
-     // select sport chips
-     choiceSportChips()*/
-
-
-/*    private fun setSportsFilterChips() {
-        binding.sportsCg.setOnCheckedChangeListener { group, checkedId ->
-            val chip: Chip? = group.findViewById(checkedId)
-            val keyword = chip?.text.toString()
-
-            if(chip?.isChecked == true){
-                binding.searchEt.setText(keyword)
-            }
-        }
-    }*/
-/*
-    private fun setLevelsFilterChips() {
-        binding.levelsCg.setOnCheckedChangeListener { group, checkedId ->
-            val chip: Chip? = group.findViewById(checkedId)
-            }
-        }
-*/
-
-
-/*    private fun loadAllUsers() {
-        val ref = fbDbRef.getReference("Users")
-
-        ref.addListenerForSingleValueEvent(object: ValueEventListener {
-            override fun onDataChange(snapshot: DataSnapshot) {
-                searchList.clear()
-                //get data
-                for(ds in snapshot.children){
-                    val currentUser = ds.getValue(ModelUser::class.java)
-
-                    if(fbAuth.currentUser?.uid != currentUser?.uid){
-                        searchList.add(currentUser!!)
-                    }
-                }
-                searchAdapter.notifyDataSetChanged()
-            }
-            override fun onCancelled(error: DatabaseError) {
-            }
-        })
-
-    }
-}*/
-
     class ViewPagerAdapter(fm: FragmentManager, behavior: Int, context: Context) :
         FragmentPagerAdapter(fm, behavior) {
         private val fragmentsList: ArrayList<SearchFragment> = ArrayList()
@@ -207,28 +167,12 @@ class SearchActivity : AppCompatActivity() {
         }
     }
 
-/*private fun filterChips() {
-    binding.filtersGroupChips.setOnCheckedChangeListener { group, checkedId ->
-        val chip: Chip? = group.findViewById(checkedId)
-
-        if(chip?.isChecked == true){
-            Toast.makeText(this, chip.text, Toast.LENGTH_SHORT).show()
-//                chip?.chipBackgroundColor = getColorStateList(
-//                    R.color.primaryPaleYellow
-//                )
+    private fun checkUser() {
+        // get current user
+        val fbUser = fbAuth.currentUser
+        if (fbUser == null) {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
         }
     }
-}*/
-
-    /* private fun choiceSportChips() {
-       binding.sportsChipGroup.setOnCheckedChangeListener { group, checkedId ->
-           val chip: Chip? = group.findViewById(checkedId)
-
-           chip?.let{
-               Toast.makeText(this, it.text, Toast.LENGTH_SHORT).show()
-           }
-       }
-    }*/
-
-
 }

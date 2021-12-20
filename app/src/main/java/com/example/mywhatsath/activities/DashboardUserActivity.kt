@@ -4,9 +4,12 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mywhatsath.R
 import com.example.mywhatsath.adapters.UserAdapter
 import com.example.mywhatsath.databinding.ActivityDashboardUserBinding
 import com.example.mywhatsath.models.ModelUser
@@ -25,6 +28,7 @@ class DashboardUserActivity : AppCompatActivity() {
     companion object{
         const val TAG = "DASHBOARD_USER_TAG"
     }
+
     // userlist recyclerview & adapter
     private lateinit var userRecyclerView: RecyclerView
     private lateinit var userList: ArrayList<ModelUser>
@@ -35,6 +39,12 @@ class DashboardUserActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDashboardUserBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //init main toolbar
+        setSupportActionBar(binding.mainToolbar)
+        binding.mainToolbar.setNavigationOnClickListener{
+            onBackPressed()
+        }
 
         // init auth&db
         fbAuth = FirebaseAuth.getInstance()
@@ -50,9 +60,6 @@ class DashboardUserActivity : AppCompatActivity() {
 
         // load chatlist
         loadChatlist()
-
-        // load userList
-        loadUserList()
 
         // inflate bottom drawer
         BottomSheetBehavior.from(binding.bottomDrawerSheet).apply {
@@ -75,11 +82,33 @@ class DashboardUserActivity : AppCompatActivity() {
         }
 
         binding.newsBtn.setOnClickListener{
-            startActivity(Intent(this@DashboardUserActivity, NewsActivity::class.java))
+            startActivity(Intent(this@DashboardUserActivity, HeadlineActivity::class.java))
         }
 
         binding.chatBtn.setOnClickListener {
             this.recreate()
+        }
+    }
+
+    // inflate menu to toolbar
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_toolbar_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    // set menu functions
+    override fun onOptionsItemSelected(item: MenuItem) = when(item?.itemId) {
+        R.id.homeBtn -> {
+            startActivity(Intent(this@DashboardUserActivity, DashboardUserActivity::class.java))
+            true
+        }
+        R.id.logoutBtn -> {
+            fbAuth.signOut()
+            checkUser()
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
         }
     }
 
@@ -99,10 +128,6 @@ class DashboardUserActivity : AppCompatActivity() {
             val touchHelper = ItemTouchHelper(swipeDelete)
             touchHelper.attachToRecyclerView(this)
         }
-    }
-
-    private fun loadUserList() {
-        val ref = fbDbRef.getReference("Users")
     }
 
     private fun loadChatlist() {
@@ -145,8 +170,6 @@ class DashboardUserActivity : AppCompatActivity() {
         if(fbUser == null){
             startActivity(Intent(this, LoginActivity::class.java))
             finish()
-        }else{
-            val email = fbUser.email
         }
     }
 }

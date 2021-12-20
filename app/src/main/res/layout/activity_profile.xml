@@ -6,22 +6,73 @@
     android:layout_height="match_parent"
     tools:context=".activities.ProfileActivity">
 
+    <!--Toolbar-->
+    <LinearLayout
+        android:id="@+id/main_toolbar_ll"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:orientation="vertical">
+
+        <androidx.appcompat.widget.Toolbar
+            android:id="@+id/main_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="?attr/colorPrimary"
+            android:minHeight="?attr/actionBarSize"
+            android:theme="?attr/actionBarTheme"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:navigationIcon="@drawable/abc_vector_test">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/primaryYellow"
+                android:orientation="horizontal">
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/toolbar_hg_10"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_end="42dp" />
+
+                <androidx.constraintlayout.widget.Guideline
+                    android:id="@+id/toolbar_hg_90"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    app:layout_constraintGuide_begin="42dp" />
+
+                <TextView
+                    android:id="@+id/toolBarTitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="20dp"
+                    android:text="@string/appTitle"
+                    android:drawableEnd="@drawable/ic_baseline_directions_run_white_24"
+                    android:drawablePadding="10dp"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.appcompat.widget.Toolbar>
+    </LinearLayout>
+
     <!--Top Wave Background-->
     <ImageView
         android:id="@+id/ivTopWave"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/main_toolbar_ll"
         android:adjustViewBounds="true"
         android:src="@drawable/ic_top_wave" />
-
-    <ImageView
-        android:id="@+id/backBtn"
-        android:layout_width="40dp"
-        android:layout_height="32dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
-        android:padding="5dp"
-        android:src="@drawable/ic_baseline_arrow_back_24"/>
 
     <!--Title-->
     <LinearLayout

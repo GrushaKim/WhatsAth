@@ -4,6 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.bumptech.glide.Glide
 import com.example.mywhatsath.R
@@ -25,6 +27,12 @@ class ProfileActivity : AppCompatActivity() {
         binding = ActivityProfileBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        //init main toolbar
+        setSupportActionBar(binding.mainToolbar)
+        binding.mainToolbar.setNavigationOnClickListener{
+            onBackPressed()
+        }
+
         //init auth&db
         fbAuth = FirebaseAuth.getInstance()
         fbDbRef = FirebaseDatabase.getInstance()
@@ -38,17 +46,33 @@ class ProfileActivity : AppCompatActivity() {
         // show edit button if the user of profile is the current user
         checkCurrentUser(receiverId)
 
-        //back button click
-        binding.backBtn.setOnClickListener {
-            startActivity(Intent(this@ProfileActivity, DashboardUserActivity::class.java))
-        }
-
         //edit button click
         binding.editProfileBtn.setOnClickListener {
             startActivity(Intent(this@ProfileActivity, ProfileEditActivity::class.java))
         }
     }
 
+    // inflate menu to toolbar
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_toolbar_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    // set menu functions
+    override fun onOptionsItemSelected(item: MenuItem) = when(item?.itemId) {
+        R.id.homeBtn -> {
+            startActivity(Intent(this@ProfileActivity, DashboardUserActivity::class.java))
+            true
+        }
+        R.id.logoutBtn -> {
+            fbAuth.signOut()
+            checkUser()
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
+        }
+    }
 
     private fun checkCurrentUser(receiverId: String?) {
         if(receiverId.isNullOrEmpty()){
@@ -170,5 +194,14 @@ class ProfileActivity : AppCompatActivity() {
                 })
         }
 
+    }
+
+    private fun checkUser() {
+        // get current user
+        val fbUser = fbAuth.currentUser
+        if (fbUser == null) {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
     }
 }

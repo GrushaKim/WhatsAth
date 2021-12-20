@@ -8,6 +8,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.InputFilter
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
@@ -54,6 +56,12 @@ class ProfileEditActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityProfileEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //init main toolbar
+        setSupportActionBar(binding.mainToolbar)
+        binding.mainToolbar.setNavigationOnClickListener{
+            onBackPressed()
+        }
 
         // init auth&db
         fbAuth = FirebaseAuth.getInstance()
@@ -104,6 +112,28 @@ class ProfileEditActivity : AppCompatActivity() {
 
         // set text limit of aboutMe section
         binding.aboutMeEt.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(maxLength))
+    }
+
+    // inflate menu to toolbar
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.main_toolbar_menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    // set menu functions
+    override fun onOptionsItemSelected(item: MenuItem) = when(item?.itemId) {
+        R.id.homeBtn -> {
+            startActivity(Intent(this@ProfileEditActivity, DashboardUserActivity::class.java))
+            true
+        }
+        R.id.logoutBtn -> {
+            fbAuth.signOut()
+            checkUser()
+            true
+        }
+        else -> {
+            super.onOptionsItemSelected(item)
+        }
     }
 
     private fun loadSports() {
@@ -225,7 +255,6 @@ class ProfileEditActivity : AppCompatActivity() {
         val selectedSportId = selectedSportId
         val aboutMe = binding.aboutMeEt.text.toString()
 
-
         // check profile image
         if(imageUri != null){
             hashMap["profileImage"] = uploadedImageUrl
@@ -236,31 +265,27 @@ class ProfileEditActivity : AppCompatActivity() {
             Toast.makeText(this, "Please check your level", Toast.LENGTH_SHORT).show()
         }else if(selectedSport.isNullOrEmpty()){
             Toast.makeText(this, "Please select your sport", Toast.LENGTH_SHORT).show()
+        }else if(!aboutMe.isNullOrEmpty()){
+            hashMap["aboutMe"] = aboutMe
         }else{
-
             hashMap["sport"] = selectedSport
             hashMap["sportId"] = selectedSportId
             hashMap["level"] = updatedLevel
-            hashMap["aboutMe"] = aboutMe
-
-            val ref = fbDbRef.getReference("Users")
-            ref.child(fbAuth.uid!!)
-                .updateChildren(hashMap)
-                .addOnSuccessListener {
-                    Toast.makeText(this, "Successfully uploaded your profile", Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, "updateProfile: Successfully updated your profile")
-                    imageUri = null
-                    startActivity(Intent(this@ProfileEditActivity, ProfileActivity::class.java))
-                }
-                .addOnFailureListener { e ->
-                    Toast.makeText(this, "Failed to upload your profile", Toast.LENGTH_SHORT).show()
-                    Log.d(TAG, "updateProfile: Failed to update your profile")
-                }
         }
 
-
-
-
+        val ref = fbDbRef.getReference("Users")
+        ref.child(fbAuth.uid!!)
+            .updateChildren(hashMap)
+            .addOnSuccessListener {
+                Toast.makeText(this, "Successfully uploaded your profile", Toast.LENGTH_SHORT).show()
+                Log.d(TAG, "updateProfile: Successfully updated your profile")
+                imageUri = null
+                startActivity(Intent(this@ProfileEditActivity, ProfileActivity::class.java))
+            }
+            .addOnFailureListener { e ->
+                Toast.makeText(this, "Failed to upload your profile", Toast.LENGTH_SHORT).show()
+                Log.d(TAG, "updateProfile: Failed to update your profile")
+            }
     }
 
     private fun pickImageFromGallery() {
@@ -268,7 +293,6 @@ class ProfileEditActivity : AppCompatActivity() {
         intent.type = "image/*"
         galleryActivityResultLauncher.launch(intent)
     }
-
 
     // to handle gallery intent result
     private val galleryActivityResultLauncher = registerForActivityResult(
@@ -284,4 +308,13 @@ class ProfileEditActivity : AppCompatActivity() {
             }
         }
     )
+
+    private fun checkUser() {
+        // get current user
+        val fbUser = fbAuth.currentUser
+        if (fbUser == null) {
+            startActivity(Intent(this, LoginActivity::class.java))
+            finish()
+        }
+    }
 }

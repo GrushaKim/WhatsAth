@@ -26,6 +26,7 @@
     </string-array>
     <string name="open">Open</string>
     <string name="close">Close</string>
+    <string name="appTitle">WhatsAth  </string>
     <!--Info Text-->
     <string name="userName">Name</string>
     <string name="userEmail">Email</string>

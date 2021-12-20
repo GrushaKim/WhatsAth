@@ -277,14 +277,14 @@ class ProfileEditActivity : AppCompatActivity() {
         ref.child(fbAuth.uid!!)
             .updateChildren(hashMap)
             .addOnSuccessListener {
-                Toast.makeText(this, "Successfully uploaded your profile", Toast.LENGTH_SHORT).show()
                 Log.d(TAG, "updateProfile: Successfully updated your profile")
                 imageUri = null
+                Toast.makeText(this, "Successfully uploaded your profile", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this@ProfileEditActivity, ProfileActivity::class.java))
             }
             .addOnFailureListener { e ->
-                Toast.makeText(this, "Failed to upload your profile", Toast.LENGTH_SHORT).show()
                 Log.d(TAG, "updateProfile: Failed to update your profile")
+                Toast.makeText(this, "Failed to upload your profile", Toast.LENGTH_SHORT).show()
             }
     }
 

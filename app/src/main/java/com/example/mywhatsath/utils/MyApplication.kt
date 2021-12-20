@@ -13,13 +13,13 @@ class MyApplication: Application() {
     }
     companion object{
         fun formatTimeStamp(timestamp: Long): String{
-            val cal = Calendar.getInstance(Locale.ENGLISH)
+            val cal = Calendar.getInstance(Locale.US)
             cal.timeInMillis = timestamp
             return DateFormat.format("yyyy-MM-dd hh:mm:ss", cal).toString()
         }
 
         fun formatRegDate(timestamp: Long): String{
-            val cal = Calendar.getInstance(Locale.ENGLISH)
+            val cal = Calendar.getInstance(Locale.US)
             cal.timeInMillis = timestamp
             return DateFormat.format("dd/MM/yyyy", cal).toString()
         }

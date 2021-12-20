@@ -67,6 +67,15 @@
         </androidx.appcompat.widget.Toolbar>
     </LinearLayout>
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="10dp"
+        android:text="@string/headline"
+        android:textColor="@color/primaryPaleBlue"
+        android:textSize="30sp"
+        android:textStyle="bold|italic"/>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/newsRecyclerView"
         android:layout_margin="10dp"

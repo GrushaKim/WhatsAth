@@ -12,9 +12,12 @@
         android:label="@string/app_name"
         android:requestLegacyExternalStorage="true"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:usesCleartextTraffic="true"
         android:supportsRtl="true"
-        android:theme="@style/Theme.MyWhatsAth">
+        android:theme="@style/Theme.MyWhatsAth"
+        android:usesCleartextTraffic="true">
+        <activity
+            android:name=".activities.ArticleActivity"
+            android:exported="true" />
         <activity
             android:name=".activities.HeadlineActivity"
             android:exported="true" />

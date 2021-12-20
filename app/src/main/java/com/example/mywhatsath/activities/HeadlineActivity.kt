@@ -11,12 +11,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.mywhatsath.R
 import com.example.mywhatsath.adapters.NewsAdapter
 import com.example.mywhatsath.databinding.ActivityHeadlineBinding
-import com.example.mywhatsath.utils.retrofit.Data
-import com.example.mywhatsath.utils.retrofit.NewsResponse
-import com.example.mywhatsath.utils.retrofit.RetrofitClient
-import com.example.mywhatsath.utils.retrofit.RetrofitService
+import com.example.mywhatsath.utils.retrofit.*
 import com.google.firebase.auth.FirebaseAuth
-import com.google.firebase.database.FirebaseDatabase
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -39,7 +35,7 @@ class HeadlineActivity : AppCompatActivity() {
     private lateinit var newsList: ArrayList<ModelData>
 */
     companion object{
-        const val TAG = "NEWS_TAG"
+        const val TAG = "HEADLINE_TAG"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -61,7 +57,7 @@ class HeadlineActivity : AppCompatActivity() {
         supplService = retrofit.create(RetrofitService::class.java)
 
         // load latest headlines
-        getHeadlines(supplService)
+        getHeadlines(supplService, AuthKey.NEWS_API_KEY)
 
         // init recyclerview
         newsRecyclerView = binding.newsRecyclerView
@@ -95,8 +91,8 @@ class HeadlineActivity : AppCompatActivity() {
         }
     }
 
-    private fun getHeadlines(service: RetrofitService) {
-        service.getHeadlines().enqueue(object: Callback<NewsResponse>{
+    private fun getHeadlines(service: RetrofitService, newsApiKey: String) {
+        service.getHeadlines(newsApiKey).enqueue(object: Callback<NewsResponse>{
             override fun onResponse(call: Call<NewsResponse>, response: Response<NewsResponse>) {
                 if(response.isSuccessful){
                     Log.d(TAG, "onResponse: successfully loaded headlines from mediastack API. ${response.body().toString()}")
@@ -127,5 +123,5 @@ class HeadlineActivity : AppCompatActivity() {
             finish()
         }
     }
-    }
+}
 

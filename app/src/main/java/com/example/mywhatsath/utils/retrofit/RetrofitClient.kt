@@ -1,5 +1,6 @@
 package com.example.mywhatsath.utils.retrofit
 
+import com.google.gson.Gson
 import com.google.gson.GsonBuilder
 import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
@@ -21,11 +22,13 @@ object RetrofitClient {
 
         val client: OkHttpClient = OkHttpClient.Builder().addInterceptor(interceptor).build()
         if(instance == null) {
+
             instance = Retrofit.Builder()
                 .baseUrl(BASE_URL)
                 .client(client) // set logger
                 .addConverterFactory(GsonConverterFactory.create(gson)) // convert json to data class
                 .build()
+
         }
 
         return instance!!

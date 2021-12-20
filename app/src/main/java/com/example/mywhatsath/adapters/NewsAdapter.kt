@@ -1,10 +1,12 @@
 package com.example.mywhatsath.adapters
 
 import android.content.Context
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.mywhatsath.activities.ArticleActivity
 import com.example.mywhatsath.databinding.ItemNewsHeadlineBinding
 import com.example.mywhatsath.utils.retrofit.Data
 import com.squareup.picasso.Picasso
@@ -45,6 +47,18 @@ class NewsAdapter: RecyclerView.Adapter<NewsAdapter.HolderNews> {
             holder.headlineIv.visibility = View.GONE
             holder.textLl.weightSum = 2F
        }
+
+        // move to ArticleActivity
+        holder.itemView.setOnClickListener {
+
+           val intent = Intent(context, ArticleActivity::class.java)
+            intent.putExtra("title", model.title)
+            intent.putExtra("image", model.image)
+            intent.putExtra("author", model.author)
+            intent.putExtra("source", model.source)
+            intent.putExtra("description", model.description)
+            context.startActivity(intent)
+        }
 
     }
 

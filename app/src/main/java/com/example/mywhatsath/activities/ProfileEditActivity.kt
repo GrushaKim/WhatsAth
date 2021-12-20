@@ -42,9 +42,7 @@ class ProfileEditActivity : AppCompatActivity() {
     private var selectedSport = ""
 
     //info to be updated
-    private var updatedName = ""
     private var updatedLevel = ""
-    private var updatedAboutMe = ""
 
     private val maxLength = 100
 

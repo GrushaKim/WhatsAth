@@ -103,11 +103,6 @@ class ChatActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        // google maps api
-        binding.locationBtn.setOnClickListener {
-           startActivity(Intent(this@ChatActivity, MapsScreenActivity::class.java))
-        }
-
         // speech to text button click
         binding.voiceBtn.setOnClickListener(View.OnClickListener {
             val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)

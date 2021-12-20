@@ -65,7 +65,7 @@
     <string name="menuSearch">search</string>
     <string name="menuChat">chat</string>
     <string name="menuNews">news</string>
-    <string name="menuSettings">settings</string>
+    <string name="menuPlace">place</string>
     <string name="menuLogout">logout</string>
     <!--Sports Type-->
     <string name="poledancing">Pole Dancing</string>

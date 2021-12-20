@@ -198,7 +198,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/settingsBtn"
+                    android:id="@+id/placeBtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -207,7 +207,7 @@
                     <ImageView
                         android:layout_width="match_parent"
                         android:layout_height="35dp"
-                        android:src="@drawable/ic_baseline_settings_24"
+                        android:src="@drawable/ic_baseline_location_on_24"
                         android:scaleType="fitCenter" />
                     <TextView
                         android:layout_width="match_parent"
@@ -215,7 +215,7 @@
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textStyle="bold"
-                        android:text="@string/menuSettings"/>
+                        android:text="@string/menuPlace"/>
                 </LinearLayout>
 
                 <LinearLayout

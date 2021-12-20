@@ -88,6 +88,10 @@ class DashboardUserActivity : AppCompatActivity() {
             startActivity(Intent(this@DashboardUserActivity, HeadlineActivity::class.java))
         }
 
+        binding.placeBtn.setOnClickListener{
+            startActivity(Intent(this@DashboardUserActivity, PlaceActivity::class.java))
+        }
+
         binding.chatBtn.setOnClickListener {
             this.recreate()
         }

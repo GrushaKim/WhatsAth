@@ -2,28 +2,42 @@ package com.example.mywhatsath.activities
 
 import android.Manifest
 import android.content.pm.PackageManager
-import android.location.*
+import android.location.Address
+import android.location.Geocoder
+import android.location.Location
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.mywhatsath.R
 import com.example.mywhatsath.databinding.ActivityMapsScreenBinding
+import com.example.mywhatsath.utils.CustomInfoWindowForGoogleMap
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
+import com.google.android.gms.common.api.Status
+import com.google.android.gms.location.LocationListener
 import com.google.android.gms.location.LocationServices
-import com.google.android.gms.maps.*
+import com.google.android.gms.maps.CameraUpdateFactory
+import com.google.android.gms.maps.GoogleMap
+import com.google.android.gms.maps.OnMapReadyCallback
+import com.google.android.gms.maps.SupportMapFragment
 import com.google.android.gms.maps.model.BitmapDescriptorFactory
 import com.google.android.gms.maps.model.LatLng
 import com.google.android.gms.maps.model.Marker
 import com.google.android.gms.maps.model.MarkerOptions
+import com.google.android.libraries.places.api.Places
+import com.google.android.libraries.places.api.model.Place
+import com.google.android.libraries.places.api.net.PlacesClient
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
 import java.io.IOException
+import java.util.*
 
-class MapsScreenActivity :
-    AppCompatActivity(), OnMapReadyCallback, LocationListener,
+class MapsScreenActivity : AppCompatActivity(),
+    OnMapReadyCallback, LocationListener,
     GoogleApiClient.ConnectionCallbacks,
     GoogleApiClient.OnConnectionFailedListener {
 
@@ -42,12 +56,39 @@ class MapsScreenActivity :
         binding = ActivityMapsScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        val mapFragment = supportFragmentManager.findFragmentById(R.id.myMap) as SupportMapFragment
+
+        // init Places w api key
+        val apiKey = getString(R.string.google_maps_key)
+       if(!Places.isInitialized()){
+            Places.initialize(applicationContext,apiKey)
+        }
+
+        val placesClient: PlacesClient = Places.createClient(this)
+
+        // init autocomplete fragment
+        val autocompleteFragment = supportFragmentManager.findFragmentById(R.id.autocompleteFragment) as AutocompleteSupportFragment
+
+        autocompleteFragment.setPlaceFields(Arrays.asList(
+            Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.RATING))
+
+        autocompleteFragment.setOnPlaceSelectedListener(object: PlaceSelectionListener{
+            override fun onPlaceSelected(place: Place) {
+                Log.d(TAG, "onPlaceSelected: ${place.id} / ${place.name} / ${place.address} / ${place.latLng} / ${place.rating}")
+                val locationName: String? = place.name
+                val locationAddr: String? = place.address
+                val locationRating: Double? = place.rating
+
+                searchLocation(locationName, locationAddr, locationRating)
+            }
+
+            override fun onError(status: Status) {
+                Log.d(TAG, "onError: status is $status ")
+            }
+        })
+
+       val mapFragment = supportFragmentManager.findFragmentById(R.id.myMap) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
-        binding.searchBtn.setOnClickListener {
-            searchLocation()
-        }
     }
 
     override fun onMapReady(googleMap: GoogleMap) {
@@ -67,7 +108,7 @@ class MapsScreenActivity :
         }
     }
 
-    protected fun buildGoogleApiClient() {
+   protected fun buildGoogleApiClient() {
         mGoogleApiClient = GoogleApiClient.Builder(this)
             .addConnectionCallbacks(this)
             .addOnConnectionFailedListener(this)
@@ -76,7 +117,7 @@ class MapsScreenActivity :
         mGoogleApiClient!!.connect()
     }
 
-    override fun onLocationChanged(location: Location) {
+   override fun onLocationChanged(location: Location) {
         mLastLocation = location
         if(mCurrLocMarker != null){
             mCurrLocMarker!!.remove()
@@ -89,13 +130,13 @@ class MapsScreenActivity :
         mCurrLocMarker = mMap!!.addMarker(markerOptions)
 
         mMap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-        mMap!!.moveCamera(CameraUpdateFactory.zoomTo(11f))
+        mMap!!.moveCamera(CameraUpdateFactory.zoomTo(20f))
         if(mGoogleApiClient != null){
             LocationServices.getFusedLocationProviderClient(this)
         }
     }
 
-    override fun onConnected(p0: Bundle?) {
+   override fun onConnected(p0: Bundle?) {
         mLocationRequest = com.google.android.gms.location.LocationRequest()
 
             mLocationRequest.interval = 1000
@@ -110,17 +151,14 @@ class MapsScreenActivity :
             }
         }
 
-
     override fun onConnectionSuspended(p0: Int) {
     }
 
     override fun onConnectionFailed(p0: ConnectionResult) {
     }
 
-    fun searchLocation(){
-        val locationSearch = binding.searchEt
-        var location: String
-        location = locationSearch.text.toString().trim()
+    fun searchLocation(location: String?, locationAddr: String?, locationRating: Double?) {
+
         var addressList: List<Address>? = null
         
         if(location == null || location == ""){
@@ -135,8 +173,29 @@ class MapsScreenActivity :
 
             val address = addressList!![0]
             val latLng = LatLng(address.latitude, address.longitude)
-            mMap!!.addMarker(MarkerOptions().position(latLng).title(location))
+            // marker options with snippet adapter
+            mMap!!.addMarker(MarkerOptions()
+                .position(latLng)
+                .title(location)
+                .snippet(" Address: $locationAddr \n Rating: $locationRating")
+            )
+            mMap!!.setInfoWindowAdapter(CustomInfoWindowForGoogleMap(this))
             mMap!!.animateCamera(CameraUpdateFactory.newLatLng(latLng))
+            // check if the user want to share the marked place
+            mMap!!.setOnInfoWindowClickListener {
+                val builder = AlertDialog.Builder(this)
+                builder.setTitle("Share this place?")
+                    .setCancelable(false)
+                    .setPositiveButton("Yes") { dialog, id ->
+
+                    }
+                    .setNegativeButton("No") { dialog, id ->
+                        dialog.dismiss()
+                    }
+                val alert = builder.create()
+                alert.show()
+
+            }
         }
     }
 }

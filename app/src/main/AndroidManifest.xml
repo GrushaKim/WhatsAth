@@ -20,7 +20,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.MyWhatsAth"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:replace="android:allowBackup">
+        <activity
+            android:name=".activities.PlaceActivity"
+            android:exported="true" />
         <activity
             android:name=".activities.MapsScreenActivity"
             android:exported="true" />

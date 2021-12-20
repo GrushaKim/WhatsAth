@@ -10,6 +10,8 @@
     <color name="lightGray">#BCBCBC</color>
     <color name="red">#E91E63</color>
     <color name="blue">#0000FF</color>
+    <color name="start">#DD8AEE</color>
+    <color name="end">#96E4EE</color>
     <color name="primaryBlue">#0b409c</color>
     <color name="primaryYellow">#ffce63</color>
     <color name="primaryPaleYellow">#ffce63</color>

@@ -14,6 +14,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import com.example.mywhatsath.R
 import com.example.mywhatsath.databinding.ActivityMapsScreenBinding
+import com.example.mywhatsath.models.ModelPlace
+import com.example.mywhatsath.models.PlaceDatabase
 import com.example.mywhatsath.utils.CustomInfoWindowForGoogleMap
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
@@ -33,6 +35,9 @@ import com.google.android.libraries.places.api.model.Place
 import com.google.android.libraries.places.api.net.PlacesClient
 import com.google.android.libraries.places.widget.AutocompleteSupportFragment
 import com.google.android.libraries.places.widget.listener.PlaceSelectionListener
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import java.io.IOException
 import java.util.*
 
@@ -42,6 +47,8 @@ class MapsScreenActivity : AppCompatActivity(),
     GoogleApiClient.OnConnectionFailedListener {
 
     private lateinit var binding: ActivityMapsScreenBinding
+    private lateinit var roomDb: PlaceDatabase
+
     private var mMap: GoogleMap? = null
     internal lateinit var mLastLocation: Location
     internal var mCurrLocMarker: Marker? = null
@@ -56,6 +63,8 @@ class MapsScreenActivity : AppCompatActivity(),
         binding = ActivityMapsScreenBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
+        // init room db
+        roomDb = PlaceDatabase.getInstance(applicationContext)!!
 
         // init Places w api key
         val apiKey = getString(R.string.google_maps_key)
@@ -74,11 +83,7 @@ class MapsScreenActivity : AppCompatActivity(),
         autocompleteFragment.setOnPlaceSelectedListener(object: PlaceSelectionListener{
             override fun onPlaceSelected(place: Place) {
                 Log.d(TAG, "onPlaceSelected: ${place.id} / ${place.name} / ${place.address} / ${place.latLng} / ${place.rating}")
-                val locationName: String? = place.name
-                val locationAddr: String? = place.address
-                val locationRating: Double? = place.rating
-
-                searchLocation(locationName, locationAddr, locationRating)
+                searchLocation(place)
             }
 
             override fun onError(status: Status) {
@@ -157,10 +162,16 @@ class MapsScreenActivity : AppCompatActivity(),
     override fun onConnectionFailed(p0: ConnectionResult) {
     }
 
-    fun searchLocation(location: String?, locationAddr: String?, locationRating: Double?) {
+    fun searchLocation(place: Place) {
 
         var addressList: List<Address>? = null
-        
+        var location = place.name
+        var placeId = place.id
+        var addr = place.address
+        var latitude = place.latLng.latitude
+        var longitude = place.latLng.longitude
+        var rating = place.rating
+
         if(location == null || location == ""){
             Toast.makeText(this, "provide correct location", Toast.LENGTH_SHORT).show()
         }else{
@@ -172,12 +183,12 @@ class MapsScreenActivity : AppCompatActivity(),
             }
 
             val address = addressList!![0]
-            val latLng = LatLng(address.latitude, address.longitude)
+            val latLng = LatLng(latitude, longitude)
             // marker options with snippet adapter
             mMap!!.addMarker(MarkerOptions()
                 .position(latLng)
                 .title(location)
-                .snippet(" Address: $locationAddr \n Rating: $locationRating")
+                .snippet(" Address: $addr\n Rating: $rating")
             )
             mMap!!.setInfoWindowAdapter(CustomInfoWindowForGoogleMap(this))
             mMap!!.animateCamera(CameraUpdateFactory.newLatLng(latLng))
@@ -187,7 +198,7 @@ class MapsScreenActivity : AppCompatActivity(),
                 builder.setTitle("Share this place?")
                     .setCancelable(false)
                     .setPositiveButton("Yes") { dialog, id ->
-
+                        addPlace(placeId, location, addr, latitude, longitude, rating)
                     }
                     .setNegativeButton("No") { dialog, id ->
                         dialog.dismiss()
@@ -198,4 +209,13 @@ class MapsScreenActivity : AppCompatActivity(),
             }
         }
     }
+
+    // add favorite place to room db
+    private fun addPlace(placeId: String?, location: String, addr: String?, latitude: Double, longitude: Double, rating: Double?) {
+        CoroutineScope(Dispatchers.IO).launch {
+            roomDb.placeDao().insertPlace(ModelPlace(placeId!!, location, addr!!, latitude, longitude, rating!!))
+        }
+    }
+
+
 }

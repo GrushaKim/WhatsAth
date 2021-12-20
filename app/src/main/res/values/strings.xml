@@ -3,8 +3,6 @@
     <!--facebook app id-->
     <string name="facebook_app_id">571787797216822</string>
     <string name="fb_login_protocol_scheme">fb571787797216822</string>
-    <!--NYT api key-->
-    <string name="news_api_key">a0b2b41a173e1a2641db7afe59bc972f</string>
     <!--Register Levels-->
     <string-array name="levels">
         <item>Amateur</item>
@@ -51,6 +49,7 @@
     <string name="cancel">Cancel</string>
     <string name="save">Save</string>
     <string name="edit">Edit</string>
+    <string name="search">Search</string>
     <string name="describe">Describe yourself :D</string>
     <string name="forgotPwd">Forgot Password?</string>
     <string name="selectSport">Select your major sport</string>
@@ -60,6 +59,7 @@
     <string name="searchEtText">Find your fitness mate</string>
     <string name="shareFitness">Share Your Fitness with Us</string>
     <string name="headline">LATEST HEALTH NEWS</string>
+    <string name="searchLocation">Search Location</string>
     <!--Bottom Drawer Menu-->
     <string name="menuProfile">profile</string>
     <string name="menuSearch">search</string>
@@ -81,6 +81,7 @@
     <string name="pro">Pro</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_maps">MapsActivity</string>
 
 
 </resources>

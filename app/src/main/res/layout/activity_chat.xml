@@ -83,6 +83,14 @@
         android:layout_above="@+id/chatLl"
         android:layout_below="@id/hr2" />
 
+    <View
+        android:id="@+id/hr3"
+        android:layout_width="match_parent"
+        android:layout_height="5dp"
+        android:layout_below="@+id/chatRecyclerView"
+        android:layout_marginBottom="10dp"
+        android:background="@color/primaryYellow"/>
+
     <!--Message Input-->
     <LinearLayout
         android:id="@+id/chatLl"
@@ -90,7 +98,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_marginVertical="5dp"
+        android:layout_marginBottom="5dp"
+        android:layout_marginTop="10dp"
         android:focusable="true"
         android:focusableInTouchMode="true"
         android:weightSum="10">
@@ -156,6 +165,23 @@
                     android:src="@drawable/ic_baseline_close_24" />
 
             </FrameLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:padding="5dp"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <ImageView
+                    android:id="@+id/locationBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:tooltipText="Find place"
+                    android:src="@drawable/ic_baseline_location_on_24" />
+
+            </LinearLayout>
 
             <LinearLayout
                 android:layout_width="0dp"

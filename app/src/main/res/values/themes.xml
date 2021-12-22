@@ -27,7 +27,16 @@
         <item name="cornerSize">5%</item>
     </style>
 
-<!--    <style name="Base.Widget.Design.TabLayout" parent="android:Widget">
+    <style name="Theme.MyWhatsAth.NoActionBar">
+        <item name="windowActionBar">false</item>
+        <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="Theme.MyWhatsAth.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="Theme.MyWhatsAth.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <!--    <style name="Base.Widget.Design.TabLayout" parent="android:Widget">
         <item name="tabBackground">@drawable/search_tab_selector</item>
     </style>-->
 </resources>

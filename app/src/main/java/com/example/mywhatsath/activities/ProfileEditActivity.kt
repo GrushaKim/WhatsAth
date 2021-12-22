@@ -14,10 +14,14 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
+import androidx.core.text.set
+import androidx.core.text.toSpannable
 import com.bumptech.glide.Glide
 import com.example.mywhatsath.R
 import com.example.mywhatsath.databinding.ActivityProfileEditBinding
 import com.example.mywhatsath.models.ModelSport
+import com.example.mywhatsath.utils.LinearGradientSpan
 import com.example.mywhatsath.utils.MyApplication
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
@@ -55,11 +59,14 @@ class ProfileEditActivity : AppCompatActivity() {
         binding = ActivityProfileEditBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        //init main toolbar
+        // init main toolbar
         setSupportActionBar(binding.mainToolbar)
         binding.mainToolbar.setNavigationOnClickListener{
             onBackPressed()
         }
+
+        // set linear gradient for tv
+        getGradientTextView()
 
         // init auth&db
         fbAuth = FirebaseAuth.getInstance()
@@ -110,6 +117,15 @@ class ProfileEditActivity : AppCompatActivity() {
 
         // set text limit of aboutMe section
         binding.aboutMeEt.filters = arrayOf<InputFilter>(InputFilter.LengthFilter(maxLength))
+    }
+
+    private fun getGradientTextView() {
+        val sloganText = binding.profileTv.text.toString()
+        val startColor = ContextCompat.getColor(this, R.color.start)
+        val endColor = ContextCompat.getColor(this, R.color.end)
+        val spannable = sloganText.toSpannable()
+        spannable[0..sloganText.length] = LinearGradientSpan(sloganText, sloganText, startColor, endColor)
+        binding.profileTv.text = spannable
     }
 
     // inflate menu to toolbar

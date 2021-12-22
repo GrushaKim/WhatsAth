@@ -121,6 +121,8 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>{
         holder.infoLl.setOnClickListener {
             val intent = Intent(context, ChatActivity::class.java)
             intent.putExtra("userId", currentUser.uid)
+            intent.putExtra("userName", currentUser.name)
+            intent.putExtra("userProfileImage", currentUser.profileImage)
 
             context.startActivity(intent)
         }

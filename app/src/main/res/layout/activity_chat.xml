@@ -56,14 +56,15 @@
             android:tooltipText="Click to give hearts"
             android:src="@drawable/ic_hearts"/>
         <ImageView
-            android:id="@+id/blockBtn"
+            android:id="@+id/reportBtn"
             android:layout_width="0dp"
             android:layout_height="45dp"
             android:layout_weight="0.5"
             android:layout_marginStart="10dp"
+            android:layout_marginBottom="3dp"
             android:padding="5dp"
             android:tooltipText="Block and report"
-            android:src="@drawable/ic_baseline_block_24"/>
+            android:src="@drawable/ic_alarm_svgrepo_com"/>
 
     </LinearLayout>
 

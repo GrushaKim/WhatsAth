@@ -89,9 +89,6 @@ class ChatActivity : AppCompatActivity() {
         // load previous messages
         loadMessages(senderId, receiverId)
 
-        // check if the user is blocked
-        checkBlocked(receiverId)
-
         // check if imageUri exists
         checkImageUri(imageUri)
 
@@ -141,11 +138,11 @@ class ChatActivity : AppCompatActivity() {
         // send message click
         binding.sendMsgBtn.setOnClickListener {
 
-            /*if (imageUri == null) {
+            if (imageUri == null) {
                 sendMsg(senderId, receiverId, "")
             } else {
                 uploadImage(senderId, receiverId)
-            }*/
+            }
         }
         // hearts button click
         binding.heartsBtn.setOnClickListener {
@@ -157,85 +154,6 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
-        // block button click
-        binding.blockBtn.setOnClickListener{
-            showBlockDialog(receiverId)
-        }
-    }
-
-    private fun checkBlocked(receiverId: String?) {
-        val ref = fbDbRef.getReference("Users")
-        ref.child(fbAuth.uid!!).child("blocked")
-            .addValueEventListener(object: ValueEventListener {
-                override fun onDataChange(snapshot: DataSnapshot) {
-
-                    for (ds in snapshot.children) {
-                        val blockedUser = ds.getValue(ModelUser::class.java)!!.uid
-                        if (blockedUser == receiverId) {
-                            binding.msgBoxEt.apply {
-                                hint = "This user is blocked"
-                                isClickable = false
-                                isFocusable = false
-                                isCursorVisible = false
-                                isFocusableInTouchMode = false
-                            }
-                        } else {
-                            binding.msgBoxEt.apply {
-                                hint = "Text message"
-                                isClickable = true
-                                isFocusable = true
-                                isCursorVisible = true
-                                isFocusableInTouchMode = true
-                            }
-                        }
-                    }
-                }
-
-                override fun onCancelled(error: DatabaseError) {
-                }
-            })
-    }
-
-
-
-    private fun showBlockDialog(receiverId: String?) {
-        val reportsArr = arrayOf(
-            "Personal",
-            "Spam",
-            "Sexual content",
-            "Violent or dangerous acts"
-        )
-
-        val builder = AlertDialog.Builder(this)
-        builder.setTitle("Select your reason to block the user")
-            .setSingleChoiceItems(reportsArr, -1){ dialog, i ->
-            selectedItem = reportsArr[i]
-        }
-            .setPositiveButton("Report and Block"){ dialog, which ->
-
-                //set the info in db to be blocked
-                val ref = fbDbRef.getReference("Users")
-                val hashMap = HashMap<String, Any>()
-                hashMap["uid"] = receiverId!!
-                hashMap["reported"] = selectedItem
-                hashMap["timestamp"] = System.currentTimeMillis()
-
-                ref.child(fbAuth.uid!!).child("blocked")
-                    .child(receiverId!!)
-                    .setValue(hashMap)
-                    .addOnSuccessListener {
-                        Log.d(TAG, "blockUser: successfully blocked the user")
-                    }
-                    .addOnFailureListener { e ->
-                        Log.d(TAG, "blockUser: failed to block the user")
-                    }
-
-            }
-            .setNegativeButton("Cancel"){ dialog, id ->
-                dialog.dismiss()
-            }
-        val alert = builder.create()
-        alert.show()
     }
 
     private fun addHearts(receiverId: String?) {
@@ -342,7 +260,7 @@ class ChatActivity : AppCompatActivity() {
                 // get all messages
                 for(ds: DataSnapshot in snapshot.children){
                     val chat = ds.getValue(ModelMessage::class.java)
-                        messageList.add(chat!!)
+                    messageList.add(chat!!)
                 }
                 messageAdapter.notifyDataSetChanged()
                 chatRecyclerView.scrollToPosition(messageList.size -1)
@@ -474,4 +392,3 @@ class ChatActivity : AppCompatActivity() {
 
 
 }
-

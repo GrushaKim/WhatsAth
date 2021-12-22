@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.example.mywhatsath">
+
     <!--
          The ACCESS_COARSE/FINE_LOCATION permissions are not required to use
          Google Maps Android API v2, but you must specify either coarse or fine
@@ -22,12 +23,7 @@
         android:theme="@style/Theme.MyWhatsAth"
         android:usesCleartextTraffic="true"
         tools:replace="android:allowBackup">
-        <activity
-            android:name=".activities.PlaceActivity"
-            android:exported="true" />
-        <activity
-            android:name=".activities.MapsScreenActivity"
-            android:exported="true" />
+
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -40,6 +36,34 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <activity
+            android:name=".activities.SecondMapsActivity"
+            android:exported="true"
+            android:label="@string/title_activity_second_maps" />
+        <activity
+            android:name=".activities.MapsTestActivity"
+            android:exported="true"
+            android:label="@string/title_activity_maps_test" />
+        <activity
+            android:name=".activities.PlaceTestActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.PlaceSearchActivity"
+            android:exported="true"
+            android:label="@string/title_activity_place_search"
+            android:theme="@style/Theme.MyWhatsAth.NoActionBar" />
+        <activity
+            android:name=".activities.CurrPlaceActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.SecondPlaceActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.PlaceActivity"
+            android:exported="true" />
+        <activity
+            android:name=".activities.MapsScreenActivity"
+            android:exported="true" />
         <activity
             android:name=".activities.MapsActivity"
             android:exported="true"

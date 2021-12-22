@@ -7,9 +7,13 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
+import androidx.core.content.ContextCompat
+import androidx.core.text.set
+import androidx.core.text.toSpannable
 import com.bumptech.glide.Glide
 import com.example.mywhatsath.R
 import com.example.mywhatsath.databinding.ActivityProfileBinding
+import com.example.mywhatsath.utils.LinearGradientSpan
 import com.example.mywhatsath.utils.MyApplication
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.DataSnapshot
@@ -33,6 +37,9 @@ class ProfileActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+        // set linear gradient for tv
+        getGradientTextView()
+
         //init auth&db
         fbAuth = FirebaseAuth.getInstance()
         fbDbRef = FirebaseDatabase.getInstance()
@@ -50,6 +57,15 @@ class ProfileActivity : AppCompatActivity() {
         binding.editProfileBtn.setOnClickListener {
             startActivity(Intent(this@ProfileActivity, ProfileEditActivity::class.java))
         }
+    }
+
+    private fun getGradientTextView() {
+        val sloganText = binding.profileTv.text.toString()
+        val startColor = ContextCompat.getColor(this, R.color.start)
+        val endColor = ContextCompat.getColor(this, R.color.end)
+        val spannable = sloganText.toSpannable()
+        spannable[0..sloganText.length] = LinearGradientSpan(sloganText, sloganText, startColor, endColor)
+        binding.profileTv.text = spannable
     }
 
     // inflate menu to toolbar

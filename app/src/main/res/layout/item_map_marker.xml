@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/rounded_corner_white"
     android:orientation="horizontal"
     android:padding="10dp">
 
@@ -18,17 +19,19 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
             android:ellipsize="end"
-            android:maxLines="1"
+            android:maxLines="2"
+            android:padding="5dp"
             android:textColor="@color/black"
-            android:textSize="16sp"
+            android:textSize="18sp"
             android:textStyle="bold" />
 
         <TextView
             android:id="@+id/snippetTv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="8dp"
             android:ellipsize="end"
-            android:maxLines="4"
+            android:maxLines="5"
             android:textColor="@color/primaryGray"
             android:textSize="14sp" />
     </LinearLayout>

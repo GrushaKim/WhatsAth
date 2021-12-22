@@ -89,6 +89,8 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.HolderSearch>, Filterabl
                     // move to chat function
                     val intent = Intent(context, ChatActivity::class.java)
                     intent.putExtra("userId", uid)
+                    intent.putExtra("userName", model.name)
+                    intent.putExtra("userProfileImage", model.profileImage)
                     context.startActivity(intent)
                 }
                 .setNegativeButton("No") { dialog, id ->

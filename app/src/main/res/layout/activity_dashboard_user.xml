@@ -198,7 +198,7 @@
                 </LinearLayout>
 
                 <LinearLayout
-                    android:id="@+id/placeBtn"
+                    android:id="@+id/gymBtn"
                     android:layout_width="0dp"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
@@ -215,7 +215,7 @@
                         android:textAlignment="center"
                         android:textColor="@color/white"
                         android:textStyle="bold"
-                        android:text="@string/menuPlace"/>
+                        android:text="@string/menuGym"/>
                 </LinearLayout>
 
                 <LinearLayout

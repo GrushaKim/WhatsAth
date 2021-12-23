@@ -26,8 +26,6 @@ class MessageAdapter(
     private val MESSAGE_SENT = 0
     private val MESSAGE_RECEIVED = 1
 
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
         // inflate sentBinding
         if(viewType == MESSAGE_SENT){

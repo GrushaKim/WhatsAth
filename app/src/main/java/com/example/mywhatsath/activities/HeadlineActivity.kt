@@ -31,9 +31,6 @@ class HeadlineActivity : AppCompatActivity() {
     private lateinit var newsList: ArrayList<Data>
     private lateinit var newsAdapter: NewsAdapter
 
-    /*private lateinit var newsAdapter: NewsAdapter
-    private lateinit var newsList: ArrayList<ModelData>
-*/
     companion object{
         const val TAG = "HEADLINE_TAG"
     }
@@ -111,7 +108,6 @@ class HeadlineActivity : AppCompatActivity() {
             override fun onFailure(call: Call<NewsResponse>, t: Throwable) {
                 Log.d(TAG, "onFailure: failed to load. Error: ${t.message}")
             }
-
         })
         }
 

@@ -21,6 +21,7 @@ import com.google.android.gms.common.api.ApiException
 import com.google.firebase.auth.FacebookAuthProvider
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.GoogleAuthProvider
+import es.dmoral.toasty.Toasty
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
@@ -29,7 +30,7 @@ class LoginActivity : AppCompatActivity() {
     private var callbackManager: CallbackManager? = null
 
     private companion object{
-        private const val RC_SIGN_IN = 100
+        private const val RC_SIGN_IN = 200
         private const val GOOGLE_TAG = "GOOGLE_SIGN_IN_TAG"
         private const val FACEBOOK_TAG = "FACEBOOK_SIGN_IN_TAG"
         private const val TAG = "LOGIN_TAG"
@@ -54,7 +55,7 @@ class LoginActivity : AppCompatActivity() {
         val googleSignInOptions = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
             .requestIdToken(getString(R.string.default_web_client_id))
             .requestEmail()
-            .build();
+            .build()
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions)
 
         // reset password click
@@ -144,7 +145,7 @@ class LoginActivity : AppCompatActivity() {
                     finish()
                 }else{
                     Log.d(TAG, "login: failed to log in with your email")
-                    Toast.makeText(this, "Please verify your email&password.", Toast.LENGTH_SHORT).show()
+                    Toasty.error(this, "Please verify your email&password", Toast.LENGTH_SHORT, true).show()
                 }
             }
     }
@@ -190,13 +191,13 @@ class LoginActivity : AppCompatActivity() {
                         GOOGLE_TAG,
                         "firebaseAuthWithGoogleAccount: New account created with $email"
                     )
-                    Toast.makeText(this, "$email - new account created", Toast.LENGTH_SHORT).show()
+                    Toasty.success(this, "Logged in with $email", Toast.LENGTH_SHORT, true).show()
                 } else {
                     Log.d(
                         GOOGLE_TAG,
                         "firebaseAuthWithGoogleAccount: This $email is already being used"
                     )
-                    Toast.makeText(this, "$email - logged in", Toast.LENGTH_SHORT).show()
+                    Toasty.info(this, "This $email is already being used", Toast.LENGTH_SHORT, true).show()
 
                     //move to dashboard
                     startActivity(Intent(this@LoginActivity, DashboardUserActivity::class.java))
@@ -205,7 +206,7 @@ class LoginActivity : AppCompatActivity() {
             }
             .addOnFailureListener { e ->
                 Log.d(GOOGLE_TAG, "firebaseAuthWithGoogleAccount: Login failed. Error: ${e.message}")
-                Toast.makeText(this, "$email couldn't log in. Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toasty.error(this, "This $email is unavailable to log in. Error - ${e.message}", Toast.LENGTH_SHORT, true).show()
             }
             }
     }

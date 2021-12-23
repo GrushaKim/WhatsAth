@@ -7,6 +7,7 @@ import com.example.mywhatsath.databinding.ActivityCategoryAddTempBinding
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 
+// temporary class for admin section that will have been finalized
 class CategoryAddTempActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityCategoryAddTempBinding

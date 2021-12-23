@@ -54,7 +54,6 @@ class SearchActivity : AppCompatActivity() {
         fbAuth = FirebaseAuth.getInstance()
         fbDbRef = FirebaseDatabase.getInstance()
 
-
         // inflate fragments
         setupWithViewPagerAdapter(binding.viewPager)
         binding.tabLayout.setupWithViewPager(binding.viewPager)

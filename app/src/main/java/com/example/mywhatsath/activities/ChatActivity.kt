@@ -1,12 +1,12 @@
 package com.example.mywhatsath.activities
 
+import android.Manifest
 import android.app.Activity
 import android.app.AlertDialog
-import android.app.ProgressDialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.provider.MediaStore
 import android.speech.RecognizerIntent
@@ -18,6 +18,9 @@ import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
@@ -25,11 +28,11 @@ import com.example.mywhatsath.R
 import com.example.mywhatsath.adapters.MessageAdapter
 import com.example.mywhatsath.databinding.ActivityChatBinding
 import com.example.mywhatsath.models.ModelMessage
-import com.example.mywhatsath.models.ModelUser
 import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import com.google.firebase.storage.FirebaseStorage
+import es.dmoral.toasty.Toasty
 import java.util.*
 import kotlin.collections.ArrayList
 import kotlin.collections.HashMap
@@ -49,11 +52,12 @@ class ChatActivity : AppCompatActivity() {
     //check hearts
     private var hasHearts = false
 
-    //single selection dialog
-    private var selectedItem = ""
+    //single selection dialog for report
+    private var selectedReport = ""
 
     companion object{
         const val TAG = "CHAT_TAG"
+        const val REQ_PERMISSIONS_CODE = 100
     }
 
     // messagelist recyclerview & adapter
@@ -74,6 +78,8 @@ class ChatActivity : AppCompatActivity() {
         // extract info from DashboardUserActivity
         val senderId = fbAuth.currentUser!!.uid
         val receiverId = intent.getStringExtra("userId")
+        val receiverName = intent.getStringExtra("userName")
+        val receiverImg = intent.getStringExtra("userProfileImage")
 
         // set recyclerView
         chatRecyclerView = binding.chatRecyclerView
@@ -84,7 +90,7 @@ class ChatActivity : AppCompatActivity() {
         chatRecyclerView.adapter = messageAdapter
 
         // load name&profileImage of recipient
-        loadToolbarInfo(receiverId)
+        loadToolbarInfo(receiverName, receiverImg)
 
         // load previous messages
         loadMessages(senderId, receiverId)
@@ -100,29 +106,15 @@ class ChatActivity : AppCompatActivity() {
             onBackPressed()
         }
 
-        // speech to text button click
-        binding.voiceBtn.setOnClickListener(View.OnClickListener {
-            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak")
-
-            try{
-                activityResultLauncher.launch(intent)
-            }catch(e:ActivityNotFoundException){
-                Toast.makeText(this, "Your device does not support", Toast.LENGTH_SHORT).show()
-            }
-        })
-
-        // implement the function above
-        activityResultLauncher=registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()){ result: ActivityResult? ->
-            if(result!!.resultCode == RESULT_OK && result!!.data!=null){
-                val speechText = result!!.data!!.getStringArrayListExtra(
-                    RecognizerIntent.EXTRA_RESULTS) as ArrayList<Editable>
-                binding.msgBoxEt.text = speechText[0]
-            }
+        // report button click
+        binding.reportBtn.setOnClickListener {
+            reportUser(senderId, receiverId)
         }
+
+        // convert speech to text
+        binding.voiceBtn.setOnClickListener(View.OnClickListener {
+            speechToText()
+        })
 
         // pick image from gallery
         binding.uploadImgBtn.setOnClickListener {
@@ -137,13 +129,14 @@ class ChatActivity : AppCompatActivity() {
 
         // send message click
         binding.sendMsgBtn.setOnClickListener {
-
+            // check if the message contains an image
             if (imageUri == null) {
                 sendMsg(senderId, receiverId, "")
             } else {
                 uploadImage(senderId, receiverId)
             }
         }
+
         // hearts button click
         binding.heartsBtn.setOnClickListener {
             // check HasHearts
@@ -154,6 +147,66 @@ class ChatActivity : AppCompatActivity() {
             }
         }
 
+    }
+
+    private fun reportUser(senderId: String?, receiverId: String?) {
+
+        val reportSelection = arrayOf(
+            "Unwanted commercial content",
+            "Sexual content",
+            "Child abuse",
+            "Hate speech",
+            "Etc"
+        )
+
+        val builder = AlertDialog.Builder(this)
+        builder.setTitle("Report")
+            .setSingleChoiceItems(reportSelection, -1){_, which ->
+                selectedReport = reportSelection[which]
+            }
+            .setPositiveButton("Submit"){ dialog, _ ->
+                val hashMap = HashMap<String, Any>()
+                hashMap["reporterId"] = senderId!!
+                hashMap["reported"] = selectedReport
+
+                val ref = fbDbRef.getReference("Blacklist")
+                ref.child(receiverId!!)
+                    .setValue(hashMap)
+                    .addOnCompleteListener {
+                        Log.d(TAG, "reportUser: successfully reported the user - $receiverId")
+                    }
+
+                Toasty.info(this, "Your report will be reviewed within 14 working days", Toast.LENGTH_SHORT, true).show()
+            }
+            .setNegativeButton("Cancel"){ dialog, _ ->
+                dialog.dismiss()
+            }
+
+        val reportDialog = builder.create()
+        reportDialog.show()
+    }
+
+    private fun speechToText() {
+        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak")
+
+        try{
+            activityResultLauncher.launch(intent)
+        }catch(e:ActivityNotFoundException){
+            Toasty.warning(this, "Your device does not support", Toast.LENGTH_SHORT, true).show()
+        }
+
+        // implement the function above
+        activityResultLauncher=registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()){ result: ActivityResult? ->
+            if(result!!.resultCode == RESULT_OK && result!!.data!=null){
+                val speechText = result!!.data!!.getStringArrayListExtra(
+                    RecognizerIntent.EXTRA_RESULTS) as ArrayList<Editable>
+                binding.msgBoxEt.text = speechText[0]
+            }
+        }
     }
 
     private fun addHearts(receiverId: String?) {
@@ -189,7 +242,6 @@ class ChatActivity : AppCompatActivity() {
                                 }
                         }
                         override fun onCancelled(error: DatabaseError) {
-                            TODO("Not yet implemented")
                         }
                     })
             }
@@ -277,7 +329,7 @@ class ChatActivity : AppCompatActivity() {
         val timestamp = System.currentTimeMillis()
 
         if(message.isNullOrEmpty() && uploadedImgUrl == ""){
-            Toast.makeText(this, "Please type your message or attach an image", Toast.LENGTH_SHORT).show()
+            Toasty.warning(this, "Please type your message or attach an image", Toast.LENGTH_SHORT).show()
         }else{
             // save all messages to each room
             val senderRef = fbDbRef.getReference("/Chats/$senderId/$receiverId").push()
@@ -309,32 +361,20 @@ class ChatActivity : AppCompatActivity() {
         }
     }
 
-    private fun loadToolbarInfo(receiverId: String?) {
-
-        val ref = fbDbRef.getReference("Users")
-        ref.child(receiverId!!).addValueEventListener(object: ValueEventListener{
-            override fun onDataChange(snapshot: DataSnapshot) {
-
-                val profileImage = "${snapshot.child("profileImage").value}"
-                val name = "${snapshot.child("name").value}"
-
+    private fun loadToolbarInfo(receiverName: String?, receiverImg: String?) {
                 // set toolbar info
-                binding.nameTv.text = name
-                if(profileImage.isNullOrBlank()){
+                binding.nameTv.text = receiverName
+                if(receiverImg.isNullOrBlank()){
                     binding.profileIv.setImageResource(R.drawable.ic_baseline_person_24)
                 }else{
                     try{
                         Glide.with(this@ChatActivity)
-                            .load(profileImage)
+                            .load(receiverImg)
                             .into(binding.profileIv)
                     } catch(e: Exception){
                         Log.d(TAG, "onDataChange: failed to load user profileImage")
                     }
                 }
-            }
-            override fun onCancelled(error: DatabaseError) {
-            }
-        })
     }
 
     // change upload img icon color
@@ -364,14 +404,28 @@ class ChatActivity : AppCompatActivity() {
                 sendMsg(senderId, receiverId, uploadedImgUrl)
             }
             .addOnFailureListener { e ->
-                Toast.makeText(this, "Failed to upload image. Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toasty.error(this, "Failed to upload image. Error - ${e.message}", Toast.LENGTH_SHORT, true).show()
             }
     }
 
 
     private fun pickImageFromGallery() {
-        val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-        galleryActivityResultLauncher.launch(intent)
+        // check permission
+        var writePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        var readPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+
+        if(writePermission == PackageManager.PERMISSION_DENIED ||
+                readPermission == PackageManager.PERMISSION_DENIED){
+
+            ActivityCompat.requestPermissions(this, arrayOf(Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE), REQ_PERMISSIONS_CODE)
+
+        } else{
+
+            val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+            galleryActivityResultLauncher.launch(intent)
+
+        }
     }
 
 
@@ -384,7 +438,7 @@ class ChatActivity : AppCompatActivity() {
                 imageUri = data!!.data
                 checkImageUri(imageUri)
             }else{
-                Toast.makeText(this, "Cancelled to upload image", Toast.LENGTH_SHORT).show()
+                Toasty.normal(this, "Cancelled to upload", Toast.LENGTH_SHORT).show()
             }
         }
     )

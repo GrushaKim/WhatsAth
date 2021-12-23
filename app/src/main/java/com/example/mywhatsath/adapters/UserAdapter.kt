@@ -18,6 +18,7 @@ import com.example.mywhatsath.models.ModelUser
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.*
 import de.hdodenhof.circleimageview.CircleImageView
+import es.dmoral.toasty.Toasty
 
 class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>{
 
@@ -47,18 +48,12 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>{
             .removeValue()
             .addOnSuccessListener {
                 Log.d("UserAdapter_TAG", "deleteItem: successfully deleted messages ")
-                Toast.makeText(context, "All messages deleted", Toast.LENGTH_SHORT).show()
+                Toasty.success(context, "Deleted all messages", Toast.LENGTH_SHORT, true).show()
             }
             .addOnFailureListener { e ->
                 Log.d("UserAdapter_TAG", "deleteItem: failed to delete messages. Error: ${e.message} ")
+                Toasty.error(context, "Failed to delete this chat. Error - ${e.message}", Toast.LENGTH_SHORT, true).show()
             }
-
-    }
-
-    fun blockItem(i: Int){
-
-        userList.removeAt(i)
-        notifyDataSetChanged()
     }
 
     // inflate item_dashboard_user.xml
@@ -133,8 +128,6 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>{
 
             context.startActivity(intent)
         }
-
-
     }
 
     inner class UserViewHolder(itemView: View): RecyclerView.ViewHolder(itemView){
@@ -142,9 +135,5 @@ class UserAdapter: RecyclerView.Adapter<UserAdapter.UserViewHolder>{
         val dummyTv: TextView = binding.dummyTv
         val infoLl: LinearLayout = binding.infoLl
         val profileImageIv: CircleImageView = binding.profileImageIv
-
-
     }
-
-
 }

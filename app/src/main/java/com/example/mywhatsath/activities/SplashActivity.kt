@@ -16,7 +16,7 @@ class SplashActivity : AppCompatActivity() {
 
         supportActionBar?.hide()
 
-        // set 3sec splash and move to login
+        // set 3sec duration and move to login
         Handler().postDelayed({
             val intent = Intent(this@SplashActivity, LoginActivity::class.java)
             startActivity(intent)

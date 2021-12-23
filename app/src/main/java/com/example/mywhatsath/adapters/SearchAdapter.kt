@@ -85,7 +85,7 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.HolderSearch>, Filterabl
             val builder = AlertDialog.Builder(context)
             builder.setMessage("Contact ${model.name}?")
                 .setCancelable(false)
-                .setPositiveButton("Yes") { dialog, id ->
+                .setPositiveButton("Yes") { _, _ ->
                     // move to chat function
                     val intent = Intent(context, ChatActivity::class.java)
                     intent.putExtra("userId", uid)
@@ -93,7 +93,7 @@ class SearchAdapter: RecyclerView.Adapter<SearchAdapter.HolderSearch>, Filterabl
                     intent.putExtra("userProfileImage", model.profileImage)
                     context.startActivity(intent)
                 }
-                .setNegativeButton("No") { dialog, id ->
+                .setNegativeButton("No") { dialog, _ ->
                     dialog.dismiss()
                 }
             val alert = builder.create()

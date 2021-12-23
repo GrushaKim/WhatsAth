@@ -4,8 +4,10 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.widget.Toast
 import com.example.mywhatsath.databinding.ActivityResetPwdBinding
 import com.google.firebase.auth.FirebaseAuth
+import es.dmoral.toasty.Toasty
 
 class ResetPwdActivity : AppCompatActivity() {
     private lateinit var binding: ActivityResetPwdBinding
@@ -53,7 +55,7 @@ class ResetPwdActivity : AppCompatActivity() {
             .addOnCompleteListener { task ->
                 if(task.isSuccessful){
                     Log.d(TAG, "sendPwd: email sent with new pwd")
-
+                    Toasty.info(this, "Please check a new password sent to your email", Toast.LENGTH_SHORT, true).show()
                 }
             }
     }

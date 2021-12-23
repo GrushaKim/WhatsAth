@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat
 import com.example.mywhatsath.R
 import com.example.mywhatsath.databinding.ActivityMapsScreenBinding
 import com.example.mywhatsath.utils.CustomInfoWindowForGoogleMap
+import com.example.mywhatsath.utils.retrofit.AuthKey
 import com.example.mywhatsath.utils.retrofit.Constants
 import com.example.mywhatsath.utils.retrofit.GoogleAPIService
 import com.example.mywhatsath.utils.retrofit.MyPlace
@@ -57,6 +58,7 @@ class MapsScreenActivity : AppCompatActivity(),
     companion object{
         const val TAG = "MAPS_SCREEN_TAG"
     }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMapsScreenBinding.inflate(layoutInflater)
@@ -72,9 +74,8 @@ class MapsScreenActivity : AppCompatActivity(),
         mService = Constants.googleApiService
 
         // init Places w api key
-        val apiKey = getString(R.string.google_maps_key)
        if(!Places.isInitialized()){
-            Places.initialize(applicationContext,apiKey)
+            Places.initialize(applicationContext, AuthKey.MAPS_API_KEY)
         }
 
         val placesClient: PlacesClient = Places.createClient(this)
@@ -91,9 +92,7 @@ class MapsScreenActivity : AppCompatActivity(),
                 val lng = place.latLng.longitude
                 nearByPlace(lat, lng)
                 Log.d(TAG, "onPlaceSelected: $lat and $lng")
-                /*searchLocation(place)*/
             }
-
             override fun onError(status: Status) {
                 Log.d(TAG, "onError: status is $status ")
             }
@@ -285,13 +284,14 @@ class MapsScreenActivity : AppCompatActivity(),
             })
     }
 
+    // to render nearby gyms according to the conditions
     private fun getUrl(latitude: Any, longitude: Any): String {
         val googlePlaceUrl = StringBuilder(
             "https://maps.googleapis.com/maps/api/place/nearbysearch/json")
         googlePlaceUrl.append("?location=$latitude,$longitude")
         googlePlaceUrl.append("&radius=1000")
         googlePlaceUrl.append("&type=gym")
-        googlePlaceUrl.append("&key=AIzaSyDpxGSWskrXl1izIYUWbUwmUr5J5q8-s9A")
+        googlePlaceUrl.append("&key=${AuthKey.MAPS_API_KEY}")
 
         Log.d(TAG, "getUrl: $googlePlaceUrl")
 

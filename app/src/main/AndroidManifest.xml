@@ -12,6 +12,7 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -37,37 +38,11 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".activities.SecondMapsActivity"
-            android:exported="true"
-            android:label="@string/title_activity_second_maps" />
-        <activity
-            android:name=".activities.MapsTestActivity"
-            android:exported="true"
-            android:label="@string/title_activity_maps_test" />
-        <activity
-            android:name=".activities.PlaceTestActivity"
-            android:exported="true" />
-        <activity
-            android:name=".activities.PlaceSearchActivity"
-            android:exported="true"
-            android:label="@string/title_activity_place_search"
-            android:theme="@style/Theme.MyWhatsAth.NoActionBar" />
-        <activity
-            android:name=".activities.CurrPlaceActivity"
-            android:exported="true" />
-        <activity
-            android:name=".activities.SecondPlaceActivity"
-            android:exported="true" />
-        <activity
-            android:name=".activities.PlaceActivity"
-            android:exported="true" />
-        <activity
             android:name=".activities.MapsScreenActivity"
             android:exported="true" />
         <activity
             android:name=".activities.MapsActivity"
-            android:exported="true"
-            android:label="@string/title_activity_maps" />
+            android:exported="true" />
         <activity
             android:name=".activities.ArticleActivity"
             android:exported="true" />

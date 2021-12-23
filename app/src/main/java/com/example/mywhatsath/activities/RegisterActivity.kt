@@ -20,6 +20,7 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
+import es.dmoral.toasty.Toasty
 
 class RegisterActivity : AppCompatActivity() {
     private lateinit var binding: ActivityRegisterBinding
@@ -40,6 +41,7 @@ class RegisterActivity : AppCompatActivity() {
     private var isAtLeast8: Boolean = false
     private var hasNumber: Boolean = false
     private var isRegistered: Boolean = true
+
 
     companion object{
         const val TAG = "REGISTER_TAG"
@@ -266,14 +268,13 @@ class RegisterActivity : AppCompatActivity() {
                     hashMap["aboutMe"] = ""
                     hashMap["heartsCnt"] = 0
 
-
                     // update to DB
                     var fbDbRef = FirebaseDatabase.getInstance().getReference("Users")
                     fbDbRef.child(uid)
                         .setValue(hashMap)
                         .addOnSuccessListener {
                             Log.d(TAG, "registerUser: successfully registered user")
-                            Toast.makeText(this, "Registered!", Toast.LENGTH_SHORT).show()
+                            Toasty.success(this, "Registered!", Toast.LENGTH_SHORT, true).show()
                             //move to login
                             var intent = Intent(this@RegisterActivity, LoginActivity::class.java)
                             startActivity(intent)
@@ -281,7 +282,7 @@ class RegisterActivity : AppCompatActivity() {
                         }
                         .addOnFailureListener { e ->
                             Log.d(TAG, "registerUser: failed to register user. Error: ${e.message}")
-                            Toast.makeText(this, "Failed to register", Toast.LENGTH_SHORT).show()
+                            Toasty.error(this, "Failed to register. Error - ${e.message}", Toast.LENGTH_SHORT, true).show()
                         }
 
                 }

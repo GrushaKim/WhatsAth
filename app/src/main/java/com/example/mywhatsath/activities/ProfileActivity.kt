@@ -146,7 +146,7 @@ class ProfileActivity : AppCompatActivity() {
                         binding.levelTv.text = level
 
                         if(aboutMe.isEmpty() || aboutMe == ""){
-                            binding.aboutMeTv.text = "Update your information"
+                            binding.aboutMeTv.text = R.string.updateInfo.toString()
                         }else{
                             binding.aboutMeTv.text = aboutMe
                         }
@@ -203,7 +203,6 @@ class ProfileActivity : AppCompatActivity() {
                         }else{
                             binding.aboutMeTv.text = aboutMe
                         }
-
                     }
                     override fun onCancelled(error: DatabaseError) {
                     }

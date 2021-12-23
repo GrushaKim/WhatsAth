@@ -1,11 +1,14 @@
 package com.example.mywhatsath.activities
 
+import android.Manifest
 import android.app.AlertDialog
 import android.app.ProgressDialog
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.provider.MediaStore
 import android.text.InputFilter
 import android.util.Log
 import android.view.Menu
@@ -14,6 +17,7 @@ import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.ActivityResultCallback
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.text.set
 import androidx.core.text.toSpannable
@@ -30,6 +34,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.storage.FirebaseStorage
+import es.dmoral.toasty.Toasty
 
 class ProfileEditActivity : AppCompatActivity() {
     private lateinit var binding: ActivityProfileEditBinding
@@ -52,6 +57,7 @@ class ProfileEditActivity : AppCompatActivity() {
 
     companion object{
         const val TAG = "PROFILE_EDIT_TAG"
+        const val REQ_PERMISSIONS_CODE = 100
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -228,7 +234,7 @@ class ProfileEditActivity : AppCompatActivity() {
         // alertdialog for selection
         val builder = AlertDialog.Builder(this)
         builder.setTitle("Select your major sport")
-            .setItems(sportsArr) {dialog, which ->
+            .setItems(sportsArr) {_, which ->
                 selectedSport = sportsList[which].sport
                 selectedSportId = sportsList[which].id
                 binding.sportTv.text = selectedSport
@@ -254,7 +260,7 @@ class ProfileEditActivity : AppCompatActivity() {
                 Log.d(TAG, "uploadImage: uploaded your profile image to firebase storage")
             }
             .addOnFailureListener { e ->
-                Toast.makeText(this, "Failed to upload profile image. Error: ${e.message}", Toast.LENGTH_SHORT).show()
+                Toasty.error(this,"Failed to upload profile image. Error - ${e.message}", Toast.LENGTH_SHORT, true ).show()
                 Log.d(TAG, "uploadImage: failed to upload your profile image to firebase storage. Error: ${e.message}")
             }
 
@@ -293,19 +299,34 @@ class ProfileEditActivity : AppCompatActivity() {
             .addOnSuccessListener {
                 Log.d(TAG, "updateProfile: Successfully updated your profile")
                 imageUri = null
-                Toast.makeText(this, "Successfully uploaded your profile", Toast.LENGTH_SHORT).show()
+                Toasty.success(this, "Updated your profile", Toast.LENGTH_SHORT, true).show()
                 startActivity(Intent(this@ProfileEditActivity, ProfileActivity::class.java))
             }
             .addOnFailureListener { e ->
                 Log.d(TAG, "updateProfile: Failed to update your profile")
-                Toast.makeText(this, "Failed to upload your profile", Toast.LENGTH_SHORT).show()
+                Toasty.error(this, "Failed to update your profile. Error - ${e.message}", Toast.LENGTH_SHORT, true).show()
             }
     }
 
     private fun pickImageFromGallery() {
-        val intent = Intent(Intent.ACTION_PICK)
-        intent.type = "image/*"
-        galleryActivityResultLauncher.launch(intent)
+        // check permission
+        var writePermission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE)
+        var readPermission = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE)
+
+            if(writePermission == PackageManager.PERMISSION_DENIED ||
+                readPermission == PackageManager.PERMISSION_DENIED){
+
+                ActivityCompat.requestPermissions(this, arrayOf(
+                    Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                    Manifest.permission.READ_EXTERNAL_STORAGE), REQ_PERMISSIONS_CODE
+                )
+
+            } else{
+
+                val intent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+                galleryActivityResultLauncher.launch(intent)
+
+            }
     }
 
     // to handle gallery intent result
@@ -318,7 +339,7 @@ class ProfileEditActivity : AppCompatActivity() {
                 //set imageview
                 binding.profileIv.setImageURI(imageUri)
             }else{
-                Toast.makeText(this, "Cancelled to upload image", Toast.LENGTH_SHORT).show()
+                Toasty.normal(this, "Cancelled to upload", Toast.LENGTH_SHORT).show()
             }
         }
     )

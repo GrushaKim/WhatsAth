@@ -61,6 +61,7 @@
     <string name="shareFitness">Share Your Fitness with Us</string>
     <string name="headline">LATEST HEALTH NEWS</string>
     <string name="searchLocation">Search Location</string>
+    <string name="updateInfo">Update your information</string>
     <!--Bottom Drawer Menu-->
     <string name="menuProfile">profile</string>
     <string name="menuSearch">search</string>
@@ -80,21 +81,6 @@
     <string name="amateur">Amateur</string>
     <string name="semiPro">Semi-Pro</string>
     <string name="pro">Pro</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
-    <string name="title_activity_maps">MapsActivity</string>
-    <string name="title_activity_second_maps2">SecondMapsActivity2</string>
-    <string name="title_activity_place_search">PlaceSearchActivity</string>
-    <!-- Strings used for fragments for navigation -->
-    <string name="first_fragment_label">First Fragment</string>
-    <string name="second_fragment_label">Second Fragment</string>
-    <string name="next">Next</string>
-    <string name="previous">Previous</string>
-
-    <string name="hello_first_fragment">Hello first fragment</string>
-    <string name="hello_second_fragment">Hello second fragment. Arg: %1$s</string>
-    <string name="title_activity_maps_test">MapsTestActivity</string>
-    <string name="title_activity_second_maps">SecondMapsActivity</string>
 
 
 </resources>

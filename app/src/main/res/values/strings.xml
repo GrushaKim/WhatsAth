@@ -1,9 +1,7 @@
 <resources>
     <string name="app_name">MyWhatsAth</string>
     <string name="app_name_simple">WhatsAth</string>
-    <!--facebook app id-->
-    <string name="facebook_app_id">571787797216822</string>
-    <string name="fb_login_protocol_scheme">fb571787797216822</string>
+
     <!--Register Levels-->
     <string-array name="levels">
         <item>Amateur</item>

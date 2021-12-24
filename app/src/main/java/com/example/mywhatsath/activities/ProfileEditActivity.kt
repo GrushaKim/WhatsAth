@@ -51,7 +51,9 @@ class ProfileEditActivity : AppCompatActivity() {
     private var selectedSport = ""
 
     //info to be updated
+    private var updatedName = ""
     private var updatedLevel = ""
+    private var updatedAboutMe = ""
 
     private val maxLength = 100
 
@@ -110,7 +112,7 @@ class ProfileEditActivity : AppCompatActivity() {
         // save profile click button
         binding.saveProfileBtn.setOnClickListener {
             if(imageUri==null){
-                updateProfile("")
+                validateData("")
             }else{
                 uploadImage()
             }
@@ -182,10 +184,9 @@ class ProfileEditActivity : AppCompatActivity() {
                     val profileImage = "${snapshot.child("profileImage").value}"
                     val name = "${snapshot.child("name").value}"
                     val email = "${snapshot.child("email").value}"
-                    val sex = "${snapshot.child("sex").value}"
+                    val gender = "${snapshot.child("gender").value}"
                     val regDate = "${snapshot.child("regDate").value}"
                     val aboutMe = "${snapshot.child("aboutMe").value}"
-
 
                     //convert regdate
                     val formattedRegDate = MyApplication.formatRegDate(regDate.toLong())
@@ -205,13 +206,7 @@ class ProfileEditActivity : AppCompatActivity() {
 
                     binding.nameEt.hint = name
                     binding.emailTv.text = email
-
-                    if(sex.lowercase() == R.string.male.toString().lowercase()){
-                        binding.sexIv.setImageResource(R.drawable.ic_man)
-                    }else{
-                        binding.sexIv.setImageResource(R.drawable.ic_woman)
-                    }
-
+                    binding.sexTv.text = gender
                     binding.regDateTv.text = formattedRegDate
 
                     if(aboutMe == "" || aboutMe.isEmpty()){
@@ -256,7 +251,7 @@ class ProfileEditActivity : AppCompatActivity() {
                 while(!uriTask.isSuccessful);
                 val uploadedImageUrl = "${uriTask.result}"
 
-                updateProfile(uploadedImageUrl)
+                validateData(uploadedImageUrl)
                 Log.d(TAG, "uploadImage: uploaded your profile image to firebase storage")
             }
             .addOnFailureListener { e ->
@@ -266,32 +261,50 @@ class ProfileEditActivity : AppCompatActivity() {
 
     }
 
-    private fun updateProfile(uploadedImageUrl: String) {
+    private fun validateData(uploadedImageUrl: String) {
 
-        // add msg to DB
-        val hashMap: HashMap<String, Any?> = HashMap()
+        // variable which are able to be without any change
         val name = binding.nameEt.text.toString().trim()
-        val selectedSport = selectedSport
-        val selectedSportId = selectedSportId
         val aboutMe = binding.aboutMeEt.text.toString()
 
-        // check profile image
-        if(imageUri != null){
-            hashMap["profileImage"] = uploadedImageUrl
-        // check if name is changed
-        }else if(!name.isNullOrEmpty()){
-            hashMap["name"] = name
-        }else if(binding.levelRg.checkedRadioButtonId == -1){
-            Toast.makeText(this, "Please check your level", Toast.LENGTH_SHORT).show()
-        }else if(selectedSport.isNullOrEmpty()){
-            Toast.makeText(this, "Please select your sport", Toast.LENGTH_SHORT).show()
-        }else if(!aboutMe.isNullOrEmpty()){
-            hashMap["aboutMe"] = aboutMe
+        if(name == "" || name == null){
+            updatedName = binding.nameEt.hint.toString()
         }else{
-            hashMap["sport"] = selectedSport
-            hashMap["sportId"] = selectedSportId
-            hashMap["level"] = updatedLevel
+            updatedName = name
         }
+
+        if(aboutMe == "" || aboutMe == null){
+            updatedAboutMe = binding.aboutMeEt.hint.toString()
+        }else{
+            updatedAboutMe = aboutMe
+        }
+
+        if(binding.levelRg.checkedRadioButtonId == -1){
+            Toasty.warning(this, "Please check your level", Toast.LENGTH_SHORT, true).show()
+        }else if(selectedSport == "" || selectedSport == null) {
+            Toasty.warning(this, "Please select your sport", Toast.LENGTH_SHORT, true).show()
+        }else{
+            Log.d(TAG, "updateProfile: $uploadedImageUrl, $updatedName, $selectedSport, $selectedSportId, $updatedLevel, $updatedAboutMe")
+            updateProfile(uploadedImageUrl, updatedName, selectedSport, selectedSportId, updatedLevel, updatedAboutMe)
+        }
+    }
+
+    private fun updateProfile(
+        uploadedImageUrl: String, 
+        updatedName: String,
+        selectedSport: String, 
+        selectedSportId: String, 
+        updatedLevel: String, 
+        updatedAboutMe: String){
+
+        // collect all data to be updated
+        val hashMap: HashMap<String, Any?> = HashMap()
+        hashMap["profileImage"] = uploadedImageUrl
+        hashMap["name"] = updatedName
+        hashMap["sport"] = selectedSport
+        hashMap["sportId"] = selectedSportId
+        hashMap["level"] = updatedLevel
+        hashMap["aboutMe"] = updatedAboutMe
 
         val ref = fbDbRef.getReference("Users")
         ref.child(fbAuth.uid!!)

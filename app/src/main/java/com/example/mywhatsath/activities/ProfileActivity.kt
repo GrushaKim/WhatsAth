@@ -110,7 +110,8 @@ class ProfileActivity : AppCompatActivity() {
                         val profileImage = "${snapshot.child("profileImage").value}"
                         val name = "${snapshot.child("name").value}"
                         val email = "${snapshot.child("email").value}"
-                        val sex = "${snapshot.child("sex").value}"
+                        val gender = "${snapshot.child("gender").value}"
+                        val heartsCnt = "${snapshot.child("heartsCnt").value}"
                         val regDate = "${snapshot.child("regDate").value}"
                         val sport = "${snapshot.child("sport").value}"
                         val level = "${snapshot.child("level").value}"
@@ -134,22 +135,12 @@ class ProfileActivity : AppCompatActivity() {
 
                         binding.nameTv.text = name
                         binding.emailTv.text = email
-
-                        if(sex.lowercase() == R.string.male.toString().lowercase()){
-                            binding.sexIv.setImageResource(R.drawable.ic_man)
-                        }else{
-                            binding.sexIv.setImageResource(R.drawable.ic_woman)
-                        }
-
+                        binding.sexTv.text = gender
+                        binding.heartsCntTv.text = heartsCnt
                         binding.regDateTv.text = formattedRegDate
                         binding.sportTv.text = sport
                         binding.levelTv.text = level
-
-                        if(aboutMe.isEmpty() || aboutMe == ""){
-                            binding.aboutMeTv.text = R.string.updateInfo.toString()
-                        }else{
-                            binding.aboutMeTv.text = aboutMe
-                        }
+                        binding.aboutMeTv.text = aboutMe
 
                     }
                     override fun onCancelled(error: DatabaseError) {
@@ -163,7 +154,8 @@ class ProfileActivity : AppCompatActivity() {
                         val profileImage = "${snapshot.child("profileImage").value}"
                         val name = "${snapshot.child("name").value}"
                         val email = "${snapshot.child("email").value}"
-                        val sex = "${snapshot.child("sex").value}"
+                        val gender = "${snapshot.child("gender").value}"
+                        val heartsCnt = "${snapshot.child("heartsCnt").value}"
                         val regDate = "${snapshot.child("regDate").value}"
                         val sport = "${snapshot.child("sport").value}"
                         val level = "${snapshot.child("level").value}"
@@ -187,22 +179,12 @@ class ProfileActivity : AppCompatActivity() {
 
                         binding.nameTv.text = name
                         binding.emailTv.text = email
-
-                        if(sex == R.string.male.toString()){
-                            binding.sexIv.setImageResource(R.drawable.ic_man)
-                        }else{
-                            binding.sexIv.setImageResource(R.drawable.ic_woman)
-                        }
-
+                        binding.sexTv.text = gender
+                        binding.heartsCntTv.text = heartsCnt
                         binding.regDateTv.text = formattedRegDate
                         binding.sportTv.text = sport
                         binding.levelTv.text = level
-
-                        if(aboutMe.isEmpty() || aboutMe == ""){
-                            binding.aboutMeTv.text = ""
-                        }else{
-                            binding.aboutMeTv.text = aboutMe
-                        }
+                        binding.aboutMeTv.text = aboutMe
                     }
                     override fun onCancelled(error: DatabaseError) {
                     }

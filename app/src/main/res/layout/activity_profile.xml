@@ -148,14 +148,36 @@
                     android:layout_marginBottom="3dp"
                     android:textSize="14sp"
                     android:text="@string/userEmail"/>
-                <!--Sex Symbol-->
-                <ImageView
-                    android:id="@+id/sexIv"
-                    android:layout_width="20dp"
-                    android:layout_height="15dp"
+                <!--Sex-->
+                <TextView
+                    android:id="@+id/sexTv"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textColor="@color/primaryGray"
+                    android:layout_marginBottom="3dp"
+                    android:textSize="14sp"
+                    android:text="@string/userGender"/>
+                <!--Hearts Cnt-->
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
-                    android:layout_gravity="left"
-                    android:src="@drawable/ic_woman"/>
+                    android:orientation="horizontal">
+                    <TextView
+                        android:id="@+id/heartsCntTv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textSize="14sp"/>
+                    <ImageView
+                        android:id="@+id/heartsIv"
+                        android:layout_width="20dp"
+                        android:layout_height="15dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_gravity="center_vertical"
+                        android:src="@drawable/ic_hearts_red"/>
+
+                </LinearLayout>
+
 
             </LinearLayout>
         </LinearLayout>

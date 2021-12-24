@@ -273,7 +273,7 @@ class MapsScreenActivity : AppCompatActivity(),
                             Log.d(TAG, "onResponse: nearByPlace info $placeName / $latLng / $placeId")
 
                             mMap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-                            mMap!!.animateCamera(CameraUpdateFactory.zoomTo(14f))
+                            mMap!!.animateCamera(CameraUpdateFactory.zoomTo(13f))
                             mMap!!.addMarker(
                                 MarkerOptions()
                                     .position(latLng)

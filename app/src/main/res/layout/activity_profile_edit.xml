@@ -155,14 +155,15 @@
                         android:text="@string/userEmail"
                         android:textColor="@color/primaryGray"
                         android:textSize="14sp" />
-                    <!--Sex Symbol-->
-                    <ImageView
-                        android:id="@+id/sexIv"
-                        android:layout_width="20dp"
-                        android:layout_height="15dp"
-                        android:layout_gravity="left"
-                        android:layout_marginTop="5dp"
-                        android:src="@drawable/ic_woman" />
+                    <!--Sex-->
+                    <TextView
+                        android:id="@+id/sexTv"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/primaryGray"
+                        android:layout_marginBottom="3dp"
+                        android:textSize="14sp"
+                        android:text="@string/userGender"/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -351,6 +352,7 @@
                             android:layout_height="match_parent"
                             android:inputType="textMultiLine"
                             android:maxLength="100"
+                            android:text=""
                             android:textColor="@color/black"
                             android:textSize="14sp" />
                     </com.google.android.material.textfield.TextInputLayout>

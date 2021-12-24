@@ -108,6 +108,13 @@ class ChatActivity : AppCompatActivity() {
             onBackPressed()
         }
 
+        // show profile button click
+        binding.profileIv.setOnClickListener {
+            val intent = Intent(this, ProfileActivity::class.java)
+            intent.putExtra("userId", receiverId)
+            startActivity(intent)
+        }
+
         // report button click
         binding.reportBtn.setOnClickListener {
             reportUser(senderId, receiverId)
@@ -115,8 +122,27 @@ class ChatActivity : AppCompatActivity() {
 
         // convert speech to text
         binding.voiceBtn.setOnClickListener(View.OnClickListener {
-            speechToText()
+            val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
+            intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
+            intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak")
+
+            try{
+                activityResultLauncher.launch(intent)
+            }catch(e:ActivityNotFoundException){
+                Toasty.warning(this, "Your device does not support", Toast.LENGTH_SHORT, true).show()
+            }
         })
+
+        // implement the function above
+        activityResultLauncher=registerForActivityResult(
+            ActivityResultContracts.StartActivityForResult()){ result: ActivityResult? ->
+            if(result!!.resultCode == RESULT_OK && result!!.data!=null){
+                val speechText = result!!.data!!.getStringArrayListExtra(
+                    RecognizerIntent.EXTRA_RESULTS) as ArrayList<Editable>
+                binding.msgBoxEt.text = speechText[0]
+            }
+        }
 
         // pick image from gallery
         binding.uploadImgBtn.setOnClickListener {
@@ -186,29 +212,6 @@ class ChatActivity : AppCompatActivity() {
 
         val reportDialog = builder.create()
         reportDialog.show()
-    }
-
-    private fun speechToText() {
-        val intent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, RecognizerIntent.LANGUAGE_MODEL_FREE_FORM)
-        intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE, Locale.getDefault())
-        intent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak")
-
-        try{
-            activityResultLauncher.launch(intent)
-        }catch(e:ActivityNotFoundException){
-            Toasty.warning(this, "Your device does not support", Toast.LENGTH_SHORT, true).show()
-        }
-
-        // implement the function above
-        activityResultLauncher=registerForActivityResult(
-            ActivityResultContracts.StartActivityForResult()){ result: ActivityResult? ->
-            if(result!!.resultCode == RESULT_OK && result!!.data!=null){
-                val speechText = result!!.data!!.getStringArrayListExtra(
-                    RecognizerIntent.EXTRA_RESULTS) as ArrayList<Editable>
-                binding.msgBoxEt.text = speechText[0]
-            }
-        }
     }
 
     private fun addHearts(receiverId: String?) {

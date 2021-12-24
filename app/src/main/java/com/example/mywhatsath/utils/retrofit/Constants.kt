@@ -1,7 +1,8 @@
 package com.example.mywhatsath.utils.retrofit
 
 object Constants {
-    private val GOOGLE_API_URL = "https://maps.googleapis.com/"
-    val googleApiService: GoogleAPIService
-        get()=GoogleAPIRetrofitClient.getClient(GOOGLE_API_URL).create(GoogleAPIService::class.java)
+    const val GOOGLE_API_URL = "https://maps.googleapis.com/"
+    const val GOOGLE_PLACE_URL = "https://www.google.com/maps/search/?api=1&query=qwerty&query_place_id="
+    const val NEWS_API_URL = "http://api.mediastack.com/"
+    const val NEWS_HEADLINE_URL = "v1/news?categories=health,sports&languages=en&sort=published_desc"
 }

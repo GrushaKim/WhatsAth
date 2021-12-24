@@ -9,7 +9,7 @@ import retrofit2.http.Url
 
 interface RetrofitService {
 
-    @GET("v1/news?categories=health,sports&languages=en&sort=published_desc")
+    @GET(Constants.NEWS_HEADLINE_URL)
     fun getHeadlines(
         @Query("access_key") access_key: String,
     ): Call<NewsResponse>

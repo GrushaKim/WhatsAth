@@ -5,8 +5,12 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.text.set
+import androidx.core.text.toSpannable
 import com.example.mywhatsath.R
 import com.example.mywhatsath.databinding.ActivityLoginBinding
+import com.example.mywhatsath.utils.LinearGradientSpan
 import com.facebook.AccessToken
 import com.facebook.CallbackManager
 import com.facebook.FacebookCallback
@@ -48,6 +52,9 @@ class LoginActivity : AppCompatActivity() {
         // init auth
         fbAuth = FirebaseAuth.getInstance()
 
+        // get gradient linear for app name
+        getGradientTextView()
+
         // init facebook callbackManager
         callbackManager = CallbackManager.Factory.create()
 
@@ -87,6 +94,15 @@ class LoginActivity : AppCompatActivity() {
             Log.d(FACEBOOK_TAG, "onCreate: proceeding with signing in facebook")
             facebookSignInClient()
         }
+    }
+
+    private fun getGradientTextView() {
+        val sloganText = binding.appNameTv.text.toString()
+        val startColor = ContextCompat.getColor(this, R.color.start)
+        val endColor = ContextCompat.getColor(this, R.color.end)
+        val spannable = sloganText.toSpannable()
+        spannable[0..sloganText.length] = LinearGradientSpan(sloganText, sloganText, startColor, endColor)
+        binding.appNameTv.text = spannable
     }
 
     private fun facebookSignInClient() {

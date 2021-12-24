@@ -3,8 +3,12 @@ package com.example.mywhatsath.activities
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.widget.Button
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -67,7 +71,7 @@ class DashboardUserActivity : AppCompatActivity() {
             this.state = BottomSheetBehavior.STATE_COLLAPSED
         }
 
-        // <Drawer menu>
+        // <MAIN BOTTOM DRAWER menu>
         binding.logoutBtn.setOnClickListener {
             fbAuth.signOut()
             checkUser()
@@ -86,12 +90,29 @@ class DashboardUserActivity : AppCompatActivity() {
         }
 
         binding.gymBtn.setOnClickListener{
-            startActivity(Intent(this@DashboardUserActivity, MapsScreenActivity::class.java))
+            showInstructionDialog()
         }
 
         binding.chatBtn.setOnClickListener {
             this.recreate()
         }
+    }
+
+    // instruction about nearby gyms
+    private fun showInstructionDialog() {
+        val inflater: LayoutInflater = LayoutInflater.from(this)
+        val view: View = inflater.inflate(R.layout.customized_alertdialog, null)
+        val okBtn: Button = view.findViewById(R.id.okBtn)
+
+        okBtn.setOnClickListener {
+            startActivity(Intent(this@DashboardUserActivity, MapsScreenActivity::class.java))
+        }
+
+        val builder = AlertDialog.Builder(this)
+            .setView(view)
+
+        val instructionDialog = builder.create()
+        instructionDialog.show()
     }
 
     // inflate menu to toolbar

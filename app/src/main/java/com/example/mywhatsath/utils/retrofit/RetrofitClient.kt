@@ -11,9 +11,8 @@ object RetrofitClient {
 
     private var instance: Retrofit? = null
     private val gson = GsonBuilder().setLenient().create() // load gson w setting converter
-    private const val BASE_URL = "http://api.mediastack.com"
 
-    fun getInstance(): Retrofit {
+    fun getInstance(baseUrl: String?): Retrofit {
         // create logger
         val interceptor = HttpLoggingInterceptor()
         interceptor.apply{
@@ -24,7 +23,7 @@ object RetrofitClient {
         if(instance == null) {
 
             instance = Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(baseUrl)
                 .client(client) // set logger
                 .addConverterFactory(GsonConverterFactory.create(gson)) // convert json to data class
                 .build()

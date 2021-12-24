@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.location.Location
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.util.Log
@@ -14,10 +15,7 @@ import androidx.core.content.ContextCompat
 import com.example.mywhatsath.R
 import com.example.mywhatsath.databinding.ActivityMapsScreenBinding
 import com.example.mywhatsath.utils.CustomInfoWindowForGoogleMap
-import com.example.mywhatsath.utils.retrofit.AuthKey
-import com.example.mywhatsath.utils.retrofit.Constants
-import com.example.mywhatsath.utils.retrofit.GoogleAPIService
-import com.example.mywhatsath.utils.retrofit.MyPlace
+import com.example.mywhatsath.utils.retrofit.*
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.common.api.Status
@@ -37,6 +35,7 @@ import com.google.firebase.auth.FirebaseAuth
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
+import retrofit2.Retrofit
 import java.util.*
 
 class MapsScreenActivity : AppCompatActivity(),
@@ -46,7 +45,8 @@ class MapsScreenActivity : AppCompatActivity(),
 
     private lateinit var binding: ActivityMapsScreenBinding
     private lateinit var fbAuth: FirebaseAuth
-    private lateinit var mService: GoogleAPIService
+    private lateinit var retrofit: Retrofit
+    private lateinit var suppleService: RetrofitService
 
     private var mMap: GoogleMap? = null
     internal lateinit var mLastLocation: Location
@@ -71,7 +71,8 @@ class MapsScreenActivity : AppCompatActivity(),
         }
 
         // init retrofit
-        mService = Constants.googleApiService
+        retrofit = RetrofitClient.getInstance(Constants.GOOGLE_API_URL)
+        suppleService = retrofit.create(RetrofitService::class.java)
 
         // init Places w api key
        if(!Places.isInitialized()){
@@ -83,8 +84,10 @@ class MapsScreenActivity : AppCompatActivity(),
         // init autocomplete fragment
         val autocompleteFragment = supportFragmentManager.findFragmentById(R.id.autocompleteFragment) as AutocompleteSupportFragment
 
-        autocompleteFragment.setPlaceFields(Arrays.asList(
-            Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.RATING))
+        autocompleteFragment.setPlaceFields(
+            listOf(
+            Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.RATING)
+        )
 
         autocompleteFragment.setOnPlaceSelectedListener(object: PlaceSelectionListener{
             override fun onPlaceSelected(place: Place) {
@@ -159,12 +162,13 @@ class MapsScreenActivity : AppCompatActivity(),
         val latLng = LatLng(location.latitude, location.longitude)
         val markerOptions = MarkerOptions()
         markerOptions.position(latLng)
-        markerOptions.title("Current Position")
+        markerOptions.title("You are here!")
         markerOptions.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_GREEN))
         mCurrLocMarker = mMap!!.addMarker(markerOptions)
 
         mMap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
         mMap!!.moveCamera(CameraUpdateFactory.zoomTo(20f))
+
         if(mGoogleApiClient != null){
             LocationServices.getFusedLocationProviderClient(this)
         }
@@ -247,7 +251,7 @@ class MapsScreenActivity : AppCompatActivity(),
         //build url request
         val url = getUrl(latitude, longitude)
         
-        mService.getNearbyGyms(url)
+        suppleService.getNearbyGyms(url)
             .enqueue(object: Callback<MyPlace>{
                 override fun onResponse(call: Call<MyPlace>, response: Response<MyPlace>) {
                     currentPlace = response.body()
@@ -263,17 +267,23 @@ class MapsScreenActivity : AppCompatActivity(),
                             val placeVicinity = googlePlace.vicinity
                             val latLng = LatLng(lat, lng)
 
-                            Log.d(TAG, "onResponse: nearByPlace info $placeName / $latLng")
+                            val placeId = googlePlace.place_id
+                            val detailAddr = "${Constants.GOOGLE_PLACE_URL}$placeId"
 
+                            Log.d(TAG, "onResponse: nearByPlace info $placeName / $latLng / $placeId")
+
+                            mMap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
+                            mMap!!.animateCamera(CameraUpdateFactory.zoomTo(14f))
                             mMap!!.addMarker(
                                 MarkerOptions()
                                     .position(latLng)
                                     .title(placeName)
-                                    .snippet(" Rating: $placeRating \n Vicinity: $placeVicinity")
+                                    .snippet(" Rating: $placeRating \n Vicinity: $placeVicinity \n")
                             )
                             mMap!!.setInfoWindowAdapter(CustomInfoWindowForGoogleMap(this@MapsScreenActivity))
-                            mMap!!.moveCamera(CameraUpdateFactory.newLatLng(latLng))
-                            mMap!!.animateCamera(CameraUpdateFactory.zoomTo(15f))
+                            mMap!!.setOnInfoWindowLongClickListener {
+                                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(detailAddr)))
+                            }
                         }
                     }
                 }

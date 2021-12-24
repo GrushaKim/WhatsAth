@@ -6,11 +6,15 @@ import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.content.ContextCompat
+import androidx.core.text.set
+import androidx.core.text.toSpannable
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.example.mywhatsath.R
 import com.example.mywhatsath.adapters.NewsAdapter
 import com.example.mywhatsath.databinding.ActivityHeadlineBinding
+import com.example.mywhatsath.utils.LinearGradientSpan
 import com.example.mywhatsath.utils.retrofit.*
 import com.google.firebase.auth.FirebaseAuth
 import retrofit2.Call
@@ -49,8 +53,11 @@ class HeadlineActivity : AppCompatActivity() {
         // init auth&db
         fbAuth = FirebaseAuth.getInstance()
 
+        // set gradient linear for tv
+        getGradientTextView()
+
         // init retrofit & load service interface
-        retrofit = RetrofitClient.getInstance()
+        retrofit = RetrofitClient.getInstance(Constants.NEWS_API_URL)
         supplService = retrofit.create(RetrofitService::class.java)
 
         // load latest headlines
@@ -64,6 +71,15 @@ class HeadlineActivity : AppCompatActivity() {
         newsRecyclerView.layoutManager = LinearLayoutManager(this)
         newsRecyclerView.adapter = newsAdapter
 
+    }
+
+    private fun getGradientTextView() {
+        val sloganText = binding.headlineTv.text.toString()
+        val startColor = ContextCompat.getColor(this, R.color.start)
+        val endColor = ContextCompat.getColor(this, R.color.end)
+        val spannable = sloganText.toSpannable()
+        spannable[0..sloganText.length] = LinearGradientSpan(sloganText, sloganText, startColor, endColor)
+        binding.headlineTv.text = spannable
     }
 
     // inflate menu to toolbar

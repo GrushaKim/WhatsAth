@@ -42,7 +42,6 @@ class RegisterActivity : AppCompatActivity() {
     private var hasNumber: Boolean = false
     private var isRegistered: Boolean = true
 
-
     companion object{
         const val TAG = "REGISTER_TAG"
     }
@@ -221,23 +220,23 @@ class RegisterActivity : AppCompatActivity() {
 
         // 2. validate
         if(name.isNullOrEmpty()){
-            Toast.makeText(this, "Enter your name", Toast.LENGTH_SHORT).show()
+            Toasty.warning(this, "Enter your name", Toast.LENGTH_SHORT, true).show()
         }else if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
-            Toast.makeText(this, "Enter valid email address", Toast.LENGTH_SHORT).show()
+            Toasty.warning(this, "Enter valid email address", Toast.LENGTH_SHORT, true).show()
         }else if(isRegistered){
-            Toast.makeText(this, "Please enter another email address", Toast.LENGTH_SHORT).show()
+            Toasty.warning(this, "Please enter another email address", Toast.LENGTH_SHORT, true).show()
         }else if(pwd.isNullOrEmpty()){
-            Toast.makeText(this, "Enter your password", Toast.LENGTH_SHORT).show()
+            Toasty.warning(this, "Enter your password", Toast.LENGTH_SHORT, true).show()
         }else if(confirmPwd.isNullOrEmpty()){
-            Toast.makeText(this, "Confirm your password", Toast.LENGTH_SHORT).show()
+            Toasty.warning(this, "Confirm your password", Toast.LENGTH_SHORT, true).show()
         }else if(pwd != confirmPwd){
             binding.confirmPwdErrLl.visibility = View.VISIBLE
         }else if(binding.genderRg.checkedRadioButtonId == -1){
-            Toast.makeText(this, "Select your gender", Toast.LENGTH_SHORT).show()
+            Toasty.warning(this, "Select your gender", Toast.LENGTH_SHORT, true).show()
         }else if(binding.levelRg.checkedRadioButtonId == -1){
-            Toast.makeText(this, "Select your level", Toast.LENGTH_SHORT).show()
+            Toasty.warning(this, "Select your level", Toast.LENGTH_SHORT, true).show()
         }else if(sport.isNullOrEmpty()){
-            Toast.makeText(this, "Select your major sport", Toast.LENGTH_SHORT).show()
+            Toasty.warning(this, "Select your major sport", Toast.LENGTH_SHORT, true).show()
         }else{
             // 3. register an user with the validated info
             registerUser(name, email, pwd, gender, level, selectedSport, selectedSportId)

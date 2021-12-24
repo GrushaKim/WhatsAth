@@ -2,8 +2,11 @@ package com.example.mywhatsath.utils
 
 import android.app.Activity
 import android.content.Context
+import android.content.Intent
+import android.net.Uri
 import android.view.View
 import android.widget.TextView
+import androidx.core.content.ContextCompat.startActivity
 import com.example.mywhatsath.R
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.model.Marker
@@ -18,7 +21,9 @@ class CustomInfoWindowForGoogleMap(context: Context): GoogleMap.InfoWindowAdapte
 
         titleTv.text = marker.title
         snippetTv.text = marker.snippet
+
     }
+
     override fun getInfoContents(marker: Marker): View {
         renderWindowText(marker, mWindow)
         return mWindow

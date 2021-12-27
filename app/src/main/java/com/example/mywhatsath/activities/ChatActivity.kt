@@ -345,23 +345,26 @@ class ChatActivity : AppCompatActivity() {
 
             senderRef.setValue(modelMessage)
                 .addOnSuccessListener {
-                    Log.d(TAG, "sendMsg: succesfully saved the message to senderRef")
+                    receiverRef.setValue(modelMessage)
+
+                    // save the latest message
+                    val latestMsgRef = fbDbRef.getReference("/Latest-Message/$senderId/$receiverId")
+                    latestMsgRef.setValue(modelMessage)
+
+                    val latestMsgRefTo = fbDbRef.getReference("/Latest-Message/$receiverId/$senderId")
+                    latestMsgRefTo.setValue(modelMessage)
+
+                    Log.d(TAG, "sendMsg: successfully saved the message to senderRef")
                     imageUri = null
                     checkImageUri(imageUri)
                     binding.msgBoxEt.text.clear()
+
                 }
                 .addOnFailureListener{ e ->
                     Log.d(TAG, "sendMsg: failed to save the message. Error: ${e.message}")
                 }
 
-            receiverRef.setValue(modelMessage)
 
-            // save the latest message
-            val latestMsgRef = fbDbRef.getReference("/Latest-Message/$senderId/$receiverId")
-            latestMsgRef.setValue(modelMessage)
-
-            val latestMsgRefTo = fbDbRef.getReference("/Latest-Message/$receiverId/$senderId")
-            latestMsgRefTo.setValue(modelMessage)
 
         }
     }

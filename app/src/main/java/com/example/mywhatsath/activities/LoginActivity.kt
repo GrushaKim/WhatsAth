@@ -207,13 +207,13 @@ class LoginActivity : AppCompatActivity() {
                         GOOGLE_TAG,
                         "firebaseAuthWithGoogleAccount: New account created with $email"
                     )
-                    Toasty.success(this, "Logged in with $email", Toast.LENGTH_SHORT, true).show()
+                    Toasty.success(this, "Registered with $email", Toast.LENGTH_SHORT, true).show()
                 } else {
                     Log.d(
                         GOOGLE_TAG,
                         "firebaseAuthWithGoogleAccount: This $email is already being used"
                     )
-                    Toasty.info(this, "This $email is already being used", Toast.LENGTH_SHORT, true).show()
+                    Toasty.info(this, "Logged in with $email", Toast.LENGTH_SHORT, true).show()
 
                     //move to dashboard
                     startActivity(Intent(this@LoginActivity, DashboardUserActivity::class.java))

@@ -215,7 +215,6 @@ class RegisterActivity : AppCompatActivity() {
         name = binding.nameEt.text.toString().trim()
         email = binding.emailEt.text.toString().trim()
         pwd = binding.pwdEt.text.toString().trim()
-        sport = binding.sportTv.toString()
         val confirmPwd = binding.confirmPwdEt.text.toString().trim()
 
         // 2. validate
@@ -235,7 +234,7 @@ class RegisterActivity : AppCompatActivity() {
             Toasty.warning(this, "Select your gender", Toast.LENGTH_SHORT, true).show()
         }else if(binding.levelRg.checkedRadioButtonId == -1){
             Toasty.warning(this, "Select your level", Toast.LENGTH_SHORT, true).show()
-        }else if(sport.isNullOrEmpty()){
+        }else if(selectedSport.isNullOrEmpty()){
             Toasty.warning(this, "Select your major sport", Toast.LENGTH_SHORT, true).show()
         }else{
             // 3. register an user with the validated info

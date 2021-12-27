@@ -34,5 +34,7 @@
             android:maxLines="5"
             android:textColor="@color/primaryGray"
             android:textSize="14sp" />
+
+
     </LinearLayout>
 </LinearLayout>

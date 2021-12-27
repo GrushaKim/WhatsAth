@@ -52,7 +52,7 @@ class MessageAdapter(
         if(holder.javaClass == SentViewHolder::class.java){
             val viewHolder = holder as SentViewHolder
 
-            if(imageUrl.isNullOrEmpty()){
+            if(imageUrl == "" || imageUrl == null){
                 viewHolder.sentMsg.text = msg
                 viewHolder.msgDate.text = timeago
             } else{
@@ -86,7 +86,7 @@ class MessageAdapter(
 
         }else{ // ReceivedViewHolder
             val viewHolder = holder as ReceivedViewHolder
-            if(imageUrl.isNullOrEmpty()){
+            if(imageUrl == "" || imageUrl == null){
                 viewHolder.receivedMsg.text = currentMsg.message
                 viewHolder.msgDate.text = timeago
             }else{

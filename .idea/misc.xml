@@ -4,6 +4,7 @@
     <option name="filePathToZoomLevelMap">
       <map>
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/drawable/ic_baseline_info_24.xml" value="0.13703703703703704" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/activity_chat.xml" value="0.15806159420289856" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/activity_dashboard_user.xml" value="0.1140625" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/activity_headline.xml" value="0.14719202898550723" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/activity_login.xml" value="0.2" />
@@ -13,7 +14,10 @@
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/activity_search.xml" value="0.35588507877664505" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/customized_alertdialog.xml" value="0.264" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/item_dashboard_user.xml" value="0.1140625" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/item_map_marker.xml" value="0.3740875912408759" />
         <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/item_places.xml" value="0.14764492753623187" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/item_received_msg.xml" value="0.15806159420289856" />
+        <entry key="..\:/Users/viols/AndroidStudioProjects/MyWhatsAth/app/src/main/res/layout/item_sent_msg.xml" value="0.15806159420289856" />
       </map>
     </option>
   </component>

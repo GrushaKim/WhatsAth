@@ -5,7 +5,9 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.view.View
+import android.widget.RatingBar
 import android.widget.TextView
+import android.widget.Toast
 import androidx.core.content.ContextCompat.startActivity
 import com.example.mywhatsath.R
 import com.google.android.gms.maps.GoogleMap
@@ -33,5 +35,4 @@ class CustomInfoWindowForGoogleMap(context: Context): GoogleMap.InfoWindowAdapte
         renderWindowText(marker, mWindow)
         return mWindow
     }
-
 }

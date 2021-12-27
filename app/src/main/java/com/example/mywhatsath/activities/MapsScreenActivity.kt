@@ -75,7 +75,7 @@ class MapsScreenActivity : AppCompatActivity(),
         suppleService = retrofit.create(RetrofitService::class.java)
 
         // init Places w api key
-       if(!Places.isInitialized()){
+        if(!Places.isInitialized()){
             Places.initialize(applicationContext, AuthKey.MAPS_API_KEY)
         }
 
@@ -86,7 +86,7 @@ class MapsScreenActivity : AppCompatActivity(),
 
         autocompleteFragment.setPlaceFields(
             listOf(
-            Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.RATING)
+                Place.Field.ID, Place.Field.NAME, Place.Field.ADDRESS, Place.Field.LAT_LNG, Place.Field.RATING)
         )
 
         autocompleteFragment.setOnPlaceSelectedListener(object: PlaceSelectionListener{
@@ -101,7 +101,7 @@ class MapsScreenActivity : AppCompatActivity(),
             }
         })
 
-       val mapFragment = supportFragmentManager.findFragmentById(R.id.myMap) as SupportMapFragment
+        val mapFragment = supportFragmentManager.findFragmentById(R.id.myMap) as SupportMapFragment
         mapFragment.getMapAsync(this)
 
     }
@@ -134,7 +134,7 @@ class MapsScreenActivity : AppCompatActivity(),
             if(ContextCompat.checkSelfPermission(
                     this,
                     Manifest.permission.ACCESS_FINE_LOCATION
-            ) == PackageManager.PERMISSION_GRANTED
+                ) == PackageManager.PERMISSION_GRANTED
             ){
                 buildGoogleApiClient()
                 mMap!!.isMyLocationEnabled = true
@@ -145,7 +145,7 @@ class MapsScreenActivity : AppCompatActivity(),
         }
     }
 
-   protected fun buildGoogleApiClient() {
+    protected fun buildGoogleApiClient() {
         mGoogleApiClient = GoogleApiClient.Builder(this)
             .addConnectionCallbacks(this)
             .addOnConnectionFailedListener(this)
@@ -154,7 +154,7 @@ class MapsScreenActivity : AppCompatActivity(),
         mGoogleApiClient!!.connect()
     }
 
-   override fun onLocationChanged(location: Location) {
+    override fun onLocationChanged(location: Location) {
         mLastLocation = location
         if(mCurrLocMarker != null){
             mCurrLocMarker!!.remove()
@@ -174,20 +174,20 @@ class MapsScreenActivity : AppCompatActivity(),
         }
     }
 
-   override fun onConnected(p0: Bundle?) {
+    override fun onConnected(p0: Bundle?) {
         mLocationRequest = com.google.android.gms.location.LocationRequest()
 
-            mLocationRequest.interval = 1000
-            mLocationRequest.fastestInterval = 5000
-            mLocationRequest.priority = com.google.android.gms.location.LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
-            if(ContextCompat.checkSelfPermission(
-                    this,
-                    Manifest.permission.ACCESS_FINE_LOCATION
+        mLocationRequest.interval = 1000
+        mLocationRequest.fastestInterval = 5000
+        mLocationRequest.priority = com.google.android.gms.location.LocationRequest.PRIORITY_BALANCED_POWER_ACCURACY
+        if(ContextCompat.checkSelfPermission(
+                this,
+                Manifest.permission.ACCESS_FINE_LOCATION
             ) == PackageManager.PERMISSION_GRANTED
-            ){
-                LocationServices.getFusedLocationProviderClient(this)
-            }
+        ){
+            LocationServices.getFusedLocationProviderClient(this)
         }
+    }
 
     override fun onConnectionSuspended(p0: Int) {
     }
@@ -250,7 +250,7 @@ class MapsScreenActivity : AppCompatActivity(),
         mMap?.clear()
         //build url request
         val url = getUrl(latitude, longitude)
-        
+
         suppleService.getNearbyGyms(url)
             .enqueue(object: Callback<MyPlace>{
                 override fun onResponse(call: Call<MyPlace>, response: Response<MyPlace>) {
@@ -268,7 +268,7 @@ class MapsScreenActivity : AppCompatActivity(),
                             val latLng = LatLng(lat, lng)
 
                             val placeId = googlePlace.place_id
-                            val detailAddr = "${Constants.GOOGLE_PLACE_URL}$placeId"
+                            val detailedAddr = "${Constants.GOOGLE_PLACE_URL}$placeId"
 
                             Log.d(TAG, "onResponse: nearByPlace info $placeName / $latLng / $placeId")
 
@@ -279,10 +279,12 @@ class MapsScreenActivity : AppCompatActivity(),
                                     .position(latLng)
                                     .title(placeName)
                                     .snippet(" Rating: $placeRating \n Vicinity: $placeVicinity \n")
+
                             )
+
                             mMap!!.setInfoWindowAdapter(CustomInfoWindowForGoogleMap(this@MapsScreenActivity))
                             mMap!!.setOnInfoWindowLongClickListener {
-                                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(detailAddr)))
+                                startActivity(Intent(Intent.ACTION_VIEW, Uri.parse(detailedAddr)))
                             }
                         }
                     }
